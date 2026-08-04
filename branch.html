@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>はっこうのわかれみち</title>
+<title>発酵の分かれ道</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -121,22 +121,22 @@ h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
 <div class="wrap">
   <header>
     <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
-    <h1>はっこうの<br><em>わかれみち</em></h1>
-    <p class="sub">こうじきんは 1しゅるいだけ。<br>じょうけんを かえると べつのたべものになる！</p>
+    <h1>発酵の<br><em>分かれ道</em></h1>
+    <p class="sub">麹菌は 1種類だけ。<br>条件を 変えると べつの食べものになる！</p>
   </header>
 
   <div class="stage">
     <div class="daycount" id="day">1日目</div>
     <svg id="jar" viewBox="0 0 320 210" aria-label="甕"></svg>
-    <div class="statusline" id="status">なにを つくる？</div>
+    <div class="statusline" id="status">なにを 作る？</div>
   </div>
 
   <div class="row">
-    <div class="lab"><i style="background:var(--yellow)"></i>ざいりょう</div>
+    <div class="lab"><i style="background:var(--yellow)"></i>材料</div>
     <div class="opts c4" id="mat"></div>
   </div>
   <div class="row">
-    <div class="lab"><i style="background:var(--red)"></i>おんど</div>
+    <div class="lab"><i style="background:var(--red)"></i>温度</div>
     <div class="opts c3" id="tmp"></div>
   </div>
   <div class="row">
@@ -148,22 +148,22 @@ h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
     <div class="opts c3" id="mic"></div>
   </div>
   <div class="row">
-    <div class="lab"><i style="background:var(--green)"></i>じかん</div>
+    <div class="lab"><i style="background:var(--green)"></i>時間</div>
     <div class="opts c3" id="tim"></div>
   </div>
 
   <button class="go" id="run" type="button">しこむ！</button>
 
   <div class="zukan">
-    <h3><span>はっこう ずかん</span><span id="cnt">0 / 7</span></h3>
+    <h3><span>発酵 図鑑</span><span id="cnt">0 / 7</span></h3>
     <div class="grid" id="grid"></div>
   </div>
 
   <p class="note">
-    こうじきんが すごいのは、<b>デンプンを あまくするのと、タンパクしつを うまみにするのを どっちもやる</b>こと。
-    だから にほんしゅは、あまくするのと おさけにするのが おなじタルで どうじにすすむ、
-    せかいでも めずらしい つくりかたになる。<br>
-    <b>こうぼは とうぶんがないと うごけない。さくさんきんは アルコールがないと うごけない。</b>じゅんばんが あるんだ。
+    麹菌が すごいのは、<b>デンプンを 甘くするのと、タンパク質を うま味にするのを どっちもやる</b>こと。
+    だから 日本酒は、甘くするのと おさけにするのが 同じタルで 同時に進む、
+    せかいでも めずらしい 作りかたになる。<br>
+    <b>酵母は 糖分がないと うごけない。酢酸菌は アルコールがないと うごけない。</b>順番が あるんだ。
   </p>
 </div>
 
@@ -173,29 +173,29 @@ h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
 <script>
 (function(){
 /* ============ data ============ */
-const MAT=[{k:'rice',n:'こめ',s:'デンプン',c:'#FFFDF5'},{k:'soy',n:'だいず',s:'タンパクしつ',c:'#E8C87A'},
-  {k:'soywheat',n:'だいず\n＋こむぎ',s:'りょうほう',c:'#D9A85C'},{k:'wheat',n:'こむぎ',s:'デンプン',c:'#F2DFA8'}];
-const TMP=[{k:'cool',n:'じょうおん',s:'20℃'},{k:'warm',n:'ほおん',s:'55-60℃'},{k:'hot',n:'あつい',s:'75℃'}];
+const MAT=[{k:'rice',n:'米',s:'デンプン',c:'#FFFDF5'},{k:'soy',n:'大豆',s:'タンパク質',c:'#E8C87A'},
+  {k:'soywheat',n:'大豆\n＋小麦',s:'りょうほう',c:'#D9A85C'},{k:'wheat',n:'小麦',s:'デンプン',c:'#F2DFA8'}];
+const TMP=[{k:'cool',n:'常温',s:'20℃'},{k:'warm',n:'保温',s:'55-60℃'},{k:'hot',n:'あつい',s:'75℃'}];
 const SLT=[{k:'no',n:'いれない',s:''},{k:'yes',n:'いれる',s:'塩分12%'}];
-const MIC=[{k:'yeast',n:'こうぼ',s:'とう→さけ'},{k:'acetic',n:'さくさんきん',s:'さけ→す'},{k:'lactic',n:'にゅうさんきん',s:'とう→さん'}];
-const TIM=[{k:'short',n:'みじかい',s:'6じかん'},{k:'mid',n:'ちゅう',s:'1かげつ'},{k:'long',n:'ながい',s:'1ねん'}];
+const MIC=[{k:'yeast',n:'酵母',s:'とう→さけ'},{k:'acetic',n:'酢酸菌',s:'さけ→す'},{k:'lactic',n:'乳酸菌',s:'とう→さん'}];
+const TIM=[{k:'short',n:'みじかい',s:'6時間'},{k:'mid',n:'ちゅう',s:'1か月'},{k:'long',n:'ながい',s:'1年'}];
 const DAYS={short:1,mid:30,long:365};
 
 const RECIPES=[
- {id:'amazake',n:'あまざけ',ic:'🍶',e:'アミラーゼ',c:'#FFF0C8',mat:'rice',tmp:'warm',slt:'no',mic:[],tim:'short',
-  d:'アミラーゼが おこめのデンプンを ブドウとうに かえた。さとうを ひとつぶも いれてないのに あまい！'},
- {id:'shiokoji',n:'塩こうじ',ic:'🧂',e:'プロテアーゼ',c:'#F6EBD2',mat:'rice',tmp:'cool',slt:'yes',mic:[],tim:'mid',
-  d:'塩が ざっきんを おさえてるあいだに、プロテアーゼが ゆっくり はたらいた。おにくが やわらかくなるのは この こうそ。'},
- {id:'sake',n:'にほんしゅ',ic:'🍾',e:'アミラーゼ→こうぼ',c:'#F4F7E8',mat:'rice',tmp:'cool',slt:'no',mic:['yeast'],tim:'mid',
-  d:'こうじが とうに した そばから こうぼが アルコールに かえる。おなじタルで どうじに すすむ「へいこうふくはっこう」。'},
- {id:'vinegar',n:'こめず',ic:'🫙',e:'3だんリレー',c:'#EFD9A8',mat:'rice',tmp:'cool',slt:'no',mic:['yeast','acetic'],tim:'long',
-  d:'こうじ → こうぼ → さくさんきん。3しゅるいの いきものが じゅんばんに バトンを わたした！'},
+ {id:'amazake',n:'甘酒',ic:'🍶',e:'アミラーゼ',c:'#FFF0C8',mat:'rice',tmp:'warm',slt:'no',mic:[],tim:'short',
+  d:'アミラーゼが お米のデンプンを ブドウ糖に 変えた。さとうを 一つぶも いれてないのに 甘い！'},
+ {id:'shiokoji',n:'塩麹',ic:'🧂',e:'プロテアーゼ',c:'#F6EBD2',mat:'rice',tmp:'cool',slt:'yes',mic:[],tim:'mid',
+  d:'塩が 雑菌を おさえてるあいだに、プロテアーゼが ゆっくり 働いた。おにくが やわらかくなるのは この 酵素。'},
+ {id:'sake',n:'日本酒',ic:'🍾',e:'アミラーゼ→酵母',c:'#F4F7E8',mat:'rice',tmp:'cool',slt:'no',mic:['yeast'],tim:'mid',
+  d:'麹が とうに した そばから 酵母が アルコールに 変える。同じタルで 同時に 進む「並行複発酵」。'},
+ {id:'vinegar',n:'米酢',ic:'🫙',e:'3だんリレー',c:'#EFD9A8',mat:'rice',tmp:'cool',slt:'no',mic:['yeast','acetic'],tim:'long',
+  d:'麹 → 酵母 → 酢酸菌。3種類の 生きものが 順番に バトンを 渡した！'},
  {id:'miso',n:'みそ',ic:'🥣',e:'プロテアーゼ',c:'#B4652C',mat:'soy',tmp:'cool',slt:'yes',mic:[],tim:'long',
-  d:'だいずの タンパクしつが アミノさんに なった。うまみの しょうたいは グルタミンさん。'},
+  d:'大豆の タンパク質が アミノ酸に なった。うま味の しょうたいは グルタミンさん。'},
  {id:'shoyu',n:'しょうゆ',ic:'🍶',e:'プロテアーゼ＋アミラーゼ',c:'#4A2410',mat:'soywheat',tmp:'cool',slt:'yes',mic:[],tim:'long',
-  d:'タンパクしつと デンプンを どうじに ぶんかい。うまみと あまみと かおりが いっぺんに でる。'},
- {id:'bread',n:'パン',ic:'🍞',e:'こうぼ',c:'#E8B972',mat:'wheat',tmp:'cool',slt:'no',mic:['yeast'],tim:'short',
-  d:'こむぎの アミラーゼが つくった とうを こうぼが たべて、でた ガスで きじが ふくらんだ！'},
+  d:'タンパク質と デンプンを 同時に 分解。うま味と 甘みと 香りが いっぺんに でる。'},
+ {id:'bread',n:'パン',ic:'🍞',e:'酵母',c:'#E8B972',mat:'wheat',tmp:'cool',slt:'no',mic:['yeast'],tim:'short',
+  d:'小麦の アミラーゼが 作った とうを 酵母が 食べて、でた ガスで きじが ふくらんだ！'},
 ];
 
 /* ============ sound ============ */
@@ -249,11 +249,11 @@ function paint(){
 function status(){
   const s=document.getElementById('status');
   if(busy)return;
-  if(tmp==='hot'){s.innerHTML='あつすぎる！ こうじきんが <b>のびてしまう</b>…';return;}
-  if(mic.has('yeast')&&slt==='yes'){s.innerHTML='塩で <b>こうぼが よわってる</b>…';return;}
-  if(mic.has('acetic')&&!mic.has('yeast')){s.innerHTML='さくさんきんが <b>ひまそう</b>。アルコールがない…';return;}
-  if(tmp==='warm')s.innerHTML='こうじきんが <b>ぐんぐん</b> はたらいてる！';
-  else s.innerHTML='こうじきんが ゆっくり はたらいてる';
+  if(tmp==='hot'){s.innerHTML='あつすぎる！ 麹菌が <b>のびてしまう</b>…';return;}
+  if(mic.has('yeast')&&slt==='yes'){s.innerHTML='塩で <b>酵母が 弱ってる</b>…';return;}
+  if(mic.has('acetic')&&!mic.has('yeast')){s.innerHTML='酢酸菌が <b>ひまそう</b>。アルコールがない…';return;}
+  if(tmp==='warm')s.innerHTML='麹菌が <b>ぐんぐん</b> 働いてる！';
+  else s.innerHTML='麹菌が ゆっくり 働いてる';
 }
 
 /* ============ jar drawing ============ */
@@ -358,20 +358,20 @@ function drawZukan(popId){
 function same(a,b){return a.length===b.size&&a.every(x=>b.has(x));}
 function judge(){
   if(tmp==='hot')return{ng:1,ic:'🥵',n:'なにも おきない',
-    d:'70℃を こえると こうじの こうそは ほどけてしまう。いちど ほどけたら <b>もう にどと もとに もどらない</b>。ひやしても だめ。'};
-  if(mic.has('yeast')&&slt==='yes')return{ng:1,ic:'😵',n:'こうぼが しんだ',
-    d:'塩分 12%では こうぼは いきられない。みそや しょうゆが 塩を つかうのは、<b>ほかの きんを しめだすため</b>なんだ。'};
-  if(mic.has('acetic')&&!mic.has('yeast'))return{ng:1,ic:'🥱',n:'さくさんきんが ひまだ',
-    d:'さくさんきんは <b>アルコールを おすに かえる きん</b>。アルコールが なければ なにも できない。だれかに さきに つくってもらう ひつようがある。'};
+    d:'70℃を こえると 麹の 酵素は ほどけてしまう。いちど ほどけたら <b>もう 二度と もとに 戻らない</b>。冷やしても だめ。'};
+  if(mic.has('yeast')&&slt==='yes')return{ng:1,ic:'😵',n:'酵母が しんだ',
+    d:'塩分 12%では 酵母は 生きられない。みそや しょうゆが 塩を 使うのは、<b>ほかの きんを しめ出すため</b>なんだ。'};
+  if(mic.has('acetic')&&!mic.has('yeast'))return{ng:1,ic:'🥱',n:'酢酸菌が ひまだ',
+    d:'酢酸菌は <b>アルコールを おすに 変える きん</b>。アルコールが なければ なにも できない。だれかに 先に 作ってもらう 必要がある。'};
   for(const r of RECIPES) if(r.mat===mat&&r.tmp===tmp&&r.slt===slt&&r.tim===tim&&same(r.mic,mic))return{ok:1,r};
-  if(slt==='no'&&tim==='long'&&mic.size===0)return{ng:1,ic:'🤢',n:'くさってしまった',
-    d:'塩も なく、なかまの きんも いないまま 1ねん。こうじが はたらきおわった あと、<b>ざっきんが さきに きた</b>。'};
-  if(mat!=='rice'&&tmp==='warm')return{ng:1,ic:'🫘',n:'ただの むしだいず',
-    d:'ほおんで いそいでも、タンパクしつの ぶんかいには じかんが かかる。<b>プロテアーゼは アミラーゼより しごとが おそい</b>。'};
-  if(mic.has('lactic')&&slt==='no')return{ng:1,ic:'😖',n:'すっぱくなっただけ',
-    d:'にゅうさんきんは とうを にゅうさんに かえる。わるくは ないけど、まだ なにかの たべものには なっていない。'};
+  if(slt==='no'&&tim==='long'&&mic.size===0)return{ng:1,ic:'🤢',n:'腐ってしまった',
+    d:'塩も なく、なかまの きんも いないまま 1年。麹が 働きおわった あと、<b>雑菌が 先に きた</b>。'};
+  if(mat!=='rice'&&tmp==='warm')return{ng:1,ic:'🫘',n:'ただの 蒸し大豆',
+    d:'保温で いそいでも、タンパク質の 分解には 時間が かかる。<b>プロテアーゼは アミラーゼより しごとが おそい</b>。'};
+  if(mic.has('lactic')&&slt==='no')return{ng:1,ic:'😖',n:'酸っぱくなっただけ',
+    d:'乳酸菌は とうを にゅうさんに 変える。わるくは ないけど、まだ なにかの 食べものには なっていない。'};
   return{ng:1,ic:'🤔',n:'なにも できなかった',
-    d:'じょうけんの どれかが かみあっていない。おんど・塩・きん・じかん、どれか ひとつ かえてみよう。'};
+    d:'条件の どれかが かみあっていない。温度・塩・きん・時間、どれか 一つ かえてみよう。'};
 }
 
 /* ============ confetti ============ */
@@ -397,7 +397,7 @@ const runBtn=document.getElementById('run'),dayEl=document.getElementById('day')
 runBtn.addEventListener('click',()=>{
   if(busy)return;busy=true;runBtn.disabled=true;
   const total=DAYS[tim], dur=2600;
-  dayEl.classList.add('on');statusEl.innerHTML='はっこうちゅう…';
+  dayEl.classList.add('on');statusEl.innerHTML='発酵ちゅう…';
   const st=performance.now();let lastB=0;
   (function grow(now){
     const k=Math.min(1,(now-st)/dur), e=k*k*(3-2*k);
@@ -414,12 +414,12 @@ runBtn.addEventListener('click',()=>{
         card.innerHTML=`<div class="tag">${isNew?'はじめて できた！':'また できた'}</div>
           <div class="big">${v.r.ic}</div><h2>${v.r.n}</h2>
           <div class="ez">${v.r.e}</div><p>${v.r.d}</p>
-          ${found.size===RECIPES.length?'<p style="margin-top:12px;color:#FF5C39;font-weight:900">7つ ぜんぶ、おなじ こうじきんから でてきた。かえたのは じょうけんだけ！</p>':''}
-          <button class="go" id="close">つぎを つくる</button>`;
+          ${found.size===RECIPES.length?'<p style="margin-top:12px;color:#FF5C39;font-weight:900">7つ 全部、同じ 麹菌から 出てきた。変えたのは 条件だけ！</p>':''}
+          <button class="go" id="close">つぎを 作る</button>`;
       }else{
         thud();
         card.className='card ng';
-        card.innerHTML=`<div class="tag">しっぱい</div>
+        card.innerHTML=`<div class="tag">失敗</div>
           <div class="big">${v.ic}</div><h2>${v.n}</h2><p>${v.d}</p>
           <button class="go" id="close">やりなおす</button>`;
       }

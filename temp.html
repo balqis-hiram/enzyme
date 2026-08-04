@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>こうじの おんど</title>
+<title>麹の 温度</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -112,8 +112,8 @@ input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:4px
 <div class="wrap">
   <header>
     <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
-    <h1>こうじの<br><em>おんど</em></h1>
-    <p class="sub">うごかせるのは <b>ヒーターの つまみ</b>だけ。<br>なべには ねつの かんせいが ある。</p>
+    <h1>麹の<br><em>温度</em></h1>
+    <p class="sub">動かせるのは <b>ヒーターの つまみ</b>だけ。<br>鍋には 熱の慣性が ある。</p>
   </header>
 
   <div class="stage">
@@ -124,7 +124,7 @@ input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:4px
 
   <div class="big">
     <div class="temp" id="tempV">35<small>℃</small></div>
-    <div class="alive">げんきな こうじきん<b><span id="aliveV">24</span> / 24</b></div>
+    <div class="alive">元気な 麹菌<b><span id="aliveV">24</span> / 24</b></div>
   </div>
 
   <div class="ctl">
@@ -134,20 +134,20 @@ input[type=range]:focus-visible{outline:3px solid var(--blue);outline-offset:4px
   </div>
 
   <div class="meters">
-    <div class="m"><div class="l">🍯 あまさ</div><div class="v"><span id="sugarV">0</span> / 100</div>
+    <div class="m"><div class="l">🍯 甘さ</div><div class="v"><span id="sugarV">0</span> / 100</div>
       <div class="bar" id="sugarBar"><span></span></div></div>
-    <div class="m"><div class="l">😖 すっぱさ</div><div class="v"><span id="sourV">0</span> / 100</div>
+    <div class="m"><div class="l">😖 酸っぱさ</div><div class="v"><span id="sourV">0</span> / 100</div>
       <div class="bar" id="sourBar"><span></span></div></div>
   </div>
 
-  <button class="refill" id="refill" type="button">💊 こうそを ほじゅうする</button>
+  <button class="refill" id="refill" type="button">💊 酵素を 補充する</button>
   <div class="refillMsg" id="refillMsg"></div>
 
   <p class="note">
-    <b>50℃を したまわると</b> にゅうさんきんが ふえて すっぱくなる。
-    <b>66℃を こえると</b> こうじの こうそが ほどけて、いろが ぬけて <b>もう にどと もどらない</b>。<br>
-    いちばん はやいのは 58℃あたり。ほんものの あまざけづくりで「55〜60℃を まもれ」と いわれるのは、
-    この ふたつの がけの あいだが せまいから。
+    <b>50℃を 下まわると</b> 乳酸菌が 増えて 酸っぱくなる。
+    <b>66℃を こえると</b> 麹の 酵素が ほどけて、色が ぬけて <b>もう 二度と 戻らない</b>。<br>
+    一番 はやいのは 58℃あたり。ほんものの 甘酒づくりで「55〜60℃を 守れ」と いわれるのは、
+    この 二つの がけの あいだが せまいから。
   </p>
 </div>
 
@@ -192,16 +192,16 @@ function reset(){
     vx:(Math.random()-.5)*24,vy:(Math.random()-.5)*24,alive:true,fade:1,ph:Math.random()*6.28});
   glu=[];T=35;sugar=0;sour=0;t=0;over=false;heat.value=0;lock=0;refills=0;peakT=35;said={};
   heat.disabled=false;refill.disabled=false;refillMsg.textContent='';
-  modal.classList.remove('on');last=performance.now();say('さむい… もっと あたためて');
+  modal.classList.remove('on');last=performance.now();say('さむい… もっと 温めて');
 }
 function act(x){return Math.exp(-Math.pow((x-58)/14,2));}
 
 refill.addEventListener('click',()=>{if(over||lock>0)return;
-  refills++;lock=8;heat.disabled=true;refill.disabled=true;blip();say('えっ、ふえてない…？');});
+  refills++;lock=8;heat.disabled=true;refill.disabled=true;blip();say('えっ、増えてない…？');});
 
 function step(dt){
   if(spT>0){spT-=dt;if(spT<=0)speech.classList.remove('on');}
-  if(lock>0){lock-=dt;refillMsg.textContent=lock>0?'とうにゅうちゅう… '+lock.toFixed(1)+'びょう':'';
+  if(lock>0){lock-=dt;refillMsg.textContent=lock>0?'投入中… '+lock.toFixed(1)+'秒':'';
     if(lock<=0){heat.disabled=false;refill.disabled=false;refillMsg.textContent='';}}
   const h=lock>0?0:+heat.value;
   T+=(h*0.0876-(T-22)*0.12)*dt;
@@ -224,8 +224,8 @@ function step(dt){
   glu=glu.filter(g=>g.l>0);
   t+=dt;
   if(!said.hot&&T>66){said.hot=1;say('あつい！ あつい！');}
-  if(!said.good&&T>=55&&T<=62){said.good=1;say('いいかんじ！ ぐんぐん あまくなる！');}
-  if(!said.cold&&t>18&&T<50){said.cold=1;say('さむい… すっぱくなっちゃう');}
+  if(!said.good&&T>=55&&T<=62){said.good=1;say('いいかんじ！ ぐんぐん 甘くなる！');}
+  if(!said.cold&&t>18&&T<50){said.cold=1;say('さむい… 酸っぱくなっちゃう');}
   return alive;
 }
 
@@ -287,7 +287,7 @@ function draw(alive,tt){
   let z,c,tc='#2A2118';
   if(T<50){z='さむい';c='#37C8D4';}
   else if(T<55){z='まだ おそい';c='#FFE9B0';}
-  else if(T<=62){z='さいこう！';c='#57C84D';}
+  else if(T<=62){z='最高！';c='#57C84D';}
   else if(T<=66){z='きわどい';c='#FFC42E';}
   else{z='あつすぎ！';c='#FF5C39';tc='#FF5C39';}
   zoneEl.textContent=z;zoneEl.style.background=c;tempV.style.color=tc;
@@ -306,11 +306,11 @@ function finish(ok,ic,title,msg){
   over=true;heat.disabled=false;refill.disabled=false;refillMsg.textContent='';
   if(ok){fanfare();confetti();}else thud();
   let extra='';
-  if(refills>0)extra='<div class="warn">「こうそを ほじゅうする」を <b>'+refills+'かい</b> おした。'+
-    'でも <b>いちども ふえてない</b>。<br>こうそは はたらいても へらないから、ほじゅうする あいてが いない。'+
-    'うしなったのは <b>'+(refills*8)+'びょう</b>だけ。</div>';
+  if(refills>0)extra='<div class="warn">「酵素を 補充する」を <b>'+refills+'かい</b> おした。'+
+    'でも <b>いちども 増えてない</b>。<br>酵素は 働いても 減らないから、補充する 相手が いない。'+
+    '失ったのは <b>'+(refills*8)+'秒</b>だけ。</div>';
   card.className='card '+(ok?'ok':'ng');
-  card.innerHTML='<div class="tag">'+(ok?'せいこう！':'ざんねん')+'</div><div class="ic">'+ic+'</div>'+
+  card.innerHTML='<div class="tag">'+(ok?'成功！':'ざんねん')+'</div><div class="ic">'+ic+'</div>'+
     '<h2>'+title+'</h2><p>'+msg+'</p>'+extra+'<button class="go" id="again">もういちど</button>';
   modal.classList.add('on');
   document.getElementById('again').addEventListener('click',reset);
@@ -320,18 +320,18 @@ function loop(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;const tt=now/1000;
   if(!over){
     const alive=step(dt);draw(alive,tt);
-    if(sugar>=100)finish(1,'🍯','あまくなった！',
-      t.toFixed(0)+'びょう。いきのこった こうじきん <b>'+alive+'ひき</b>が さいごまで はたらいた。<br>'+
-      'こうそは あいてを かえるけど、じぶんは かわらない。だから <b>'+alive+'ひきで 100の とう</b>が つくれる。');
-    else if(sour>=100)finish(0,'😖','すっぱくなった',
-      '50℃を したまわった じかんが ながすぎた。こうじきんは ぶじでも、にゅうさんきんが さきに おこめを たべてしまった。');
-    else if(alive===0)finish(0,'💀','もう あまくならない',
-      'こうじきんが ぜんめつ。さいこうおんど <b>'+peakT.toFixed(1)+'℃</b>。<br>'+
-      '<b>へんせいは もとに もどらない</b>。ひやしても かたちは たたみなおされない。'+
-      'ここが「にて さっきん」と「あたためすぎて だいなし」の さかいめ。');
-    else if(t>=LIMIT)finish(0,'⏰','じかんぎれ',
-      'あまさ '+Math.floor(sugar)+'。こうじきんは いきてるけど、はんのうの スピードが たりなかった。'+
-      '<b>58℃あたりを どれだけ ながく たもてるか</b>が きく。');
+    if(sugar>=100)finish(1,'🍯','甘くなった！',
+      t.toFixed(0)+'秒。生き残った 麹菌 <b>'+alive+'匹</b>が 最後まで 働いた。<br>'+
+      '酵素は 相手を 変えるけど、じぶんは 変わらない。だから <b>'+alive+'匹で 100の とう</b>が つくれる。');
+    else if(sour>=100)finish(0,'😖','酸っぱくなった',
+      '50℃を したまわった 時間が ながすぎた。麹菌は ぶじでも、乳酸菌が 先に お米を 食べてしまった。');
+    else if(alive===0)finish(0,'💀','もう 甘くならない',
+      '麹菌が 全滅。最高温度 <b>'+peakT.toFixed(1)+'℃</b>。<br>'+
+      '<b>変性は もとに 戻らない</b>。冷やしても 形は たたみなおされない。'+
+      'ここが「にて 殺菌」と「温めすぎて だいなし」の 境目。');
+    else if(t>=LIMIT)finish(0,'⏰','時間ぎれ',
+      '甘さ '+Math.floor(sugar)+'。麹菌は いきてるけど、反応の スピードが たりなかった。'+
+      '<b>58℃あたりを どれだけ ながく 保てるか</b>が きく。');
   }
   requestAnimationFrame(loop);
 }

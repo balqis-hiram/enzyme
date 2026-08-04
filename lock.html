@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>かぎと かぎあな</title>
+<title>鍵と 鍵あな</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -75,14 +75,14 @@ canvas{display:block;width:100%;height:420px;touch-action:manipulation;cursor:po
 <div class="wrap">
   <header>
     <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
-    <h1>かぎと<br><em>かぎあな</em></h1>
-    <p class="sub">こうじの 3きょうだいは、それぞれ <b>きまった かたち</b>しか うけつけない。<br>ぶんしを タップして えらび、あう きょうだいを タップして わたす。</p>
+    <h1>鍵と<br><em>鍵あな</em></h1>
+    <p class="sub">麹の 三兄弟は、それぞれ <b>きまった 形</b>しか 受けつけない。<br>分子を タップして 選び、あう 兄弟を タップして 渡す。</p>
   </header>
 
   <div class="hud">
-    <div class="h"><div class="l">のこり</div><div class="v" id="time">60</div></div>
-    <div class="h"><div class="l">とりちがえ</div><div class="v" id="miss">0</div></div>
-    <div class="h"><div class="l">こうその かず</div><div class="v">3</div></div>
+    <div class="h"><div class="l">残り</div><div class="v" id="time">60</div></div>
+    <div class="h"><div class="l">取りちがえ</div><div class="v" id="miss">0</div></div>
+    <div class="h"><div class="l">酵素の 数</div><div class="v">3</div></div>
   </div>
 
   <div class="stage">
@@ -90,25 +90,25 @@ canvas{display:block;width:100%;height:420px;touch-action:manipulation;cursor:po
   </div>
 
   <div class="gauges">
-    <div class="g" id="g0"><div class="n">🍯 あまみ</div><div class="c">0</div><div class="s">ブドウとう</div></div>
-    <div class="g" id="g1"><div class="n">😋 うまみ</div><div class="c">0</div><div class="s">アミノさん</div></div>
-    <div class="g" id="g2"><div class="n">🌸 かおり</div><div class="c">0</div><div class="s">しぼうさん</div></div>
+    <div class="g" id="g0"><div class="n">🍯 甘み</div><div class="c">0</div><div class="s">ブドウ糖</div></div>
+    <div class="g" id="g1"><div class="n">😋 うま味</div><div class="c">0</div><div class="s">アミノ酸</div></div>
+    <div class="g" id="g2"><div class="n">🌸 香り</div><div class="c">0</div><div class="s">脂肪酸</div></div>
   </div>
 
   <p class="note">
-    <b>こうそは へらない。</b>アミラーゼ1ぴきが デンプンを なんじゅっこ ぶんかいしても、アミラーゼは 1ぴきのまま。
-    はんのうの まえと あとで じぶんは かわらないから「しょくばい」と よぶ。<br>
-    この 3つが どうじに はたらいているのが <b>こうじ</b>。あまざけは アミラーゼが しゅやく、
-    みそと しょうゆは プロテアーゼが しゅやくになる。
+    <b>酵素は 減らない。</b>アミラーゼ1ぴきが デンプンを なんじゅっこ 分解しても、アミラーゼは 1ぴきのまま。
+    反応の まえと あとで じぶんは 変わらないから「触媒」と よぶ。<br>
+    この 3つが 同時に 働いているのが <b>麹</b>。甘酒は アミラーゼが 主役、
+    みそと しょうゆは プロテアーゼが 主役になる。
   </p>
 </div>
 
 <div class="modal on" id="modal"><div class="card" id="card">
   <div class="tag">ルール</div><div class="ic">🔑</div>
-  <h2>かぎと かぎあな</h2>
-  <p>ぶんしを タップして えらび、<b>あう きょうだい</b>を タップして わたす。<br><br>
-     むらさきの ぶんしは <b>じゃまもの（そがいざい）</b>。かたちは にてるけど はんのうしない。
-     わたすと その きょうだいが 3びょう ふさがる。<br><br>60びょう しょうぶ！</p>
+  <h2>鍵と 鍵あな</h2>
+  <p>分子を タップして 選び、<b>あう 兄弟</b>を タップして 渡す。<br><br>
+     むらさきの 分子は <b>じゃまもの（阻害剤）</b>。形は にてるけど 反応しない。
+     渡すと その 兄弟が 3秒 ふさがる。<br><br>60秒 勝負！</p>
   <button class="go" id="startB">はじめる！</button>
 </div></div>
 <div class="conf" id="conf"></div>
@@ -137,7 +137,7 @@ const TYPES=['starch','protein','fat'];
 const COL={starch:'#57C84D',protein:'#2B6BD6',fat:'#FF9E4A'};
 const ENAME=['アミラーゼ','プロテアーゼ','リパーゼ'];
 const ECOL=['#57C84D','#2B6BD6','#FF9E4A'];
-const SNAME={starch:'デンプン',protein:'タンパクしつ',fat:'ししつ'};
+const SNAME={starch:'デンプン',protein:'タンパク質',fat:'脂質'};
 
 let W=0,H=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
@@ -238,7 +238,7 @@ function draw(tt){
     ctx.fillStyle='#2A2118';ctx.font='900 11px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
     ctx.fillText(jm?'ふさがれた！':ENAME[i],e.x,e.y+e.r+22);
     ctx.fillStyle='#8A7A63';ctx.font='700 10px "Zen Maru Gothic",sans-serif';
-    ctx.fillText('しょり '+e.done,e.x,e.y+e.r+35);
+    ctx.fillText('処理 '+e.done,e.x,e.y+e.r+35);
   });
 
   for(const m of mols){
@@ -277,11 +277,11 @@ function confetti(){const box=document.getElementById('conf'),
 function finish(){
   run=false;fanfare();confetti();
   const tot=counts[0]+counts[1]+counts[2];
-  card.innerHTML='<div class="tag">60びょう しゅうりょう</div><div class="ic">🎉</div>'+
-    '<h2>ぶんかい '+tot+'こ！</h2>'+
-    '<p>とりちがえ <b>'+miss+'かい</b><br>あまみ '+counts[0]+'・うまみ '+counts[1]+'・かおり '+counts[2]+'</p>'+
-    '<p style="margin-top:11px">こうそは いまも <span class="hi">3ひき</span>。'+
-    tot+'かい はたらいても、<b>ひとつも へっていない</b>。</p>'+
+  card.innerHTML='<div class="tag">60秒 しゅうりょう</div><div class="ic">🎉</div>'+
+    '<h2>分解 '+tot+'こ！</h2>'+
+    '<p>取りちがえ <b>'+miss+'かい</b><br>甘み '+counts[0]+'・うま味 '+counts[1]+'・香り '+counts[2]+'</p>'+
+    '<p style="margin-top:11px">酵素は いまも <span class="hi">3匹</span>。'+
+    tot+'かい 働いても、<b>一つも 減っていない</b>。</p>'+
     '<button class="go" id="again">もういちど</button>';
   modal.classList.add('on');
   document.getElementById('again').addEventListener('click',start);

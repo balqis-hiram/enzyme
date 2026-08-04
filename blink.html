@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>まばたきの かいろ</title>
+<title>まばたきの 回路</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -96,12 +96,12 @@ svg.eye{display:block;width:100%;max-width:290px;margin:0 auto;height:auto}
 <div class="wrap">
   <header>
     <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
-    <h1>まばたきの<br><em>かいろ</em></h1>
-    <p class="sub">まばたき ひとつに <b>3つの こうそ</b>が いる。<br>じゅんばんに タップして、まぶたを 1おうふく させよう。</p>
+    <h1>まばたきの<br><em>回路</em></h1>
+    <p class="sub">まばたき 一つに <b>3つの 酵素</b>が いる。<br>順番に タップして、まぶたを 1往復 させよう。</p>
   </header>
 
   <div class="hud">
-    <div class="h"><div class="l">のこり</div><div class="v" id="time">60</div></div>
+    <div class="h"><div class="l">残り</div><div class="v" id="time">60</div></div>
     <div class="h"><div class="l">まばたき</div><div class="v" id="blinks">0</div></div>
   </div>
 
@@ -125,35 +125,35 @@ svg.eye{display:block;width:100%;max-width:290px;margin:0 auto;height:auto}
 
     <div class="rack">
       <button class="st" id="s0" type="button">
-        <span class="num">1</span><span class="nm">ATP<br>ごうせいこうそ</span>
+        <span class="num">1</span><span class="nm">ATP<br>合成酵素</span>
         <span class="atp" id="atpDots"><span></span><span></span><span></span></span>
-        <span class="sm">エネルギーを つくる</span></button>
+        <span class="sm">エネルギーを 作る</span></button>
       <button class="st" id="s1" type="button">
         <span class="num">2</span><span class="nm">ミオシン<br>ATPアーゼ</span>
-        <span class="sm">ATPを つかって ちぢむ</span></button>
+        <span class="sm">ATPを 使って ちぢむ</span></button>
       <button class="st" id="s2" type="button">
         <span class="num">3</span><span class="nm">アセチルコリン<br>エステラーゼ</span>
-        <span class="sm">しんごうを きる</span></button>
+        <span class="sm">信号を 切る</span></button>
     </div>
 
     <div class="win" id="win"><i id="winFill"></i></div>
-    <div class="winlab"><span>アセチルコリンの のうど</span><span id="winMsg">—</span></div>
+    <div class="winlab"><span>アセチルコリンの 濃度</span><span id="winMsg">—</span></div>
   </div>
 
   <p class="note">
-    <b>とじるのにも あけるのにも こうそが いる。</b>
-    アセチルコリンエステラーゼが しんごうを ぶんかいして はじめて、きんにくは ゆるむ。
-    ぶんかいが とまれば、まぶたは ちぢんだまま もどらない。<br>
-    そして 3つとも、<b>はたらいても へらない</b>。おなじ こうそが つかいまわされている。
+    <b>とじるのにも あけるのにも 酵素が いる。</b>
+    アセチルコリンエステラーゼが 信号を 分解して はじめて、筋肉は ゆるむ。
+    分解が とまれば、まぶたは ちぢんだまま 戻らない。<br>
+    そして 3つとも、<b>働いても 減らない</b>。同じ 酵素が 使いまわされている。
   </p>
 </div>
 
 <div class="modal on" id="modal"><div class="card" id="card">
   <div class="tag">ルール</div><div class="ic">👁️</div>
-  <h2>まばたきの かいろ</h2>
-  <p><b>1</b>を 3かい たたいて ATPを 3つ つくる<br>→ <b>2</b>で まぶたを とじる<br>
-     → <b>3</b>を <b>ひかっている あいだに</b> たたいて まぶたを あける。<br><br>
-     まにあわないと、まぶたが もどらない！<br>60びょう しょうぶ。</p>
+  <h2>まばたきの 回路</h2>
+  <p><b>1</b>を 3回 たたいて ATPを 3つ 作る<br>→ <b>2</b>で まぶたを とじる<br>
+     → <b>3</b>を <b>光っている あいだに</b> たたいて まぶたを あける。<br><br>
+     まにあわないと、まぶたが 戻らない！<br>60秒 勝負。</p>
   <button class="go" id="startB">はじめる！</button>
 </div></div>
 <div class="conf" id="conf"></div>
@@ -193,18 +193,18 @@ function toAtp(){phase='atp';atp=0;dotsUp();setLive(0);P('ATPを 3つ つくろ�
 function tap(i){
   if(!run)return;
   if(phase==='atp'){
-    if(i!==0){P('まだ 1の ばん');return;}
+    if(i!==0){P('まだ 1の 番');return;}
     flash(s[0]);tick();atp++;dotsUp();
     if(atp>=NEED){phase='ready';setLive(1);P('ATPが そろった！ 2で とじる','good');}
   }else if(phase==='ready'){
     if(i!==1){P('ATPは そろってる。2へ');return;}
     flash(s[1]);shut();atp=0;dotsUp();phase='closing';ph=0;setLive(-1);P('まぶたが おりる…');
   }else if(phase==='window'){
-    if(i!==2){P('3で しんごうを きる！');return;}
+    if(i!==2){P('3で 信号を 切る！');return;}
     flash(s[2]);open_();blinks++;blinkEl.textContent=blinks;
-    phase='opening';ph=0;setLive(-1);P('しんごうが きれた！','good');
-    winMsg.textContent='ぶんかい ✓';win.classList.remove('hot');
-  }else if(phase==='closing'&&i===2){P('まだ しんごうが でてない');}
+    phase='opening';ph=0;setLive(-1);P('信号が 切れた！','good');
+    winMsg.textContent='分解 ✓';win.classList.remove('hot');
+  }else if(phase==='closing'&&i===2){P('まだ 信号が でてない');}
 }
 s.forEach((b,i)=>b.addEventListener('click',()=>tap(i)));
 addEventListener('keydown',e=>{if(e.key>='1'&&e.key<='3')tap(+e.key-1);});
@@ -217,7 +217,7 @@ function step(dt){
       winMsg.textContent='たまってる';win.classList.add('hot');}}
   else if(phase==='window'){ph+=dt;winFill.style.width=(100-ph/WINDOW*100)+'%';
     if(ph>=WINDOW){phase='stuck';ph=0;missed++;setLive(-1);stuck();
-      winFill.style.width='100%';P('まぶたが もどらない！','warn');winMsg.textContent='ぶんかいされず たまってる';}}
+      winFill.style.width='100%';P('まぶたが 戻らない！','warn');winMsg.textContent='分解されず たまってる';}}
   else if(phase==='stuck'){ph+=dt;lidPos(1-Math.sin(ph*26)*.05);if(ph>=STUCK){phase='opening';ph=0;}}
   else if(phase==='opening'){ph+=dt/.16;lidPos(Math.max(0,1-ph));if(ph>=1){lidPos(0);toAtp();}}
 }
@@ -231,13 +231,13 @@ function confetti(){const box=document.getElementById('conf'),
       {duration:1300+Math.random()*850,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>d.remove();}}
 function finish(){
   run=false;setLive(-1);lidPos(0);fanfare();confetti();
-  card.innerHTML='<div class="tag">60びょう しゅうりょう</div><div class="ic">👁️</div>'+
+  card.innerHTML='<div class="tag">60秒 しゅうりょう</div><div class="ic">👁️</div>'+
     '<h2>まばたき '+blinks+'かい！</h2>'+
-    '<p>まにあわなかった かいすう <b>'+missed+'</b><br>つかった ATP <b>'+(blinks*3)+'こ</b></p>'+
-    '<p style="margin-top:11px">ひとは おきてる あいだ、1にちに およそ '+
-    '<span class="hi">15,000〜20,000かい</span> まばたきする。<br><br>'+
-    'その ぜんぶで、この <b>3つの こうそが おなじ じゅんばん</b>で はたらいている。'+
-    'きょう もう なんまんかい、きみは きづかずに これを やっている。</p>'+
+    '<p>まにあわなかった かいすう <b>'+missed+'</b><br>使った ATP <b>'+(blinks*3)+'こ</b></p>'+
+    '<p style="margin-top:11px">ひとは おきてる あいだ、1日に およそ '+
+    '<span class="hi">15,000〜20,000回</span> まばたきする。<br><br>'+
+    'その 全部で、この <b>3つの 酵素が 同じ 順番</b>で 働いている。'+
+    'きょう もう なんまんかい、きみは きづ数に これを やっている。</p>'+
     '<button class="go" id="again">もういちど</button>';
   modal.classList.add('on');
   document.getElementById('again').addEventListener('click',start);

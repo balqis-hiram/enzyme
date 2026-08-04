@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>にゅうとうの いってん</title>
+<title>乳糖の 一点</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -93,8 +93,8 @@ canvas{display:block;width:100%;height:290px}
 <div class="wrap">
   <header>
     <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
-    <h1>にゅうとうの<br><em>いってん</em></h1>
-    <p class="sub">ぎゅうにゅうの せいぶんは <b>4つの べつべつの みち</b>で しょうかされる。<br>ラクターゼの たんとうは そのうち ひとつだけ。</p>
+    <h1>乳糖の<br><em>一点</em></h1>
+    <p class="sub">牛乳の 成分は <b>4つの べつべつの道</b>で 消化される。<br>ラクターゼの 担当は そのうち 一つだけ。</p>
   </header>
 
   <div class="who">
@@ -109,14 +109,14 @@ canvas{display:block;width:100%;height:290px}
 
   <div class="stage"><canvas id="cv"></canvas></div>
 
-  <div class="row"><div class="l">🥛 かたち</div><div class="opts c3" id="forms"></div></div>
-  <div class="row"><div class="l">🔢 なんばい？</div><div class="opts c5" id="amts"></div></div>
-  <button class="go" id="serve" type="button">だす！</button>
+  <div class="row"><div class="l">🥛 形</div><div class="opts c3" id="forms"></div></div>
+  <div class="row"><div class="l">🔢 何杯？</div><div class="opts c5" id="amts"></div></div>
+  <button class="go" id="serve" type="button">出す！</button>
 
   <p class="note">
-    ラクターゼが ぶんかいするのは <b>にゅうとうだけ</b>。
-    タンパクしつは ペプシンと トリプシン、しししつは リパーゼ、カルシウムは こうそを つかわずに きゅうしゅうされる。<br>
-    ぶんかいされなかった にゅうとうは だいちょうへ いって、ちょうないさいきんに はっこうされて ガスになる。
+    ラクターゼが 分解するのは <b>乳糖だけ</b>。
+    タンパク質は ペプシンと トリプシン、し脂質は リパーゼ、カルシウムは 酵素を つかわずに 吸収される。<br>
+    分解されなかった 乳糖は 大腸へ いって、腸内細菌に 発酵されて ガスになる。
     <b>ふかいだけど、どくでは ない。</b>
   </p>
 </div>
@@ -144,23 +144,23 @@ function thud(){snd(140,.22,'sawtooth',.055);setTimeout(()=>snd(90,.3,'sawtooth'
 document.getElementById('mute').addEventListener('click',e=>{muted=!muted;
   e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)blip();});
 
-const FORMS=[{k:'milk',n:'ぎゅうにゅう',s:'にゅうとう 10g',lac:10,ic:'🥛'},
-  {k:'yog',n:'ヨーグルト',s:'にゅうとう 3g',lac:3,ic:'🥣'},
-  {k:'chz',n:'じゅくせいチーズ',s:'にゅうとう 0.2g',lac:.2,ic:'🧀'}];
+const FORMS=[{k:'milk',n:'牛乳',s:'乳糖 10g',lac:10,ic:'🥛'},
+  {k:'yog',n:'ヨーグルト',s:'乳糖 3g',lac:3,ic:'🥣'},
+  {k:'chz',n:'熟成チーズ',s:'乳糖 0.2g',lac:.2,ic:'🧀'}];
 const PEOPLE=[
- {av:'👶',n:'せいご6かげつの あかちゃん',
-  d:'ヒトは みんな あかちゃんの ときが ラクターゼが いちばん つよい。ぼにゅうを しょうかする ための ひょうじゅんそうび。',
-  tol:60,hint:'ラクターゼ とっても つよい（60gまで）'},
- {av:'🧑',n:'40さい・にほんじんの おとな',
-  d:'ちちばなれの あとに よわくなるのが ほにゅうるいの ひょうじゅん。にほんじんの おとなは たいてい これ。',
-  tol:12,hint:'ラクターゼ よわい（12gまで）'},
- {av:'🧑‍🦰',n:'30さい・つよい にゅうとうふたい',
-  d:'ラクターゼが さらに よわい ひと。すこしでも おなかに くる。',
-  tol:4,hint:'ラクターゼ とても よわい（4gまで）'}];
-const LANES=[{n:'タンパクしつ',e:'ペプシン',c:'#2B6BD6',ic:'💪'},
-  {n:'ししつ',e:'リパーゼ',c:'#FFC42E',ic:'🧈'},
-  {n:'カルシウム',e:'こうそ ふよう',c:'#57C84D',ic:'🦴'},
-  {n:'にゅうとう',e:'ラクターゼ',c:'#FF7BA6',ic:'🍬'}];
+ {av:'👶',n:'生後6か月の 赤ちゃん',
+  d:'ヒトは みんな 赤ちゃんの ときが ラクターゼが 一番 強い。母乳を 消化する ための 標準装備。',
+  tol:60,hint:'ラクターゼ とっても 強い（60gまで）'},
+ {av:'🧑',n:'40歳・日本人の 大人',
+  d:'乳ばなれの あとに よわくなるのが 哺乳類の ひょうじゅん。日本人の 大人は たいてい これ。',
+  tol:12,hint:'ラクターゼ 弱い（12gまで）'},
+ {av:'🧑‍🦰',n:'30歳・強い 乳糖不耐',
+  d:'ラクターゼが さらに 弱い ひと。すこしでも おなかに くる。',
+  tol:4,hint:'ラクターゼ とても 弱い（4gまで）'}];
+const LANES=[{n:'タンパク質',e:'ペプシン',c:'#2B6BD6',ic:'💪'},
+  {n:'脂質',e:'リパーゼ',c:'#FFC42E',ic:'🧈'},
+  {n:'カルシウム',e:'酵素 ふよう',c:'#57C84D',ic:'🦴'},
+  {n:'乳糖',e:'ラクターゼ',c:'#FF7BA6',ic:'🍬'}];
 
 let W=0,H=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
@@ -173,7 +173,7 @@ FORMS.forEach((f,i)=>{const b=document.createElement('button');b.type='button';b
   b.innerHTML='<div class="t">'+f.ic+' '+f.n+'</div><div class="s">'+f.s+'</div>';
   b.addEventListener('click',()=>{if(running)return;form=i;blip();paint();});formsEl.appendChild(b);});
 [0,1,2,3,4].forEach(v=>{const b=document.createElement('button');b.type='button';b.className='opt';
-  b.innerHTML='<div class="t">'+v+'</div><div class="s">'+(v===0?'ださない':'はい')+'</div>';
+  b.innerHTML='<div class="t">'+v+'</div><div class="s">'+(v===0?'出さない':'杯')+'</div>';
   b.addEventListener('click',()=>{if(running)return;amt=v;blip();paint();});amtsEl.appendChild(b);});
 function paint(){
   [...formsEl.children].forEach((b,i)=>b.classList.toggle('sel',i===form));
@@ -235,8 +235,8 @@ function draw(dt,tt){
   });
   ctx.fillStyle='#EFE6D2';ctx.fillRect(0,H-24,W,24);
   ctx.fillStyle='#8A7A63';ctx.font='700 10px "Zen Maru Gothic",sans-serif';ctx.textAlign='left';
-  ctx.fillText('きゅうしゅう ✓',9,H-8);
-  ctx.textAlign='right';ctx.fillText('だいちょうへ →',W-9,gateY+6);
+  ctx.fillText('吸収 ✓',9,H-8);
+  ctx.textAlign='right';ctx.fillText('大腸へ →',W-9,gateY+6);
 
   for(const p of parts){
     if(!p.stuck){p.y+=p.v*dt;
@@ -260,19 +260,19 @@ function finish(){
   const totN=log.reduce((a,b)=>a+b.nutri,0),totL=log.reduce((a,b)=>a+b.leftover,0);
   const zero=log.filter(l=>l.nutri===0).length;
   let ic,head;
-  if(totL<=0&&totN>=100){ic='🎉';head='ぜんぶ とおした！';fanfare();confetti();}
-  else if(totL<=0&&zero>0){ic='😐';head='しょうじょうは ふせいだ。<br>でも とおってた 3ぽんも とめた';thud();}
-  else if(totL<=0){ic='🙂';head='しょうじょう ゼロ。<br>でも もっと だせた';}
+  if(totL<=0&&totN>=100){ic='🎉';head='全部 通した！';fanfare();confetti();}
+  else if(totL<=0&&zero>0){ic='😐';head='症状は 防いだ。<br>でも 通ってた 3ぽんも とめた';thud();}
+  else if(totL<=0){ic='🙂';head='症状 ゼロ。<br>でも もっと だせた';}
   else {ic='😖';head='おなかを こわした';thud();}
-  const rows=log.map(l=>'<b>'+l.av+' '+l.form+' '+l.amt+'はい</b>　えいよう <span class="good">'+l.nutri+
-    '</span>／のこった にゅうとう <span class="'+(l.leftover>0?'bad':'good')+'">'+l.leftover.toFixed(1)+'g</span>').join('<br>');
-  card.innerHTML='<div class="tag">けっか</div><div class="ic">'+ic+'</div><h2>'+head+'</h2>'+
-    '<div class="log">'+rows+'<br><br>ごうけい えいよう <b>'+totN+'</b>／だいちょうに とどいた にゅうとう <b>'+totL.toFixed(1)+'g</b></div>'+
-    '<p>ラクターゼが たんとうするのは <b>にゅうとうだけ</b>。'+
-    '<b>ひとつの こうそが たりないことは、その たべもの ぜんぶが しょうかできない ことを いみしない。</b></p>'+
-    '<p style="margin-top:9px">そして こたえの ひとつが <span class="hi">はっこう</span>だった。'+
-    'にゅうさんきんが さきに にゅうとうを たべておいてくれたのが ヨーグルトと チーズ。'+
-    'しょうかの わるい だいずに たいする みそと、まったく おなじ ときかた。</p>'+
+  const rows=log.map(l=>'<b>'+l.av+' '+l.form+' '+l.amt+'はい</b>　栄養 <span class="good">'+l.nutri+
+    '</span>／残った 乳糖 <span class="'+(l.leftover>0?'bad':'good')+'">'+l.leftover.toFixed(1)+'g</span>').join('<br>');
+  card.innerHTML='<div class="tag">結果</div><div class="ic">'+ic+'</div><h2>'+head+'</h2>'+
+    '<div class="log">'+rows+'<br><br>合計 栄養 <b>'+totN+'</b>／大腸に 届いた 乳糖 <b>'+totL.toFixed(1)+'g</b></div>'+
+    '<p>ラクターゼが 担当するのは <b>乳糖だけ</b>。'+
+    '<b>一つの 酵素が たりないことは、その 食べもの 全部が 消化できない ことを 意味しない。</b></p>'+
+    '<p style="margin-top:9px">そして 答えの 一つが <span class="hi">発酵</span>だった。'+
+    '乳酸菌が 先に 乳糖を 食べておいてくれたのが ヨーグルトと チーズ。'+
+    '消化の わるい 大豆に たいする みそと、まったく 同じ 解きかた。</p>'+
     '<button class="go" id="again" style="margin-top:16px">もういちど</button>';
   modal.classList.add('on');
   document.getElementById('again').addEventListener('click',()=>{

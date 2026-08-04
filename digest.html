@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>のまれた こうそ</title>
+<title>飲まれた 酵素</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
@@ -102,12 +102,12 @@ canvas:active{cursor:grabbing}
 <div class="wrap">
   <header>
     <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
-    <h1>のまれた<br><em>こうそ</em></h1>
-    <p class="sub">きみは サプリのカプセルに はいった こうそだ。<br>からだの なかに はいって、はたらこう！</p>
+    <h1>飲まれた<br><em>酵素</em></h1>
+    <p class="sub">きみは サプリのカプセルに はいった 酵素だ。<br>体の なかに はいって、働こう！</p>
   </header>
 
   <div class="mission" id="mission">
-    <span class="k">ミッション</span><span class="v" id="goal">けつえきに たどりついて はたらく</span>
+    <span class="k">ミッション</span><span class="v" id="goal">血液に たどりついて 働く</span>
   </div>
 
   <div class="stage">
@@ -117,26 +117,26 @@ canvas:active{cursor:grabbing}
   </div>
 
   <div class="meters">
-    <div class="m"><div class="l">かたち（立体こうぞう）</div><div class="v" id="foldV">100%</div>
+    <div class="m"><div class="l">形（立体構造）</div><div class="v" id="foldV">100%</div>
       <div class="bar" id="foldBar"><span></span></div></div>
-    <div class="m"><div class="l">はたらくちから</div><div class="v" id="actV">100%</div>
+    <div class="m"><div class="l">働く力</div><div class="v" id="actV">100%</div>
       <div class="bar" id="actBar"><span></span></div></div>
   </div>
 
   <p class="note">
-    こうそは <b>タンパクしつ</b>でできている。そして そのちからは、
-    <b>おりたたまれた かたち そのもの</b>に ある。<br>
-    かたちが ほどけたら、なかみが おなじでも <b>もう こうそじゃない</b>。<br>
-    いえきは pH2。この つよい さんで、たいていの タンパクしつは ほどけてしまう。
+    酵素は <b>タンパク質</b>でできている。そして その力は、
+    <b>おりたたまれた 形 そのもの</b>に ある。<br>
+    形が ほどけたら、なかみが 同じでも <b>もう 酵素じゃない</b>。<br>
+    胃液は pH2。この 強い さんで、たいていの タンパク質は ほどけてしまう。
   </p>
 </div>
 
 <div class="modal on" id="modal"><div class="card" id="card">
   <div class="tag">スタート</div>
   <div class="big">💊</div>
-  <h2>のみこまれる じゅんび</h2>
-  <p>まずは カプセルを <b>れんだ</b>して やぶろう。<br>そのあとは <b>ゆびで ドラッグ</b>して うごく。</p>
-  <button class="go" id="startB">のみこまれる！</button>
+  <h2>飲みこまれる じゅんび</h2>
+  <p>まずは カプセルを <b>れんだ</b>して やぶろう。<br>そのあとは <b>ゆびで ドラッグ</b>して 動く。</p>
+  <button class="go" id="startB">飲みこまれる！</button>
 </div></div>
 <div class="conf" id="conf"></div>
 
@@ -181,7 +181,7 @@ function init(){
   resize();phase='capsule';pt=0;taps=0;fold=1;act=1;hits=0;caught=0;shake=0;
   px=W/2;py=H*0.44;tx=px;ty=py;acids=[];frags=[];aas=[];
   gates=[0.24,0.5,0.76].map(f=>({x:W*f,y:H-42,r:27,used:false}));
-  goalEl.textContent='けつえきに たどりついて はたらく';
+  goalEl.textContent='血液に たどりついて 働く';
   missionEl.className='mission';
   zone('カプセルの なか','#37C8D4');
   say('カプセルを れんだ！');
@@ -190,7 +190,7 @@ function init(){
 cv.addEventListener('pointerdown',e=>{
   if(!run)return;const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;
   if(phase==='capsule'){taps++;crack();shake=.5;
-    if(taps>=6){phase='stomach';pt=0;zone('い（pH 2.0）','#FF5C39');say('うわっ すっぱい！');}}
+    if(taps>=6){phase='stomach';pt=0;zone('胃（pH 2.0）','#FF5C39');say('うわっ 酸っぱい！');}}
   try{cv.setPointerCapture(e.pointerId)}catch(err){}
 });
 cv.addEventListener('pointermove',e=>{
@@ -216,26 +216,26 @@ function step(dt){
     if(before>.33&&fold<=.33)say('やばい ほどけてきた！');
     act=Math.max(0,Math.min(1,(fold-.28)/.72));
     if(fold<=0){fold=0;act=0;phase='unfolded';pt=0;
-      goalEl.textContent='けつえきに たどりついて はたらく';
+      goalEl.textContent='血液に たどりついて 働く';
       missionEl.className='mission dead';
-      zone('い（pH 2.0）','#FF5C39');say('かたちが ほどけた…');snd(90,.5,'sawtooth',.06);}
+      zone('胃（pH 2.0）','#FF5C39');say('形が ほどけた…');snd(90,.5,'sawtooth',.06);}
   }
   else if(phase==='unfolded'){ if(pt>2.4){phase='trypsin';pt=0;acids=[];
-    zone('十二しちょう','#9B6BE8');say('トリプシンが きた！');} }
+    zone('十二指腸','#9B6BE8');say('トリプシンが きた！');} }
   else if(phase==='trypsin'){
     if(pt>1.0&&frags.length===0){snip();
       for(let i=0;i<7;i++)frags.push({x:px+(i-3)*14,y:py,vx:(i-3)*24,vy:(Math.random()-.5)*44,r:Math.random()*6});}
     for(const f of frags){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=44*dt;f.r+=dt*3;}
     if(pt>3.3){phase='absorb';pt=0;frags=[];px=W/2;py=52;tx=px;ty=py;
-      goalEl.textContent='アミノさんとして きゅうしゅうされる';
+      goalEl.textContent='アミノ酸として 吸収される';
       missionEl.className='mission newgoal';
-      zone('小ちょう','#57C84D');say('もう こうそじゃない。ただの アミノさん。');}
+      zone('小腸','#57C84D');say('もう 酵素じゃない。ただの アミノ酸。');}
   }
   else if(phase==='absorb'){
     for(const g of gates) if(!g.used&&(g.x-px)**2+(g.y-py)**2<(g.r+12)**2){
       g.used=true;phase='ribosome';pt=0;aas=[];px=W/2;py=H-56;tx=px;ty=py;pling();
-      goalEl.textContent='あたらしい こうそに くみたてなおされる';
-      zone('さいぼうの なか（リボソーム）','#FFC42E');say('リボソームが ある！');}
+      goalEl.textContent='あたらしい 酵素に くみたてなおされる';
+      zone('細胞の なか（リボソーム）','#FFC42E');say('リボソームが ある！');}
   }
   else if(phase==='ribosome'){
     if(Math.random()<dt*2.7&&aas.length<15)
@@ -353,7 +353,7 @@ function draw(t){
     ctx.beginPath();ctx.arc(px,py,25,0,6.283);ctx.fill();ctx.stroke();
     ctx.fillStyle='#FFFDF5';ctx.beginPath();ctx.arc(px,py,13,0,6.283);ctx.fill();ctx.stroke();
     ctx.fillStyle='#2A2118';ctx.font='900 13px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
-    ctx.fillText('アミノさん  '+caught+' / '+NEED,W/2,26);
+    ctx.fillText('アミノ酸  '+caught+' / '+NEED,W/2,26);
     const k=caught/NEED,cnt=Math.max(1,Math.round(k*13));
     ctx.strokeStyle='#2A2118';ctx.lineWidth=9;ctx.lineCap='round';ctx.lineJoin='round';
     ctx.beginPath();
@@ -385,23 +385,23 @@ function confetti(){
 
 function finish(){
   run=false;fanfare();confetti();
-  const names=[['カタラーゼ','かつどく（かさんかすいそ）を みずに かえる'],
-               ['ラクターゼ','にゅうとうを ぶんかいする'],
-               ['アミラーゼ','デンプンを あまくする'],
-               ['ヘキソキナーゼ','とうを エネルギーに かえる さいしょの いっぽ']];
+  const names=[['カタラーゼ','かつどく（かさんかすいそ）を みずに 変える'],
+               ['ラクターゼ','乳糖を 分解する'],
+               ['アミラーゼ','デンプンを 甘くする'],
+               ['ヘキソキナーゼ','とうを エネルギーに 変える 最初の いっぽ']];
   const [nm,job]=names[(Math.random()*names.length)|0];
   card.className='card';
   card.innerHTML=`<div class="tag">クリア！</div><div class="big">🎉</div>
-    <h2>とうちゃく！<br>でも <span style="color:#2A2118">ざいりょう</span>として。</h2>
-    <p>いで <b>${hits}かい</b> さんに あたって、かたちは かんぜんに ほどけた。
-       はたらくちからは ゼロに なり、トリプシンに きられて アミノさんに なった。</p>
-    <p>きゅうしゅうされ、さいぼうに はこばれ、リボソームで <b>${NEED}この</b> アミノさんが つながって——</p>
+    <h2>とうちゃく！<br>でも <span style="color:#2A2118">材料</span>として。</h2>
+    <p>胃で <b>${hits}かい</b> さんに あたって、形は 完全に ほどけた。
+       働く力は ゼロに なり、トリプシンに 切られて アミノ酸に なった。</p>
+    <p>吸収され、細胞に はこばれ、リボソームで <b>${NEED}この</b> アミノ酸が つながって——</p>
     <p style="text-align:center;font-size:17px;font-weight:900;margin:12px 0">
        <span class="hi">${nm}</span><br><span style="font-size:12px;font-weight:700">${job}</span></p>
-    <p>が できあがった。<b>きみが もともと なんの こうそだったかは、もう かんけいない。</b>
-       からだは そのとき ひつような こうそを、せっけいずから つくる。</p>
-    <p>だから「いきた こうそを のむ」ことに いみは ない。
-       とどくのは いつも <b>ざいりょうの ほう</b>なんだ。</p>
+    <p>が できあがった。<b>きみが もともと なんの 酵素だったかは、もう 関係ない。</b>
+       体は そのとき 必要な 酵素を、設計図から 作る。</p>
+    <p>だから「生きた 酵素を 飲む」ことに 意味は ない。
+       届くのは いつも <b>材料の ほう</b>なんだ。</p>
     <button class="go" id="again">もういちど</button>`;
   modal.classList.add('on');
   document.getElementById('again').addEventListener('click',start);
