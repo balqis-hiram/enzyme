@@ -3,299 +3,416 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>飲まれた酵素</title>
+<title>のまれた こうそ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--muro:#12233A;--muro2:#1B3050;--line:#2B4568;--kome:#F4EFE2;--sub:#93A6BE;
-  --kouji:#E8B33A;--ame:#7FD1B9;--san:#F07A4B;--shi:#4C5F76;--kin:#C6A5E8}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
-  display:flex;justify-content:center;padding:20px 16px 32px;-webkit-font-smoothing:antialiased}
-.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:14px}
-header{border-bottom:1px solid var(--line);padding-bottom:13px}
-.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji)}
-h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
-.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+:root{
+  --paper:#FFF4DA; --paper2:#FFE9B0; --ink:#2A2118;
+  --red:#FF5C39; --pink:#FF7BA6; --yellow:#FFC42E; --green:#57C84D;
+  --blue:#2B6BD6; --cyan:#37C8D4; --purple:#9B6BE8; --white:#FFFDF5;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(circle at 88% 6%,rgba(255,92,57,.28) 0 18%,transparent 18.5%),
+                   radial-gradient(circle at 8% 58%,rgba(55,200,212,.24) 0 20%,transparent 20.5%);
+  color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:700;
+  display:flex;justify-content:center;padding:18px 14px 40px;min-height:100vh;
+}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:13px}
 
-.goalbar{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--muro2);
-  padding:10px 13px;border-radius:2px;font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em}
-.goalbar .k{color:var(--kouji);flex:0 0 auto}
-.goalbar .v{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13px;letter-spacing:.03em}
-.goalbar .v.dead{text-decoration:line-through;color:var(--shi)}
-.goalbar .v.new{color:var(--ame)}
+header{text-align:center;position:relative}
+h1{font-family:"RocknRoll One",sans-serif;font-size:clamp(27px,7.6vw,38px);line-height:1.16;
+  text-shadow:3px 3px 0 var(--cyan)}
+h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
+.sub{font-size:12.5px;margin-top:7px;color:#6B5B45;line-height:1.75}
+.mute{position:absolute;right:0;top:0;background:var(--white);border:3px solid var(--ink);
+  border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);
+  display:grid;place-items:center;font-family:inherit;padding:0}
+.mute:active{transform:translate(3px,3px);box-shadow:none}
 
-.stage{position:relative;border:1px solid var(--line);border-radius:3px;background:#0A1524;overflow:hidden}
-canvas{display:block;width:100%;height:440px;touch-action:none;cursor:crosshair}
+/* mission banner */
+.mission{background:var(--yellow);border:4px solid var(--ink);border-radius:16px;
+  box-shadow:5px 5px 0 var(--ink);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.mission .k{font-family:"RocknRoll One",sans-serif;font-size:11px;background:var(--ink);color:var(--yellow);
+  border-radius:8px;padding:3px 8px;flex:0 0 auto}
+.mission .v{font-size:14px;font-weight:900;transition:opacity .3s}
+.mission.dead{background:#C9BFAE}
+.mission.dead .v{text-decoration:line-through;opacity:.55}
+.mission.dead .k{background:#6B5B45;color:#E4DACA}
+.mission.newgoal{background:var(--green)}
+.mission.newgoal .k{background:var(--ink);color:var(--green)}
 
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.st{border:1px solid var(--line);background:var(--muro2);padding:9px 12px;border-radius:2px}
-.st .l{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.13em;color:var(--sub)}
-.st .v{font-family:"DM Mono",monospace;font-size:19px;margin-top:2px}
-.bar{height:4px;background:#0A1524;margin-top:7px;overflow:hidden}
-.bar span{display:block;height:100%;width:100%;background:var(--kouji);transition:width .15s linear}
+/* stage */
+.stage{position:relative;background:var(--white);border:5px solid var(--ink);border-radius:24px;
+  box-shadow:7px 7px 0 var(--ink);overflow:hidden}
+canvas{display:block;width:100%;height:392px;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.zone{position:absolute;top:11px;left:13px;font-family:"RocknRoll One",sans-serif;font-size:13px;
+  border:3px solid var(--ink);border-radius:11px;padding:3px 11px;box-shadow:3px 3px 0 var(--ink);
+  background:var(--white)}
+.speech{position:absolute;left:50%;transform:translateX(-50%);bottom:13px;background:var(--white);
+  border:3px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:7px 15px;
+  font-size:13.5px;font-weight:900;white-space:nowrap;max-width:94%;overflow:hidden;text-overflow:ellipsis;
+  opacity:0;transition:opacity .25s}
+.speech.on{opacity:1}
 
-.msg{text-align:center;font-family:"Shippori Mincho B1",serif;font-size:15px;min-height:22px;letter-spacing:.05em}
-.msg.warn{color:var(--san)}
-.msg.good{color:var(--ame)}
+/* meters */
+.meters{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.m{background:var(--white);border:4px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink);
+  padding:9px 12px 11px}
+.m .l{font-size:11px;color:#6B5B45}
+.m .v{font-family:"RocknRoll One",sans-serif;font-size:22px;line-height:1.2}
+.bar{height:11px;border:3px solid var(--ink);border-radius:7px;background:#EDE5D3;overflow:hidden;margin-top:5px}
+.bar span{display:block;height:100%;width:100%;transition:width .15s linear}
+#foldBar span{background:var(--cyan)} #actBar span{background:var(--yellow)}
 
-.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
-.note b{color:var(--kome);font-weight:500}
+.note{background:var(--white);border:4px dashed var(--ink);border-radius:18px;padding:13px 15px;
+  font-size:12.5px;line-height:1.85;color:#4A3E2E;font-weight:500}
+.note b{font-weight:900;color:var(--ink)}
 
-.overlay{position:absolute;inset:0;background:rgba(8,17,30,.96);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:15px;text-align:center;padding:26px;opacity:0;
-  pointer-events:none;transition:opacity .4s;overflow-y:auto}
-.overlay.on{opacity:1;pointer-events:auto}
-.overlay h2{font-family:"Shippori Mincho B1",serif;font-size:23px;line-height:1.5}
-.overlay p{font-size:13px;color:var(--sub);line-height:1.95;max-width:430px}
-.overlay p b{color:var(--kome)}
-.overlay p .hi{color:var(--ame)}
-button.go{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13px;background:none;color:var(--kome);
-  border:1px solid var(--kouji);padding:9px 24px;border-radius:2px;cursor:pointer;letter-spacing:.06em}
-button.go:hover{background:var(--kouji);color:var(--muro)}
-button.go:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(42,33,24,.74);display:grid;place-items:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .25s;z-index:20;overflow-y:auto}
+.modal.on{opacity:1;pointer-events:auto}
+.card{background:var(--white);border:5px solid var(--ink);border-radius:26px;box-shadow:9px 9px 0 var(--ink);
+  padding:24px 20px;max-width:410px;width:100%;text-align:center;
+  transform:scale(.72) rotate(-3deg);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.modal.on .card{transform:scale(1) rotate(0)}
+.card .tag{display:inline-block;font-family:"RocknRoll One",sans-serif;font-size:12px;background:var(--green);
+  border:3px solid var(--ink);border-radius:11px;padding:3px 12px;box-shadow:2px 2px 0 var(--ink)}
+.card .big{font-size:66px;line-height:1;margin:12px 0 2px}
+.card h2{font-family:"RocknRoll One",sans-serif;font-size:25px;line-height:1.35;margin-bottom:11px;color:var(--red)}
+.card p{font-size:13px;line-height:1.9;color:#4A3E2E;text-align:left}
+.card p+p{margin-top:9px}
+.card .hi{background:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:900;color:var(--ink)}
+.go{width:100%;font-family:"RocknRoll One",sans-serif;font-size:19px;letter-spacing:.12em;
+  background:var(--red);color:var(--white);border:4px solid var(--ink);border-radius:17px;padding:13px;
+  cursor:pointer;box-shadow:6px 6px 0 var(--ink);transition:transform .07s,box-shadow .07s;margin-top:16px}
+.go:active{transform:translate(6px,6px);box-shadow:none}
+.go:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+.cf{position:absolute;width:11px;height:15px;border:2px solid var(--ink);border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">you are the enzyme</div>
-    <h1>飲まれた酵素</h1>
-    <p class="lede">あなたはサプリのカプセルに入った酵素です。ここから体内に入り、働きます。指で動かしてください。</p>
+    <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
+    <h1>のまれた<br><em>こうそ</em></h1>
+    <p class="sub">きみは サプリのカプセルに はいった こうそだ。<br>からだの なかに はいって、はたらこう！</p>
   </header>
 
-  <div class="goalbar"><span class="k">目標</span><span class="v" id="goal">血中に到達し、体内で働く</span></div>
-
-  <div class="stage">
-    <canvas id="cv"></canvas>
-    <div class="overlay on" id="ov">
-      <h2 id="ovT">飲まれた酵素</h2>
-      <p id="ovP">カプセルを連打で破って外に出る。<br>そのあとは、指でドラッグして進みます。</p>
-      <button class="go" id="ovB">飲み込まれる</button>
-    </div>
+  <div class="mission" id="mission">
+    <span class="k">ミッション</span><span class="v" id="goal">けつえきに たどりついて はたらく</span>
   </div>
 
-  <div class="stats">
-    <div class="st"><div class="l">立体構造 / FOLDING</div><div class="v" id="foldV">100%</div>
+  <div class="stage">
+    <div class="zone" id="zone" style="background:var(--cyan)">カプセルの なか</div>
+    <canvas id="cv"></canvas>
+    <div class="speech" id="speech"></div>
+  </div>
+
+  <div class="meters">
+    <div class="m"><div class="l">かたち（立体こうぞう）</div><div class="v" id="foldV">100%</div>
       <div class="bar" id="foldBar"><span></span></div></div>
-    <div class="st"><div class="l">触媒活性 / ACTIVITY</div><div class="v" id="actV">100%</div>
+    <div class="m"><div class="l">はたらくちから</div><div class="v" id="actV">100%</div>
       <div class="bar" id="actBar"><span></span></div></div>
   </div>
 
-  <div class="msg" id="msg">　</div>
-
   <p class="note">
-    酵素はタンパク質です。<b>タンパク質の働きは、折りたたまれた立体構造そのもの</b>にあります。
-    形がほどければ、成分が同じでも触媒ではなくなります。<br>
-    胃液はpH2前後。この酸性で、ほとんどのタンパク質は変性します。
+    こうそは <b>タンパクしつ</b>でできている。そして そのちからは、
+    <b>おりたたまれた かたち そのもの</b>に ある。<br>
+    かたちが ほどけたら、なかみが おなじでも <b>もう こうそじゃない</b>。<br>
+    いえきは pH2。この つよい さんで、たいていの タンパクしつは ほどけてしまう。
   </p>
 </div>
+
+<div class="modal on" id="modal"><div class="card" id="card">
+  <div class="tag">スタート</div>
+  <div class="big">💊</div>
+  <h2>のみこまれる じゅんび</h2>
+  <p>まずは カプセルを <b>れんだ</b>して やぶろう。<br>そのあとは <b>ゆびで ドラッグ</b>して うごく。</p>
+  <button class="go" id="startB">のみこまれる！</button>
+</div></div>
+<div class="conf" id="conf"></div>
 
 <script>
 (function(){
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
-const goal=document.getElementById('goal'),msg=document.getElementById('msg');
+const goalEl=document.getElementById('goal'),missionEl=document.getElementById('mission');
+const zoneEl=document.getElementById('zone'),speech=document.getElementById('speech');
 const foldV=document.getElementById('foldV'),actV=document.getElementById('actV');
 const foldBar=document.querySelector('#foldBar span'),actBar=document.querySelector('#actBar span');
-const ov=document.getElementById('ov'),ovT=document.getElementById('ovT'),ovP=document.getElementById('ovP'),ovB=document.getElementById('ovB');
+const modal=document.getElementById('modal'),card=document.getElementById('card');
 
+/* ---- sound ---- */
+let ac=null,muted=false;
+function snd(f,d,t,v){if(muted)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  const o=ac.createOscillator(),g=ac.createGain();o.type=t||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.06,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
+  o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function blip(){snd(680,.06,'square',.05)}
+function crack(){snd(180,.09,'sawtooth',.06)}
+function sizzle(){snd(120+Math.random()*80,.09,'sawtooth',.035)}
+function snip(){snd(1400,.05,'square',.05);setTimeout(()=>snd(900,.05,'square',.04),55)}
+function pling(){snd(880,.1,'sine',.05)}
+function fanfare(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>snd(f,.24,'square',.06),i*100))}
+document.getElementById('mute').addEventListener('click',e=>{muted=!muted;
+  e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)blip();});
+
+/* ---- canvas ---- */
 let W=0,H=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
   cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
 addEventListener('resize',resize);
 
-let phase='idle',pt=0,taps=0,fold=1,act=1,hits=0,run=false,last=0;
-let px=0,py=0,tx=0,ty=0,acids=[],frags=[],aas=[],caught=0,gates=[],msgT=0;
 const NEED=12;
+let phase='idle',pt=0,taps=0,fold=1,act=1,hits=0,run=false,last=0;
+let px=0,py=0,tx=0,ty=0,acids=[],frags=[],aas=[],caught=0,gates=[],spT=0,shake=0;
 
-function setMsg(s,cls){msg.textContent=s||'　';msg.className='msg'+(cls?' '+cls:'');msgT=2.6;}
-function setGoal(s,cls){goal.textContent=s;goal.className='v'+(cls?' '+cls:'');}
+function say(s){speech.textContent=s;speech.classList.add('on');spT=2.4;}
+function zone(txt,col){zoneEl.textContent=txt;zoneEl.style.background=col;}
 
 function init(){
-  resize();
-  phase='capsule';pt=0;taps=0;fold=1;act=1;hits=0;caught=0;
-  px=W/2;py=H*0.42;tx=px;ty=py;acids=[];frags=[];aas=[];
-  gates=[0.25,0.5,0.75].map(f=>({x:W*f,y:H-30,r:26,used:false}));
-  setGoal('血中に到達し、体内で働く');
-  setMsg('カプセルを連打で破る');
+  resize();phase='capsule';pt=0;taps=0;fold=1;act=1;hits=0;caught=0;shake=0;
+  px=W/2;py=H*0.44;tx=px;ty=py;acids=[];frags=[];aas=[];
+  gates=[0.24,0.5,0.76].map(f=>({x:W*f,y:H-42,r:27,used:false}));
+  goalEl.textContent='けつえきに たどりついて はたらく';
+  missionEl.className='mission';
+  zone('カプセルの なか','#37C8D4');
+  say('カプセルを れんだ！');
 }
 
 cv.addEventListener('pointerdown',e=>{
-  if(!run)return;
-  const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;
-  if(phase==='capsule'){taps++;if(taps>=6){phase='stomach';pt=0;
-    setMsg('胃に落ちた。pH 2。','warn');}}
-  cv.setPointerCapture(e.pointerId);
+  if(!run)return;const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;
+  if(phase==='capsule'){taps++;crack();shake=.5;
+    if(taps>=6){phase='stomach';pt=0;zone('い（pH 2.0）','#FF5C39');say('うわっ すっぱい！');}}
+  try{cv.setPointerCapture(e.pointerId)}catch(err){}
 });
 cv.addEventListener('pointermove',e=>{
-  if(!run||e.buttons===0&&e.pointerType==='mouse')return;
+  if(!run)return;if(e.pointerType==='mouse'&&e.buttons===0)return;
   const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;
 });
 
 function step(dt){
-  pt+=dt; if(msgT>0){msgT-=dt;if(msgT<=0)msg.textContent='　';}
-  const spd = phase==='stomach' ? (2.4+fold*4.6) : 6.5;
-  px+=(tx-px)*Math.min(1,spd*dt); py+=(ty-py)*Math.min(1,spd*dt);
-  px=Math.max(16,Math.min(W-16,px)); py=Math.max(16,Math.min(H-16,py));
+  pt+=dt;if(shake>0)shake-=dt*2;
+  if(spT>0){spT-=dt;if(spT<=0)speech.classList.remove('on');}
+  const spd=phase==='stomach'?(2.4+fold*4.8):6.6;
+  px+=(tx-px)*Math.min(1,spd*dt);py+=(ty-py)*Math.min(1,spd*dt);
+  px=Math.max(24,Math.min(W-24,px));py=Math.max(24,Math.min(H-24,py));
 
   if(phase==='stomach'){
-    if(Math.random()<dt*3.4&&acids.length<26)
-      acids.push({x:Math.random()*W,y:H+14,r:9+Math.random()*13,v:34+Math.random()*46,w:Math.random()*6.3});
-    for(const a of acids){a.y-=a.v*dt;a.w+=dt*2;a.x+=Math.sin(a.w)*10*dt;
-      if(!a.hit&&(a.x-px)**2+(a.y-py)**2<(a.r+13)**2){a.hit=true;hits++;fold-=0.055;}}
-    acids=acids.filter(a=>a.y>-30);
-    fold-=dt*0.062;
-    act=Math.max(0,Math.min(1,(fold-0.28)/0.72));
+    if(Math.random()<dt*3.6&&acids.length<28)
+      acids.push({x:Math.random()*W,y:H+16,r:10+Math.random()*14,v:36+Math.random()*48,w:Math.random()*6.3});
+    for(const a of acids){a.y-=a.v*dt;a.w+=dt*2;a.x+=Math.sin(a.w)*11*dt;
+      if(!a.hit&&(a.x-px)**2+(a.y-py)**2<(a.r+15)**2){a.hit=true;hits++;fold-=.055;sizzle();shake=.35;}}
+    acids=acids.filter(a=>a.y>-34);
+    const before=fold; fold-=dt*.062;
+    if(before>.66&&fold<=.66)say('あれ、ちょっと ゆるい…？');
+    if(before>.33&&fold<=.33)say('やばい ほどけてきた！');
+    act=Math.max(0,Math.min(1,(fold-.28)/.72));
     if(fold<=0){fold=0;act=0;phase='unfolded';pt=0;
-      setGoal('血中に到達し、体内で働く','dead');
-      setMsg('構造がほどけた。触媒活性ゼロ。','warn');}
+      goalEl.textContent='けつえきに たどりついて はたらく';
+      missionEl.className='mission dead';
+      zone('い（pH 2.0）','#FF5C39');say('かたちが ほどけた…');snd(90,.5,'sawtooth',.06);}
   }
-  else if(phase==='unfolded'){
-    if(pt>2.6){phase='trypsin';pt=0;acids=[];
-      setMsg('十二指腸。トリプシンが切りにくる。','warn');}
-  }
+  else if(phase==='unfolded'){ if(pt>2.4){phase='trypsin';pt=0;acids=[];
+    zone('十二しちょう','#9B6BE8');say('トリプシンが きた！');} }
   else if(phase==='trypsin'){
-    if(pt>1.0&&frags.length===0){
-      for(let i=0;i<7;i++)frags.push({x:px+(i-3)*13,y:py,vx:(i-3)*22,vy:(Math.random()-.5)*40});
-    }
-    for(const f of frags){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=40*dt;}
-    if(pt>3.2){phase='absorb';pt=0;frags=[];
-      px=W/2;py=60;tx=px;ty=py;
-      setGoal('アミノ酸として吸収される','new');
-      setMsg('もう酵素ではない。ただのアミノ酸。');}
+    if(pt>1.0&&frags.length===0){snip();
+      for(let i=0;i<7;i++)frags.push({x:px+(i-3)*14,y:py,vx:(i-3)*24,vy:(Math.random()-.5)*44,r:Math.random()*6});}
+    for(const f of frags){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=44*dt;f.r+=dt*3;}
+    if(pt>3.3){phase='absorb';pt=0;frags=[];px=W/2;py=52;tx=px;ty=py;
+      goalEl.textContent='アミノさんとして きゅうしゅうされる';
+      missionEl.className='mission newgoal';
+      zone('小ちょう','#57C84D');say('もう こうそじゃない。ただの アミノさん。');}
   }
   else if(phase==='absorb'){
-    for(const g of gates){
-      if(!g.used&&(g.x-px)**2+(g.y-py)**2<(g.r+10)**2){
-        g.used=true;phase='ribosome';pt=0;aas=[];
-        px=W/2;py=H-46;tx=px;ty=py;
-        setGoal('新しい酵素として組み立て直される','new');
-        setMsg('細胞に届いた。リボソームがある。','good');
-      }
-    }
+    for(const g of gates) if(!g.used&&(g.x-px)**2+(g.y-py)**2<(g.r+12)**2){
+      g.used=true;phase='ribosome';pt=0;aas=[];px=W/2;py=H-56;tx=px;ty=py;pling();
+      goalEl.textContent='あたらしい こうそに くみたてなおされる';
+      zone('さいぼうの なか（リボソーム）','#FFC42E');say('リボソームが ある！');}
   }
   else if(phase==='ribosome'){
-    if(Math.random()<dt*2.6&&aas.length<14)
-      aas.push({x:24+Math.random()*(W-48),y:-14,v:70+Math.random()*70,
-        c:['#7FD1B9','#8FB8E8','#E8B33A','#C6A5E8'][(Math.random()*4)|0]});
-    for(const a of aas){a.y+=a.v*dt;
-      if(!a.got&&(a.x-px)**2+(a.y-py)**2<400){a.got=true;caught++;}}
-    aas=aas.filter(a=>!a.got&&a.y<H+20);
+    if(Math.random()<dt*2.7&&aas.length<15)
+      aas.push({x:30+Math.random()*(W-60),y:-16,v:74+Math.random()*74,
+        c:['#57C84D','#2B6BD6','#FF7BA6','#9B6BE8','#37C8D4'][(Math.random()*5)|0],f:(Math.random()*3)|0});
+    for(const a of aas) if(!a.got&&(a.x-px)**2+(a.y-py)**2<520){a.got=true;caught++;pling();}
+    aas=aas.filter(a=>!a.got&&a.y<H+22);
+    for(const a of aas)a.y+=a.v*dt;
     if(caught>=NEED){phase='done';finish();}
   }
 }
 
-function drawChain(x,y,f,t){
-  const n=14, amp=(1-f)*17, col=f>0.05?`rgb(${232-(232-76)*(1-f)},${179-(179-95)*(1-f)},${58+(118)*(1-f)})`:'#4C5F76';
-  ctx.strokeStyle=col;ctx.lineWidth=4.4;ctx.lineCap='round';ctx.lineJoin='round';
-  ctx.beginPath();
-  for(let i=0;i<n;i++){
-    const u=i/(n-1);
-    const cx = x + Math.cos(u*6.283*1.6+t*0.7)*(10*f) + (u-0.5)*amp*3.4;
-    const cy = y + Math.sin(u*6.283*1.6+t*0.7)*(10*f) + Math.sin(u*7+t*2.2)*amp*0.55;
-    i?ctx.lineTo(cx,cy):ctx.moveTo(cx,cy);
+/* ---- drawing ---- */
+function face(x,y,s,mode,t){
+  ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+  ctx.strokeStyle='#2A2118';ctx.lineWidth=2.2;ctx.lineCap='round';ctx.fillStyle='#2A2118';
+  if(mode==='dead'){
+    ctx.beginPath();ctx.moveTo(-8,-5);ctx.lineTo(-2,1);ctx.moveTo(-2,-5);ctx.lineTo(-8,1);
+    ctx.moveTo(2,-5);ctx.lineTo(8,1);ctx.moveTo(8,-5);ctx.lineTo(2,1);ctx.stroke();
+    ctx.beginPath();ctx.arc(0,7,3.4,Math.PI,0);ctx.stroke();
+  }else if(mode==='worry'){
+    ctx.beginPath();ctx.arc(-5,-3,2.3,0,6.283);ctx.arc(5,-3,2.3,0,6.283);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-4.5,7);ctx.quadraticCurveTo(0,3.4,4.5,7);ctx.stroke();
+  }else{
+    const bl=(Math.sin(t*1.7)>0.965);
+    if(bl){ctx.beginPath();ctx.moveTo(-7.4,-3);ctx.lineTo(-2.6,-3);ctx.moveTo(2.6,-3);ctx.lineTo(7.4,-3);ctx.stroke();}
+    else{ctx.beginPath();ctx.arc(-5,-3,2.5,0,6.283);ctx.arc(5,-3,2.5,0,6.283);ctx.fill();}
+    ctx.beginPath();ctx.moveTo(-4.5,4);ctx.quadraticCurveTo(0,8.4,4.5,4);ctx.stroke();
   }
-  ctx.stroke();
-  if(f>0.28){ctx.fillStyle='rgba(10,21,36,.85)';ctx.beginPath();ctx.arc(x+3,y-2,5.5*f,0,6.283);ctx.fill();}
+  ctx.restore();
+}
+function drawHero(x,y,f,t){
+  const n=15,amp=(1-f)*20;
+  ctx.strokeStyle='#2A2118';ctx.lineJoin='round';ctx.lineCap='round';
+  const pts=[];
+  for(let i=0;i<n;i++){const u=i/(n-1);
+    pts.push([x+Math.cos(u*6.283*1.6+t*.7)*(13*f)+(u-.5)*amp*3.6,
+              y+Math.sin(u*6.283*1.6+t*.7)*(13*f)+Math.sin(u*7+t*2.2)*amp*.6]);}
+  ctx.lineWidth=13;ctx.strokeStyle='#2A2118';
+  ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
+  ctx.lineWidth=8;ctx.strokeStyle=f>.5?'#FFC42E':f>.15?'#F0B96B':'#C3B79F';
+  ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.stroke();
+  if(f>.14){
+    ctx.fillStyle=f>.5?'#FFC42E':'#F0B96B';ctx.strokeStyle='#2A2118';ctx.lineWidth=3.4;
+    ctx.beginPath();ctx.arc(x,y,15*Math.max(.55,f),0,6.283);ctx.fill();ctx.stroke();
+    face(x,y,Math.max(.72,f),f>.62?'ok':'worry',t);
+  }else face(x,y,.8,'dead',t);
+}
+function drawAA(x,y,c,fi,t,big){
+  const r=big?15:9;
+  ctx.fillStyle=c;ctx.strokeStyle='#2A2118';ctx.lineWidth=big?3.4:2.6;
+  ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill();ctx.stroke();
+  if(big)face(x,y,.85,'ok',t);
+  else{ctx.fillStyle='#2A2118';ctx.beginPath();ctx.arc(x-3,y-1.5,1.5,0,6.283);ctx.arc(x+3,y-1.5,1.5,0,6.283);ctx.fill();}
 }
 
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  let bg='#0A1524';
-  if(phase==='stomach'||phase==='unfolded')bg=`rgb(${26+(1-fold)*44},${16+(1-fold)*6},${22})`;
-  if(phase==='trypsin')bg='#1A1B2E';
-  if(phase==='absorb')bg='#0E1E30';
-  if(phase==='ribosome')bg='#0C1E2C';
-  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+function draw(t){
+  ctx.save();
+  if(shake>0)ctx.translate((Math.random()-.5)*7*shake,(Math.random()-.5)*7*shake);
+  let bg='#FFFDF5';
+  if(phase==='stomach'||phase==='unfolded')bg=`rgb(255,${232-(1-fold)*84},${210-(1-fold)*104})`;
+  if(phase==='trypsin')bg='#F2E9FF';
+  if(phase==='absorb')bg='#EBFBEA';
+  if(phase==='ribosome'||phase==='done')bg='#FFF8DF';
+  ctx.fillStyle=bg;ctx.fillRect(-20,-20,W+40,H+40);
 
   if(phase==='capsule'){
     const k=taps/6;
-    ctx.strokeStyle='#93A6BE';ctx.lineWidth=3;
-    ctx.save();ctx.translate(W/2,H*0.42);
-    ctx.beginPath();ctx.ellipse(-k*22,0,54,32,0,Math.PI*0.5,Math.PI*1.5);ctx.stroke();
-    ctx.beginPath();ctx.ellipse(k*22,0,54,32,0,-Math.PI*0.5,Math.PI*0.5);ctx.stroke();
+    ctx.save();ctx.translate(W/2,H*.44);
+    ctx.fillStyle='#37C8D4';ctx.strokeStyle='#2A2118';ctx.lineWidth=5;
+    ctx.beginPath();ctx.roundRect(-78-k*26,-34,78,68,[34,6,6,34]);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#FFFDF5';
+    ctx.beginPath();ctx.roundRect(k*26,-34,78,68,[6,34,34,6]);ctx.fill();ctx.stroke();
     ctx.restore();
-    ctx.fillStyle='#4C5F76';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='center';
-    ctx.fillText('TAP  '+taps+' / 6',W/2,H*0.42+72);
+    ctx.fillStyle='#2A2118';ctx.font='900 15px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
+    ctx.fillText('タップ  '+taps+' / 6',W/2,H*.44+92);
   }
-
   if(phase==='stomach'||phase==='unfolded'){
-    for(const a of acids){ctx.fillStyle=a.hit?'rgba(240,122,75,.18)':'rgba(240,122,75,.5)';
-      ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,6.283);ctx.fill();}
-    ctx.fillStyle='rgba(240,122,75,.75)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
-    ctx.fillText('pH 2.0  —  胃',14,22);
-  }
-
-  if(phase==='trypsin'){
-    ctx.fillStyle='rgba(198,165,232,.8)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
-    ctx.fillText('トリプシン / キモトリプシン  —  十二指腸',14,22);
-    if(pt<1.0){const y=py; const k=pt/1.0;
-      ctx.strokeStyle='#C6A5E8';ctx.lineWidth=2;
-      ctx.beginPath();ctx.moveTo(-40+k*(W+80),y-26);ctx.lineTo(-40+k*(W+80),y+26);ctx.stroke();}
-    for(const f of frags){ctx.strokeStyle='#4C5F76';ctx.lineWidth=4;ctx.lineCap='round';
-      ctx.beginPath();ctx.moveTo(f.x-5,f.y);ctx.lineTo(f.x+5,f.y);ctx.stroke();}
-  }
-
-  if(phase==='absorb'){
-    ctx.fillStyle='rgba(127,209,196,.8)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
-    ctx.fillText('小腸 微絨毛  —  どこかの入口へ',14,22);
-    for(const g of gates){
-      ctx.strokeStyle='#7FD1B9';ctx.lineWidth=2;ctx.setLineDash([4,5]);
-      ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,6.283);ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle='rgba(127,209,196,.1)';ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,6.283);ctx.fill();
+    for(const a of acids){
+      ctx.fillStyle=a.hit?'rgba(255,92,57,.2)':'#FF9E7A';
+      ctx.strokeStyle='#2A2118';ctx.lineWidth=a.hit?1.4:3;
+      ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,6.283);ctx.fill();ctx.stroke();
     }
-    for(let i=0;i<9;i++){const x=(i+0.5)*W/9;
-      ctx.strokeStyle='rgba(127,209,196,.2)';ctx.lineWidth=8;ctx.lineCap='round';
-      ctx.beginPath();ctx.moveTo(x,H);ctx.lineTo(x+Math.sin(pt*1.4+i)*7,H-58);ctx.stroke();}
   }
-
+  if(phase==='trypsin'){
+    if(pt<1.0){const k=pt/1.0,x=-46+k*(W+92);
+      ctx.strokeStyle='#9B6BE8';ctx.lineWidth=6;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(x,py-34);ctx.lineTo(x,py+34);ctx.stroke();
+      ctx.fillStyle='#9B6BE8';ctx.strokeStyle='#2A2118';ctx.lineWidth=3.4;
+      ctx.beginPath();ctx.arc(x,py-40,15,0,6.283);ctx.fill();ctx.stroke();
+      face(x,py-40,.9,'ok',t);}
+    for(const f of frags){
+      ctx.strokeStyle='#2A2118';ctx.lineWidth=10;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(f.x-7,f.y);ctx.lineTo(f.x+7,f.y);ctx.stroke();
+      ctx.strokeStyle='#C3B79F';ctx.lineWidth=5.5;
+      ctx.beginPath();ctx.moveTo(f.x-7,f.y);ctx.lineTo(f.x+7,f.y);ctx.stroke();}
+  }
+  if(phase==='absorb'){
+    for(let i=0;i<10;i++){const x=(i+.5)*W/10;
+      ctx.strokeStyle='#2A2118';ctx.lineWidth=13;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(x,H+6);ctx.lineTo(x+Math.sin(t*1.4+i)*8,H-64);ctx.stroke();
+      ctx.strokeStyle='#8ADF83';ctx.lineWidth=8;
+      ctx.beginPath();ctx.moveTo(x,H+6);ctx.lineTo(x+Math.sin(t*1.4+i)*8,H-64);ctx.stroke();}
+    for(const g of gates){
+      ctx.fillStyle='#57C84D';ctx.strokeStyle='#2A2118';ctx.lineWidth=4;
+      ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,6.283);ctx.fill();ctx.stroke();
+      ctx.fillStyle='#FFFDF5';ctx.beginPath();ctx.arc(g.x,g.y,g.r-9,0,6.283);ctx.fill();}
+    ctx.fillStyle='#2A2118';ctx.font='900 12px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
+    ctx.fillText('いりぐちへ！',W/2,26);
+    drawAA(px,py,'#FF7BA6',0,t,true);
+  }
   if(phase==='ribosome'||phase==='done'){
-    ctx.fillStyle='rgba(232,179,58,.8)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
-    ctx.fillText('リボソーム  —  アミノ酸 '+caught+' / '+NEED,14,22);
-    for(const a of aas){ctx.fillStyle=a.c;ctx.beginPath();ctx.arc(a.x,a.y,6,0,6.283);ctx.fill();}
-    ctx.strokeStyle='#E8B33A';ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(px,py,20,0,6.283);ctx.stroke();
-    ctx.beginPath();ctx.arc(px,py,7,0,6.283);ctx.stroke();
-    const k=caught/NEED;
-    ctx.strokeStyle='rgba(232,179,58,.55)';ctx.lineWidth=3;ctx.lineCap='round';
+    for(const a of aas)drawAA(a.x,a.y,a.c,a.f,t,false);
+    ctx.fillStyle='#FFC42E';ctx.strokeStyle='#2A2118';ctx.lineWidth=4;
+    ctx.beginPath();ctx.arc(px,py,25,0,6.283);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#FFFDF5';ctx.beginPath();ctx.arc(px,py,13,0,6.283);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#2A2118';ctx.font='900 13px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
+    ctx.fillText('アミノさん  '+caught+' / '+NEED,W/2,26);
+    const k=caught/NEED,cnt=Math.max(1,Math.round(k*13));
+    ctx.strokeStyle='#2A2118';ctx.lineWidth=9;ctx.lineCap='round';ctx.lineJoin='round';
     ctx.beginPath();
-    for(let i=0;i<Math.max(1,Math.round(k*13));i++){
-      const u=i/12,cx=W/2+Math.cos(u*6.283*1.6)*34,cy=76+Math.sin(u*6.283*1.6)*26;
+    for(let i=0;i<cnt;i++){const u=i/12,cx=W/2+Math.cos(u*6.283*1.6)*40,cy=68+Math.sin(u*6.283*1.6)*26;
+      i?ctx.lineTo(cx,cy):ctx.moveTo(cx,cy);}
+    ctx.stroke();ctx.strokeStyle='#FFC42E';ctx.lineWidth=5;
+    ctx.beginPath();
+    for(let i=0;i<cnt;i++){const u=i/12,cx=W/2+Math.cos(u*6.283*1.6)*40,cy=68+Math.sin(u*6.283*1.6)*26;
       i?ctx.lineTo(cx,cy):ctx.moveTo(cx,cy);}
     ctx.stroke();
   }
-
-  if(phase==='capsule'||phase==='stomach'||phase==='unfolded')drawChain(px,py,fold,pt);
+  if(phase==='capsule'||phase==='stomach'||phase==='unfolded')drawHero(px,py,fold,t);
+  ctx.restore();
 
   foldV.textContent=Math.round(fold*100)+'%';actV.textContent=Math.round(act*100)+'%';
   foldBar.style.width=(fold*100)+'%';actBar.style.width=(act*100)+'%';
-  actBar.style.background=act>0.4?'#E8B33A':'#F07A4B';
+  actBar.style.background=act>.4?'#FFC42E':'#FF5C39';
+}
+
+function confetti(){
+  const box=document.getElementById('conf'),cols=['#FF5C39','#FFC42E','#57C84D','#2B6BD6','#FF7BA6','#37C8D4','#9B6BE8'];
+  for(let i=0;i<64;i++){const d=document.createElement('div');d.className='cf';
+    d.style.background=cols[(Math.random()*cols.length)|0];
+    d.style.left=(Math.random()*100)+'%';d.style.top='-24px';box.appendChild(d);
+    d.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:`translate(${(Math.random()-.5)*280}px,${innerHeight+80}px) rotate(${Math.random()*1080-540}deg)`,opacity:.95}],
+      {duration:1300+Math.random()*900,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>d.remove();}
 }
 
 function finish(){
-  run=false;
-  const names=['カタラーゼ','ラクターゼ','ヘキソキナーゼ','アミラーゼ','スーパーオキシドディスムターゼ'];
-  const nm=names[(Math.random()*names.length)|0];
-  ovT.innerHTML='到達した。<br>ただし、材料として。';
-  ovP.innerHTML=
-    `胃で<b>${hits}回</b>酸に触れ、立体構造は完全にほどけた。触媒活性はゼロになり、`+
-    `トリプシンに切られてアミノ酸になった。<br><br>`+
-    `吸収され、細胞に運ばれ、リボソームで<b>${NEED}個</b>のアミノ酸がつながって、`+
-    `<span class="hi">${nm}</span> が組み上がった。<br><br>`+
-    `あなたが元は何の酵素だったかは、もう関係ない。<b>体は、そのとき必要な酵素を、設計図から作る。</b><br><br>`+
-    `だから「生きた酵素を飲む」ことに意味はない。届くのは、いつも材料のほうだ。`;
-  ov.classList.add('on');
+  run=false;fanfare();confetti();
+  const names=[['カタラーゼ','かつどく（かさんかすいそ）を みずに かえる'],
+               ['ラクターゼ','にゅうとうを ぶんかいする'],
+               ['アミラーゼ','デンプンを あまくする'],
+               ['ヘキソキナーゼ','とうを エネルギーに かえる さいしょの いっぽ']];
+  const [nm,job]=names[(Math.random()*names.length)|0];
+  card.className='card';
+  card.innerHTML=`<div class="tag">クリア！</div><div class="big">🎉</div>
+    <h2>とうちゃく！<br>でも <span style="color:#2A2118">ざいりょう</span>として。</h2>
+    <p>いで <b>${hits}かい</b> さんに あたって、かたちは かんぜんに ほどけた。
+       はたらくちからは ゼロに なり、トリプシンに きられて アミノさんに なった。</p>
+    <p>きゅうしゅうされ、さいぼうに はこばれ、リボソームで <b>${NEED}この</b> アミノさんが つながって——</p>
+    <p style="text-align:center;font-size:17px;font-weight:900;margin:12px 0">
+       <span class="hi">${nm}</span><br><span style="font-size:12px;font-weight:700">${job}</span></p>
+    <p>が できあがった。<b>きみが もともと なんの こうそだったかは、もう かんけいない。</b>
+       からだは そのとき ひつような こうそを、せっけいずから つくる。</p>
+    <p>だから「いきた こうそを のむ」ことに いみは ない。
+       とどくのは いつも <b>ざいりょうの ほう</b>なんだ。</p>
+    <button class="go" id="again">もういちど</button>`;
+  modal.classList.add('on');
+  document.getElementById('again').addEventListener('click',start);
 }
 
-function loop(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;
-  if(run){step(dt);draw();}
-  requestAnimationFrame(loop);
-}
-ovB.addEventListener('click',()=>{init();run=true;ov.classList.remove('on');last=performance.now();});
-init();draw();last=performance.now();requestAnimationFrame(loop);
+function start(){init();run=true;modal.classList.remove('on');last=performance.now();blip();}
+document.getElementById('startB').addEventListener('click',start);
+
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(run)step(dt);draw(now/1000);requestAnimationFrame(loop);}
+resize();init();run=false;last=performance.now();requestAnimationFrame(loop);
 })();
 </script>
 </body>

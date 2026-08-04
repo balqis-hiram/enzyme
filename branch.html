@@ -3,208 +3,435 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>発酵の分岐</title>
+<title>はっこうのわかれみち</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--muro:#12233A;--muro2:#1B3050;--line:#2B4568;--kome:#F4EFE2;--sub:#93A6BE;
-  --kouji:#E8B33A;--ame:#7FD1B9;--san:#F07A4B;--shi:#4C5F76}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
-  display:flex;justify-content:center;padding:20px 16px 36px;-webkit-font-smoothing:antialiased}
-.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:16px}
-header{border-bottom:1px solid var(--line);padding-bottom:13px}
-.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji)}
-h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
-.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+:root{
+  --paper:#FFF4DA; --paper2:#FFE9B0; --ink:#2A2118;
+  --red:#FF5C39; --pink:#FF7BA6; --yellow:#FFC42E; --green:#57C84D;
+  --blue:#2B6BD6; --cyan:#37C8D4; --purple:#9B6BE8; --white:#FFFDF5;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(circle at 12% 8%,rgba(255,196,46,.35) 0 22%,transparent 22.5%),
+                   radial-gradient(circle at 88% 62%,rgba(87,200,77,.22) 0 18%,transparent 18.5%),
+                   radial-gradient(circle at 70% 12%,rgba(255,123,166,.22) 0 14%,transparent 14.5%);
+  color:var(--ink);
+  font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:700;
+  display:flex;justify-content:center;padding:18px 14px 40px;min-height:100vh;
+}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:14px}
 
-.row .l{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.13em;color:var(--sub);margin-bottom:7px}
-.row+.row{margin-top:13px}
-.opts{display:grid;gap:7px}
-.opts.c2{grid-template-columns:repeat(2,1fr)}
-.opts.c3{grid-template-columns:repeat(3,1fr)}
-.opts.c4{grid-template-columns:repeat(4,1fr)}
-.opt{background:var(--muro2);border:1px solid var(--line);border-radius:2px;padding:10px 5px;
-  cursor:pointer;color:var(--sub);font-family:inherit;text-align:center;transition:all .15s;line-height:1.35}
-.opt .t{font-size:12.5px;font-weight:500}
-.opt .s{font-family:"DM Mono",monospace;font-size:9px;color:var(--shi);margin-top:3px}
-.opt.sel{border-color:var(--kouji);color:var(--kome);background:#22375A}
-.opt.sel .s{color:var(--kouji)}
-.opt:focus-visible{outline:2px solid var(--ame);outline-offset:2px}
+/* ---- header ---- */
+header{text-align:center;position:relative}
+h1{font-family:"RocknRoll One",sans-serif;font-size:clamp(28px,8vw,40px);line-height:1.15;
+  color:var(--ink);letter-spacing:.02em;text-shadow:3px 3px 0 var(--yellow)}
+h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
+.sub{font-size:12.5px;margin-top:7px;color:#6B5B45;line-height:1.7}
+.mute{position:absolute;right:0;top:0;background:var(--white);border:3px solid var(--ink);
+  border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);
+  display:grid;place-items:center;font-family:inherit;padding:0}
+.mute:active{transform:translate(3px,3px);box-shadow:none}
 
-button.go{width:100%;font-family:"Zen Kaku Gothic New",sans-serif;font-size:13.5px;background:none;
-  color:var(--kome);border:1px solid var(--kouji);padding:13px;border-radius:2px;cursor:pointer;letter-spacing:.1em}
-button.go:hover{background:var(--kouji);color:var(--muro)}
-button.go:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
+/* ---- jar stage ---- */
+.stage{position:relative;background:var(--white);border:4px solid var(--ink);border-radius:22px;
+  box-shadow:6px 6px 0 var(--ink);padding:12px 10px 8px;overflow:hidden}
+.stage svg{display:block;width:100%;height:auto}
+.statusline{text-align:center;font-size:13.5px;margin-top:4px;min-height:22px;color:var(--ink)}
+.statusline b{color:var(--red)}
+.daycount{position:absolute;top:12px;left:14px;font-family:"RocknRoll One",sans-serif;
+  font-size:15px;background:var(--yellow);border:3px solid var(--ink);border-radius:12px;
+  padding:3px 11px;box-shadow:3px 3px 0 var(--ink);opacity:0;transition:opacity .2s}
+.daycount.on{opacity:1}
 
-.result{border:1px solid var(--line);background:#0A1524;border-radius:3px;padding:20px 18px;
-  min-height:132px;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px}
-.result .st{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.16em}
-.result .nm{font-family:"Shippori Mincho B1",serif;font-size:27px;letter-spacing:.06em}
-.result .ez{font-family:"DM Mono",monospace;font-size:11px;color:var(--ame)}
-.result .ds{font-size:12.5px;color:var(--sub);line-height:1.8;max-width:420px;margin:0 auto}
-.result.ok .st{color:var(--kouji)} .result.ng .st{color:var(--san)}
-.result.ng .nm{color:var(--san);font-size:20px}
+/* ---- option rows ---- */
+.row{background:var(--white);border:4px solid var(--ink);border-radius:18px;
+  box-shadow:5px 5px 0 var(--ink);padding:11px 12px 13px}
+.row .lab{font-family:"RocknRoll One",sans-serif;font-size:14px;margin-bottom:9px;
+  display:flex;align-items:center;gap:7px}
+.row .lab i{width:11px;height:11px;border-radius:50%;border:2.5px solid var(--ink);display:inline-block}
+.opts{display:grid;gap:8px}
+.c2{grid-template-columns:repeat(2,1fr)} .c3{grid-template-columns:repeat(3,1fr)}
+.c4{grid-template-columns:repeat(4,1fr)}
+.opt{background:var(--paper2);border:3px solid var(--ink);border-radius:13px;padding:9px 4px 8px;
+  cursor:pointer;font-family:inherit;font-weight:700;color:var(--ink);text-align:center;
+  box-shadow:3px 3px 0 var(--ink);transition:transform .07s,box-shadow .07s,background .12s;line-height:1.3}
+.opt .t{font-size:13.5px} .opt .s{font-size:9.5px;opacity:.62;margin-top:2px}
+.opt:active{transform:translate(3px,3px);box-shadow:none}
+.opt.sel{background:var(--yellow);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt.sel.mic{background:var(--cyan)}
+.opt:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 
-.zukan h3{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.16em;color:var(--sub);
-  font-weight:400;margin-bottom:9px;display:flex;justify-content:space-between}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.cell{aspect-ratio:1;border:1px solid var(--line);background:var(--muro2);border-radius:2px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px}
-.cell .n{font-family:"Shippori Mincho B1",serif;font-size:13px;color:var(--shi)}
-.cell .e{font-family:"DM Mono",monospace;font-size:8px;color:var(--shi)}
-.cell.got{border-color:var(--kouji);background:#22375A}
-.cell.got .n{color:var(--kome)} .cell.got .e{color:var(--kouji)}
+/* ---- go button ---- */
+.go{width:100%;font-family:"RocknRoll One",sans-serif;font-size:21px;letter-spacing:.14em;
+  background:var(--red);color:var(--white);border:4px solid var(--ink);border-radius:18px;
+  padding:15px;cursor:pointer;box-shadow:6px 6px 0 var(--ink);transition:transform .07s,box-shadow .07s}
+.go:active{transform:translate(6px,6px);box-shadow:none}
+.go:disabled{background:#C9BFAE;cursor:default;transform:translate(6px,6px);box-shadow:none}
+.go:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
 
-.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
-.note b{color:var(--kome);font-weight:500}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ---- zukan ---- */
+.zukan{background:var(--white);border:4px solid var(--ink);border-radius:18px;
+  box-shadow:5px 5px 0 var(--ink);padding:12px}
+.zukan h3{font-family:"RocknRoll One",sans-serif;font-size:14px;margin-bottom:10px;
+  display:flex;justify-content:space-between;align-items:center}
+.zukan h3 span:last-child{background:var(--green);color:var(--white);border:3px solid var(--ink);
+  border-radius:11px;padding:2px 9px;font-size:12px;box-shadow:2px 2px 0 var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cell{aspect-ratio:1;border:3px solid var(--ink);border-radius:13px;background:#EDE5D3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:3px;
+  box-shadow:2px 2px 0 var(--ink);transition:transform .2s}
+.cell .ic{font-size:24px;line-height:1;filter:grayscale(1) opacity(.35)}
+.cell .n{font-size:10.5px;color:#9A8D77}
+.cell.got{background:var(--paper2)} .cell.got .ic{filter:none} .cell.got .n{color:var(--ink)}
+.cell.pop{animation:pop .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.4) rotate(-14deg)}60%{transform:scale(1.22) rotate(6deg)}100%{transform:scale(1)}}
+
+/* ---- result modal ---- */
+.modal{position:fixed;inset:0;background:rgba(42,33,24,.72);display:grid;place-items:center;
+  padding:20px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:20}
+.modal.on{opacity:1;pointer-events:auto}
+.card{background:var(--white);border:5px solid var(--ink);border-radius:26px;box-shadow:9px 9px 0 var(--ink);
+  padding:24px 20px;max-width:400px;width:100%;text-align:center;
+  transform:scale(.7) rotate(-3deg);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.modal.on .card{transform:scale(1) rotate(0)}
+.card .tag{display:inline-block;font-family:"RocknRoll One",sans-serif;font-size:12px;
+  border:3px solid var(--ink);border-radius:11px;padding:3px 12px;box-shadow:2px 2px 0 var(--ink)}
+.card.ok .tag{background:var(--yellow)} .card.ng .tag{background:var(--red);color:var(--white)}
+.card .big{font-size:70px;line-height:1;margin:13px 0 4px}
+.card h2{font-family:"RocknRoll One",sans-serif;font-size:30px;margin-bottom:5px}
+.card.ok h2{color:var(--red)} .card.ng h2{color:#7A6A55;font-size:23px}
+.card .ez{display:inline-block;background:var(--cyan);border:3px solid var(--ink);border-radius:11px;
+  padding:2px 11px;font-size:12px;box-shadow:2px 2px 0 var(--ink);margin-bottom:11px}
+.card p{font-size:13px;line-height:1.85;color:#4A3E2E;text-align:left}
+.card .go{margin-top:17px;font-size:17px;padding:12px}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+.cf{position:absolute;width:11px;height:15px;border:2px solid var(--ink);border-radius:2px}
+
+.note{background:var(--white);border:4px dashed var(--ink);border-radius:18px;padding:13px 15px;
+  font-size:12.5px;line-height:1.85;color:#4A3E2E;font-weight:500}
+.note b{font-weight:900;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">one mold, many foods</div>
-    <h1>発酵の分岐</h1>
-    <p class="lede">麹菌は1種類しかいません。変えられるのは材料と条件だけ。それだけで、甘酒にも味噌にも酒にもなります。</p>
+    <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
+    <h1>はっこうの<br><em>わかれみち</em></h1>
+    <p class="sub">こうじきんは 1しゅるいだけ。<br>じょうけんを かえると べつのたべものになる！</p>
   </header>
 
-  <div class="ctl">
-    <div class="row"><div class="l">材料</div><div class="opts c4" id="mat"></div></div>
-    <div class="row"><div class="l">温度</div><div class="opts c3" id="tmp"></div></div>
-    <div class="row"><div class="l">塩</div><div class="opts c2" id="slt"></div></div>
-    <div class="row"><div class="l">いっしょに入れる菌（複数可）</div><div class="opts c3" id="mic"></div></div>
-    <div class="row"><div class="l">時間</div><div class="opts c3" id="tim"></div></div>
+  <div class="stage">
+    <div class="daycount" id="day">1日目</div>
+    <svg id="jar" viewBox="0 0 320 210" aria-label="甕"></svg>
+    <div class="statusline" id="status">なにを つくる？</div>
   </div>
 
-  <button class="go" id="run">仕込む</button>
-
-  <div class="result" id="res">
-    <div class="st">READY</div>
-    <div class="ds">条件を選んで仕込んでください。</div>
+  <div class="row">
+    <div class="lab"><i style="background:var(--yellow)"></i>ざいりょう</div>
+    <div class="opts c4" id="mat"></div>
   </div>
+  <div class="row">
+    <div class="lab"><i style="background:var(--red)"></i>おんど</div>
+    <div class="opts c3" id="tmp"></div>
+  </div>
+  <div class="row">
+    <div class="lab"><i style="background:var(--blue)"></i>塩</div>
+    <div class="opts c2" id="slt"></div>
+  </div>
+  <div class="row">
+    <div class="lab"><i style="background:var(--cyan)"></i>なかまの きん（いくつでも）</div>
+    <div class="opts c3" id="mic"></div>
+  </div>
+  <div class="row">
+    <div class="lab"><i style="background:var(--green)"></i>じかん</div>
+    <div class="opts c3" id="tim"></div>
+  </div>
+
+  <button class="go" id="run" type="button">しこむ！</button>
 
   <div class="zukan">
-    <h3><span>発酵図鑑</span><span id="cnt">0 / 7</span></h3>
+    <h3><span>はっこう ずかん</span><span id="cnt">0 / 7</span></h3>
     <div class="grid" id="grid"></div>
   </div>
 
   <p class="note">
-    麹菌が特別なのは、<b>糖化と分解を一手に引き受ける</b>ところです。だから日本酒は、糖化と発酵が同じ樽で同時に進む
-    「並行複発酵」という珍しい方式になります。ビールが麦芽で糖化してから酵母を入れるのとは違います。<br>
-    <b>酵母は糖がないと動けず、酢酸菌はアルコールがないと動けません。</b>順番があります。
+    こうじきんが すごいのは、<b>デンプンを あまくするのと、タンパクしつを うまみにするのを どっちもやる</b>こと。
+    だから にほんしゅは、あまくするのと おさけにするのが おなじタルで どうじにすすむ、
+    せかいでも めずらしい つくりかたになる。<br>
+    <b>こうぼは とうぶんがないと うごけない。さくさんきんは アルコールがないと うごけない。</b>じゅんばんが あるんだ。
   </p>
 </div>
 
+<div class="modal" id="modal"><div class="card" id="card"></div></div>
+<div class="conf" id="conf"></div>
+
 <script>
 (function(){
-const MAT=[{k:'rice',n:'米',s:'デンプン'},{k:'soy',n:'大豆',s:'タンパク質'},
-           {k:'soywheat',n:'大豆＋小麦',s:'両方'},{k:'wheat',n:'小麦',s:'デンプン'}];
-const TMP=[{k:'cool',n:'常温',s:'20℃前後'},{k:'warm',n:'保温',s:'55-60℃'},{k:'hot',n:'高温',s:'75℃'}];
-const SLT=[{k:'no',n:'入れない',s:''},{k:'yes',n:'入れる',s:'塩分12%'}];
-const MIC=[{k:'yeast',n:'酵母',s:'糖→アルコール'},{k:'acetic',n:'酢酸菌',s:'アルコール→酢'},
-           {k:'lactic',n:'乳酸菌',s:'糖→乳酸'}];
-const TIM=[{k:'short',n:'短い',s:'6時間'},{k:'mid',n:'中',s:'1ヶ月'},{k:'long',n:'長い',s:'1年'}];
+/* ============ data ============ */
+const MAT=[{k:'rice',n:'こめ',s:'デンプン',c:'#FFFDF5'},{k:'soy',n:'だいず',s:'タンパクしつ',c:'#E8C87A'},
+  {k:'soywheat',n:'だいず\n＋こむぎ',s:'りょうほう',c:'#D9A85C'},{k:'wheat',n:'こむぎ',s:'デンプン',c:'#F2DFA8'}];
+const TMP=[{k:'cool',n:'じょうおん',s:'20℃'},{k:'warm',n:'ほおん',s:'55-60℃'},{k:'hot',n:'あつい',s:'75℃'}];
+const SLT=[{k:'no',n:'いれない',s:''},{k:'yes',n:'いれる',s:'塩分12%'}];
+const MIC=[{k:'yeast',n:'こうぼ',s:'とう→さけ'},{k:'acetic',n:'さくさんきん',s:'さけ→す'},{k:'lactic',n:'にゅうさんきん',s:'とう→さん'}];
+const TIM=[{k:'short',n:'みじかい',s:'6じかん'},{k:'mid',n:'ちゅう',s:'1かげつ'},{k:'long',n:'ながい',s:'1ねん'}];
+const DAYS={short:1,mid:30,long:365};
 
 const RECIPES=[
-  {id:'amazake', n:'甘酒',   e:'アミラーゼ', mat:'rice', tmp:'warm', slt:'no',  mic:[],                 tim:'short',
-   d:'アミラーゼが米のデンプンをブドウ糖に変えた。砂糖を一切入れていないのに甘い。'},
-  {id:'shiokoji',n:'塩麹',   e:'プロテアーゼ',mat:'rice', tmp:'cool', slt:'yes', mic:[],                 tim:'mid',
-   d:'塩が雑菌を抑えている間に、プロテアーゼがゆっくり働いた。肉が柔らかくなるのはこの酵素。'},
-  {id:'sake',    n:'日本酒', e:'アミラーゼ→酵母',mat:'rice',tmp:'cool',slt:'no',mic:['yeast'],          tim:'mid',
-   d:'麹が糖にした端から酵母がアルコールに変える。糖化と発酵が同じ樽で同時に進む「並行複発酵」。'},
-  {id:'vinegar', n:'米酢',   e:'三段リレー', mat:'rice', tmp:'cool', slt:'no',  mic:['yeast','acetic'], tim:'long',
-   d:'麹→酵母→酢酸菌。三種類の生き物が順番にバトンを渡した。'},
-  {id:'miso',    n:'味噌',   e:'プロテアーゼ',mat:'soy', tmp:'cool', slt:'yes', mic:[],                 tim:'long',
-   d:'大豆のタンパク質がアミノ酸に分解された。旨味の正体はグルタミン酸。消化の悪い大豆を、先に消化してある。'},
-  {id:'shoyu',   n:'醤油',   e:'プロテアーゼ＋アミラーゼ',mat:'soywheat',tmp:'cool',slt:'yes',mic:[],   tim:'long',
-   d:'大豆のタンパク質と小麦のデンプンを同時に分解。旨味と甘味と香りが一度に出る。'},
-  {id:'bread',   n:'パン',   e:'酵母',       mat:'wheat',tmp:'cool', slt:'no',  mic:['yeast'],          tim:'short',
-   d:'小麦のアミラーゼが作った糖を酵母が食べ、出したCO₂で生地が膨らんだ。アルコールは焼くと飛ぶ。'},
+ {id:'amazake',n:'あまざけ',ic:'🍶',e:'アミラーゼ',c:'#FFF0C8',mat:'rice',tmp:'warm',slt:'no',mic:[],tim:'short',
+  d:'アミラーゼが おこめのデンプンを ブドウとうに かえた。さとうを ひとつぶも いれてないのに あまい！'},
+ {id:'shiokoji',n:'塩こうじ',ic:'🧂',e:'プロテアーゼ',c:'#F6EBD2',mat:'rice',tmp:'cool',slt:'yes',mic:[],tim:'mid',
+  d:'塩が ざっきんを おさえてるあいだに、プロテアーゼが ゆっくり はたらいた。おにくが やわらかくなるのは この こうそ。'},
+ {id:'sake',n:'にほんしゅ',ic:'🍾',e:'アミラーゼ→こうぼ',c:'#F4F7E8',mat:'rice',tmp:'cool',slt:'no',mic:['yeast'],tim:'mid',
+  d:'こうじが とうに した そばから こうぼが アルコールに かえる。おなじタルで どうじに すすむ「へいこうふくはっこう」。'},
+ {id:'vinegar',n:'こめず',ic:'🫙',e:'3だんリレー',c:'#EFD9A8',mat:'rice',tmp:'cool',slt:'no',mic:['yeast','acetic'],tim:'long',
+  d:'こうじ → こうぼ → さくさんきん。3しゅるいの いきものが じゅんばんに バトンを わたした！'},
+ {id:'miso',n:'みそ',ic:'🥣',e:'プロテアーゼ',c:'#B4652C',mat:'soy',tmp:'cool',slt:'yes',mic:[],tim:'long',
+  d:'だいずの タンパクしつが アミノさんに なった。うまみの しょうたいは グルタミンさん。'},
+ {id:'shoyu',n:'しょうゆ',ic:'🍶',e:'プロテアーゼ＋アミラーゼ',c:'#4A2410',mat:'soywheat',tmp:'cool',slt:'yes',mic:[],tim:'long',
+  d:'タンパクしつと デンプンを どうじに ぶんかい。うまみと あまみと かおりが いっぺんに でる。'},
+ {id:'bread',n:'パン',ic:'🍞',e:'こうぼ',c:'#E8B972',mat:'wheat',tmp:'cool',slt:'no',mic:['yeast'],tim:'short',
+  d:'こむぎの アミラーゼが つくった とうを こうぼが たべて、でた ガスで きじが ふくらんだ！'},
 ];
 
+/* ============ sound ============ */
+let ac=null,muted=false;
+function snd(f,dur,type,vol){
+  if(muted)return;
+  try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.type=type||'square';o.frequency.value=f;
+    g.gain.setValueAtTime(vol||.06,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);
+    o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+dur);
+  }catch(e){}
+}
+function blip(){snd(620,.07,'square',.05);}
+function bubble(){snd(200+Math.random()*420,.11,'sine',.05);}
+function fanfare(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>snd(f,.22,'square',.06),i*105));}
+function thud(){snd(150,.2,'sawtooth',.05);setTimeout(()=>snd(96,.3,'sawtooth',.05),110);}
+document.getElementById('mute').addEventListener('click',e=>{
+  muted=!muted;e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)blip();});
+
+/* ============ state ============ */
 let mat='rice',tmp='warm',slt='no',mic=new Set(),tim='short';
 const found=new Set();
+let busy=false,bub=[],crys=[],t0=performance.now();
 
-function mk(el,list,get,set,multi){
-  el.innerHTML='';
+/* ============ options ============ */
+function build(id,list,onPick,isSel,cls){
+  const el=document.getElementById(id);el.innerHTML='';
   list.forEach(o=>{
-    const b=document.createElement('button');b.className='opt';b.type='button';
-    b.innerHTML=`<div class="t">${o.n}</div>${o.s?`<div class="s">${o.s}</div>`:''}`;
-    b.addEventListener('click',()=>{set(o.k);paint();});
+    const b=document.createElement('button');b.type='button';b.className='opt'+(cls?' '+cls:'');
+    b.innerHTML=`<div class="t">${o.n.replace(/\n/g,'<br>')}</div>${o.s?`<div class="s">${o.s}</div>`:''}`;
+    b.addEventListener('click',()=>{if(busy)return;onPick(o.k);blip();paint();});
     el.appendChild(b);
   });
+  el._list=list;el._test=isSel;
 }
-mk(document.getElementById('mat'),MAT,()=>mat,v=>mat=v);
-mk(document.getElementById('tmp'),TMP,()=>tmp,v=>tmp=v);
-mk(document.getElementById('slt'),SLT,()=>slt,v=>slt=v);
-mk(document.getElementById('mic'),MIC,()=>mic,v=>{mic.has(v)?mic.delete(v):mic.add(v);});
-mk(document.getElementById('tim'),TIM,()=>tim,v=>tim=v);
+build('mat',MAT,v=>mat=v,k=>k===mat);
+build('tmp',TMP,v=>tmp=v,k=>k===tmp);
+build('slt',SLT,v=>slt=v,k=>k===slt);
+build('mic',MIC,v=>{mic.has(v)?mic.delete(v):mic.add(v);},k=>mic.has(k),'mic');
+build('tim',TIM,v=>tim=v,k=>k===tim);
 
 function paint(){
-  const sets=[[document.getElementById('mat'),MAT,k=>k===mat],
-              [document.getElementById('tmp'),TMP,k=>k===tmp],
-              [document.getElementById('slt'),SLT,k=>k===slt],
-              [document.getElementById('mic'),MIC,k=>mic.has(k)],
-              [document.getElementById('tim'),TIM,k=>k===tim]];
-  for(const [el,list,test] of sets)
-    [...el.children].forEach((b,i)=>b.classList.toggle('sel',test(list[i].k)));
+  ['mat','tmp','slt','mic','tim'].forEach(id=>{
+    const el=document.getElementById(id);
+    [...el.children].forEach((b,i)=>b.classList.toggle('sel',el._test(el._list[i].k)));
+  });
+  status();
+}
+function status(){
+  const s=document.getElementById('status');
+  if(busy)return;
+  if(tmp==='hot'){s.innerHTML='あつすぎる！ こうじきんが <b>のびてしまう</b>…';return;}
+  if(mic.has('yeast')&&slt==='yes'){s.innerHTML='塩で <b>こうぼが よわってる</b>…';return;}
+  if(mic.has('acetic')&&!mic.has('yeast')){s.innerHTML='さくさんきんが <b>ひまそう</b>。アルコールがない…';return;}
+  if(tmp==='warm')s.innerHTML='こうじきんが <b>ぐんぐん</b> はたらいてる！';
+  else s.innerHTML='こうじきんが ゆっくり はたらいてる';
 }
 
+/* ============ jar drawing ============ */
+const jar=document.getElementById('jar');
+function matColor(){return (MAT.find(m=>m.k===mat)||MAT[0]).c;}
+function activity(){return tmp==='warm'?1:tmp==='hot'?0:.42;}
+
+function face(x,y,s,dead){
+  if(dead) return `<g transform="translate(${x},${y}) scale(${s})">
+    <path d="M-5-3 l4 4 M-1-3 l-4 4 M1-3 l4 4 M5-3 l-4 4" stroke="#2A2118" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <path d="M-3 5 q3 -3 6 0" stroke="#2A2118" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>`;
+  return `<g transform="translate(${x},${y}) scale(${s})">
+    <circle cx="-3.4" cy="-2" r="1.5" fill="#2A2118"/><circle cx="3.4" cy="-2" r="1.5" fill="#2A2118"/>
+    <path d="M-2.6 3 q2.6 2.6 5.2 0" stroke="#2A2118" stroke-width="1.5" fill="none" stroke-linecap="round"/></g>`;
+}
+function koji(x,y,ph,dead){
+  const wob=dead?0:Math.sin(ph)*3;
+  return `<g transform="translate(${x},${y+wob})">
+    ${[0,1,2,3,4,5,6].map(i=>{const a=i/7*6.283;
+      return `<line x1="0" y1="0" x2="${Math.cos(a)*17}" y2="${Math.sin(a)*17}" stroke="#2A2118" stroke-width="2.6" stroke-linecap="round"/>`;}).join('')}
+    <circle cx="0" cy="0" r="13" fill="${dead?'#B9AE99':'#FFFDF5'}" stroke="#2A2118" stroke-width="3"/>
+    <path d="M-2 -13 q2 -8 5 -9 q-1 5 -2 9" fill="${dead?'#B9AE99':'#57C84D'}" stroke="#2A2118" stroke-width="2" stroke-linejoin="round"/>
+    ${face(0,1,1.05,dead)}</g>`;
+}
+function yeast(x,y,ph,dead){
+  const wob=dead?0:Math.cos(ph*1.3)*3;
+  return `<g transform="translate(${x},${y+wob})">
+    <circle cx="8" cy="-8" r="5" fill="${dead?'#C3B79F':'#FFC42E'}" stroke="#2A2118" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="12" fill="${dead?'#C3B79F':'#FFC42E'}" stroke="#2A2118" stroke-width="3"/>
+    ${face(0,1,1,dead)}</g>`;
+}
+function rod(x,y,ph,col,dead){
+  const wob=dead?0:Math.sin(ph*1.7)*3;
+  return `<g transform="translate(${x},${y+wob}) rotate(${dead?0:Math.sin(ph)*9})">
+    <rect x="-15" y="-8" width="30" height="16" rx="8" fill="${dead?'#C3B79F':col}" stroke="#2A2118" stroke-width="3"/>
+    ${face(0,0,.92,dead)}</g>`;
+}
+
+function drawJar(now){
+  const ph=(now-t0)/420, act=activity();
+  const lvl=112, top=210-lvl-24;
+  const hot=tmp==='hot';
+  const wave=[];
+  for(let i=0;i<=12;i++){const x=42+i*(236/12);
+    wave.push(`${i?'L':'M'}${x.toFixed(1)} ${(top+Math.sin(ph*1.5+i*.9)*(2.2+act*2.6)).toFixed(1)}`);}
+
+  const chars=[];
+  if(!hot||Math.random()<2) chars.push(koji(88,132,ph,hot));
+  if(mic.has('yeast')) chars.push(yeast(160,150,ph,slt==='yes'));
+  if(mic.has('acetic')) chars.push(rod(228,132,ph,'#37C8D4',!mic.has('yeast')));
+  if(mic.has('lactic')) chars.push(rod(160,112,ph+2,'#FF7BA6',false));
+
+  const bubbles=bub.map(b=>`<circle cx="${b.x.toFixed(1)}" cy="${b.y.toFixed(1)}" r="${b.r}" fill="none" stroke="#2A2118" stroke-width="2" opacity="${b.o.toFixed(2)}"/>`).join('');
+  const crystals=crys.map(c=>`<rect x="${c.x.toFixed(1)}" y="${c.y.toFixed(1)}" width="5" height="5" fill="#FFFDF5" stroke="#2A2118" stroke-width="1.8" transform="rotate(${c.r.toFixed(0)} ${(c.x+2.5).toFixed(1)} ${(c.y+2.5).toFixed(1)})"/>`).join('');
+
+  jar.innerHTML=`
+   <defs><clipPath id="inside"><path d="M46 46 h228 l-14 132 a26 26 0 0 1 -26 22 h-148 a26 26 0 0 1 -26 -22 z"/></clipPath></defs>
+   ${hot?`<g opacity=".9">${[0,1,2].map(i=>`<path d="M${100+i*60} 34 q7 -11 0 -20 q-7 -9 0 -18" stroke="#FF5C39" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="${(.45+Math.sin(ph*2+i)*.35).toFixed(2)}"/>`).join('')}</g>`:''}
+   <path d="M46 46 h228 l-14 132 a26 26 0 0 1 -26 22 h-148 a26 26 0 0 1 -26 -22 z" fill="#FFFDF5" stroke="#2A2118" stroke-width="5" stroke-linejoin="round"/>
+   <g clip-path="url(#inside)">
+     <path d="${wave.join(' ')} L282 210 L38 210 Z" fill="${hot?'#E0D6C2':matColor()}"/>
+     <path d="${wave.join(' ')}" stroke="#2A2118" stroke-width="3.5" fill="none"/>
+     ${bubbles}${crystals}${chars.join('')}
+   </g>
+   <path d="M40 40 h240 a8 8 0 0 1 0 16 h-240 a8 8 0 0 1 0 -16 z" fill="${hot?'#FF5C39':'#FFC42E'}" stroke="#2A2118" stroke-width="5" stroke-linejoin="round"/>
+   <path d="M46 46 h228 l-14 132 a26 26 0 0 1 -26 22 h-148 a26 26 0 0 1 -26 -22 z" fill="none" stroke="#2A2118" stroke-width="5" stroke-linejoin="round"/>`;
+}
+
+/* ============ particles ============ */
+function tick(now){
+  const act=activity(), dt=1/60;
+  if(!busy||true){
+    const rate = busy? .55 : act*.22 + (mic.has('yeast')?.3:0);
+    if(Math.random()<rate&&bub.length<26)
+      bub.push({x:56+Math.random()*208,y:198,r:2.5+Math.random()*4.5,v:16+Math.random()*30,o:.85});
+  }
+  for(const b of bub){b.y-=b.v*dt*(busy?2.6:1);b.o-=dt*.28;}
+  bub=bub.filter(b=>b.o>0&&b.y>80);
+  if(slt==='yes'&&Math.random()<.13&&crys.length<16)
+    crys.push({x:52+Math.random()*216,y:70,v:26+Math.random()*30,r:Math.random()*90});
+  if(slt!=='yes')crys.length=0;
+  for(const c of crys){c.y+=c.v*dt;c.r+=dt*60;}
+  crys=crys.filter(c=>c.y<190);
+  drawJar(now);
+  requestAnimationFrame(tick);
+}
+
+/* ============ zukan ============ */
 const grid=document.getElementById('grid'),cnt=document.getElementById('cnt');
-function drawZukan(){
+function drawZukan(popId){
   grid.innerHTML='';
   RECIPES.forEach(r=>{
-    const c=document.createElement('div');
-    const got=found.has(r.id);
-    c.className='cell'+(got?' got':'');
-    c.innerHTML=`<div class="n">${got?r.n:'？'}</div><div class="e">${got?r.e.slice(0,9):'—'}</div>`;
+    const got=found.has(r.id),c=document.createElement('div');
+    c.className='cell'+(got?' got':'')+(r.id===popId?' pop':'');
+    c.innerHTML=`<div class="ic">${got?r.ic:'❓'}</div><div class="n">${got?r.n:'？？？'}</div>`;
     grid.appendChild(c);
   });
   cnt.textContent=found.size+' / '+RECIPES.length;
 }
 
+/* ============ judge ============ */
 function same(a,b){return a.length===b.size&&a.every(x=>b.has(x));}
-
 function judge(){
-  if(tmp==='hot')
-    return {ng:1,n:'何も起きない',d:'70℃を超えた。麹の酵素はほどけて、二度と畳み直されない。変性は不可逆。'};
-  if(mic.has('yeast')&&slt==='yes')
-    return {ng:1,n:'酵母が死んだ',d:'塩分12%で酵母は生きられない。味噌や醤油が塩を使うのは、まさに他の菌を締め出すため。'};
-  if(mic.has('acetic')&&!mic.has('yeast'))
-    return {ng:1,n:'酢酸菌が働けない',d:'酢酸菌はアルコールを酢に変える菌。アルコールがなければ何もできない。誰かに先に作ってもらう必要がある。'};
-  for(const r of RECIPES)
-    if(r.mat===mat&&r.tmp===tmp&&r.slt===slt&&r.tim===tim&&same(r.mic,mic))
-      return {ok:1,r};
-  if(slt==='no'&&tim==='long'&&mic.size===0)
-    return {ng:1,n:'腐敗した',d:'塩もなく、味方の菌もいないまま1年。麹が働き終えた後、雑菌が先に来た。'};
-  if(mat!=='rice'&&tmp==='warm')
-    return {ng:1,n:'ただの蒸し大豆',d:'保温で急いでも、タンパク質の分解には時間がかかる。プロテアーゼはアミラーゼより仕事が遅い。'};
-  if(mic.has('lactic')&&slt==='no')
-    return {ng:1,n:'酸っぱくなっただけ',d:'乳酸菌は糖を乳酸に変える。悪くはないが、まだ何かの食品にはなっていない。'};
-  return {ng:1,n:'何にもならなかった',d:'条件のどれかが噛み合っていない。温度・塩・菌・時間、どれか一つを変えてみる。'};
+  if(tmp==='hot')return{ng:1,ic:'🥵',n:'なにも おきない',
+    d:'70℃を こえると こうじの こうそは ほどけてしまう。いちど ほどけたら <b>もう にどと もとに もどらない</b>。ひやしても だめ。'};
+  if(mic.has('yeast')&&slt==='yes')return{ng:1,ic:'😵',n:'こうぼが しんだ',
+    d:'塩分 12%では こうぼは いきられない。みそや しょうゆが 塩を つかうのは、<b>ほかの きんを しめだすため</b>なんだ。'};
+  if(mic.has('acetic')&&!mic.has('yeast'))return{ng:1,ic:'🥱',n:'さくさんきんが ひまだ',
+    d:'さくさんきんは <b>アルコールを おすに かえる きん</b>。アルコールが なければ なにも できない。だれかに さきに つくってもらう ひつようがある。'};
+  for(const r of RECIPES) if(r.mat===mat&&r.tmp===tmp&&r.slt===slt&&r.tim===tim&&same(r.mic,mic))return{ok:1,r};
+  if(slt==='no'&&tim==='long'&&mic.size===0)return{ng:1,ic:'🤢',n:'くさってしまった',
+    d:'塩も なく、なかまの きんも いないまま 1ねん。こうじが はたらきおわった あと、<b>ざっきんが さきに きた</b>。'};
+  if(mat!=='rice'&&tmp==='warm')return{ng:1,ic:'🫘',n:'ただの むしだいず',
+    d:'ほおんで いそいでも、タンパクしつの ぶんかいには じかんが かかる。<b>プロテアーゼは アミラーゼより しごとが おそい</b>。'};
+  if(mic.has('lactic')&&slt==='no')return{ng:1,ic:'😖',n:'すっぱくなっただけ',
+    d:'にゅうさんきんは とうを にゅうさんに かえる。わるくは ないけど、まだ なにかの たべものには なっていない。'};
+  return{ng:1,ic:'🤔',n:'なにも できなかった',
+    d:'じょうけんの どれかが かみあっていない。おんど・塩・きん・じかん、どれか ひとつ かえてみよう。'};
 }
 
-const res=document.getElementById('res');
-document.getElementById('run').addEventListener('click',()=>{
-  const v=judge();
-  if(v.ok){
-    const isNew=!found.has(v.r.id);
-    found.add(v.r.id);drawZukan();
-    res.className='result ok';
-    res.innerHTML=`<div class="st">${isNew?'NEW — 図鑑に追加':'できた'}</div>`+
-      `<div class="nm">${v.r.n}</div><div class="ez">${v.r.e}</div><div class="ds">${v.r.d}</div>`;
-    if(found.size===RECIPES.length)
-      res.innerHTML+=`<div class="ds" style="color:var(--kouji);margin-top:6px">`+
-        `7つすべて、同じ麹菌から出てきた。変えたのは条件だけ。</div>`;
-  }else{
-    res.className='result ng';
-    res.innerHTML=`<div class="st">FAILED</div><div class="nm">${v.n}</div><div class="ds">${v.d}</div>`;
+/* ============ confetti ============ */
+function confetti(){
+  const box=document.getElementById('conf');
+  const cols=['#FF5C39','#FFC42E','#57C84D','#2B6BD6','#FF7BA6','#37C8D4','#9B6BE8'];
+  for(let i=0;i<58;i++){
+    const d=document.createElement('div');d.className='cf';
+    d.style.background=cols[(Math.random()*cols.length)|0];
+    d.style.left=(Math.random()*100)+'%';d.style.top='-24px';
+    box.appendChild(d);
+    const dx=(Math.random()-.5)*260, dur=1300+Math.random()*900, rot=Math.random()*1080-540;
+    d.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+               {transform:`translate(${dx}px,${innerHeight+70}px) rotate(${rot}deg)`,opacity:.95}],
+      {duration:dur,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>d.remove();
   }
+}
+
+/* ============ ferment sequence ============ */
+const modal=document.getElementById('modal'),card=document.getElementById('card');
+const runBtn=document.getElementById('run'),dayEl=document.getElementById('day'),statusEl=document.getElementById('status');
+
+runBtn.addEventListener('click',()=>{
+  if(busy)return;busy=true;runBtn.disabled=true;
+  const total=DAYS[tim], dur=2600;
+  dayEl.classList.add('on');statusEl.innerHTML='はっこうちゅう…';
+  const st=performance.now();let lastB=0;
+  (function grow(now){
+    const k=Math.min(1,(now-st)/dur), e=k*k*(3-2*k);
+    dayEl.textContent=Math.max(1,Math.round(e*total))+'日目';
+    if(now-lastB>150){bubble();lastB=now;}
+    if(k<1)requestAnimationFrame(grow);
+    else{
+      dayEl.classList.remove('on');
+      const v=judge();
+      if(v.ok){
+        const isNew=!found.has(v.r.id);found.add(v.r.id);drawZukan(v.r.id);
+        fanfare();confetti();
+        card.className='card ok';
+        card.innerHTML=`<div class="tag">${isNew?'はじめて できた！':'また できた'}</div>
+          <div class="big">${v.r.ic}</div><h2>${v.r.n}</h2>
+          <div class="ez">${v.r.e}</div><p>${v.r.d}</p>
+          ${found.size===RECIPES.length?'<p style="margin-top:12px;color:#FF5C39;font-weight:900">7つ ぜんぶ、おなじ こうじきんから でてきた。かえたのは じょうけんだけ！</p>':''}
+          <button class="go" id="close">つぎを つくる</button>`;
+      }else{
+        thud();
+        card.className='card ng';
+        card.innerHTML=`<div class="tag">しっぱい</div>
+          <div class="big">${v.ic}</div><h2>${v.n}</h2><p>${v.d}</p>
+          <button class="go" id="close">やりなおす</button>`;
+      }
+      modal.classList.add('on');
+      document.getElementById('close').addEventListener('click',()=>{
+        modal.classList.remove('on');busy=false;runBtn.disabled=false;blip();status();
+      });
+    }
+  })(st);
 });
 
-paint();drawZukan();
+paint();drawZukan();requestAnimationFrame(tick);
 })();
 </script>
 </body>

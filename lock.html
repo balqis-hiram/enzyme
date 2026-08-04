@@ -3,100 +3,141 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>鍵と鍵穴 — 麹の三酵素</title>
+<title>かぎと かぎあな</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --muro:#12233A; --muro2:#1B3050; --line:#2B4568;
-  --kome:#F4EFE2; --sub:#93A6BE;
-  --kouji:#E8B33A; --ame:#7FD1B9; --uma:#8FB8E8; --ka:#F0A87A;
-  --sogai:#7A6E93; --shi:#4C5F76;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
-  display:flex;justify-content:center;padding:20px 16px 32px;-webkit-font-smoothing:antialiased;}
-.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:16px}
-header{border-bottom:1px solid var(--line);padding-bottom:14px}
-.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji);text-transform:uppercase}
-h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
-.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+:root{--paper:#FFF4DA;--paper2:#FFE9B0;--ink:#2A2118;--white:#FFFDF5;
+  --red:#FF5C39;--pink:#FF7BA6;--yellow:#FFC42E;--green:#57C84D;
+  --blue:#2B6BD6;--cyan:#37C8D4;--purple:#9B6BE8;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--paper);
+  background-image:radial-gradient(circle at 10% 8%,rgba(255,196,46,.32) 0 19%,transparent 19.5%),
+                   radial-gradient(circle at 90% 60%,rgba(155,107,232,.2) 0 16%,transparent 16.5%);
+  color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:700;
+  display:flex;justify-content:center;padding:18px 14px 40px;min-height:100vh}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:13px}
+header{text-align:center;position:relative}
+h1{font-family:"RocknRoll One",sans-serif;font-size:clamp(27px,7.6vw,38px);line-height:1.16;
+  text-shadow:3px 3px 0 var(--green)}
+h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
+.sub{font-size:12.5px;margin-top:7px;color:#6B5B45;line-height:1.75}
+.mute{position:absolute;right:0;top:0;background:var(--white);border:3px solid var(--ink);border-radius:50%;
+  width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);display:grid;
+  place-items:center;font-family:inherit;padding:0}
+.mute:active{transform:translate(3px,3px);box-shadow:none}
 
-.hud{display:flex;justify-content:space-between;align-items:baseline;font-family:"DM Mono",monospace;font-size:12px;color:var(--sub)}
-.hud b{color:var(--kome);font-weight:500;font-size:20px}
+.hud{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.h{background:var(--white);border:4px solid var(--ink);border-radius:15px;box-shadow:4px 4px 0 var(--ink);
+  padding:7px 10px;text-align:center}
+.h .l{font-size:10.5px;color:#6B5B45}
+.h .v{font-family:"RocknRoll One",sans-serif;font-size:22px;line-height:1.15}
 
-.stage{position:relative;border:1px solid var(--line);border-radius:3px;background:#0D1B2E;overflow:hidden}
-canvas{display:block;width:100%;height:400px;touch-action:manipulation}
+.stage{position:relative;background:var(--white);border:5px solid var(--ink);border-radius:24px;
+  box-shadow:7px 7px 0 var(--ink);overflow:hidden}
+canvas{display:block;width:100%;height:420px;touch-action:manipulation;cursor:pointer}
 
-.gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.g{border:1px solid var(--line);background:var(--muro2);padding:9px 11px;border-radius:2px}
-.g .n{font-family:"Shippori Mincho B1",serif;font-size:15px}
-.g .c{font-family:"DM Mono",monospace;font-size:19px;margin-top:2px}
-.g .s{font-size:10.5px;color:var(--sub);margin-top:3px;font-family:"DM Mono",monospace;letter-spacing:.08em}
-#g0 .c{color:var(--ame)} #g1 .c{color:var(--uma)} #g2 .c{color:var(--ka)}
+.gauges{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.g{border:4px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink);padding:9px 8px;text-align:center}
+.g .n{font-family:"RocknRoll One",sans-serif;font-size:15px}
+.g .c{font-family:"RocknRoll One",sans-serif;font-size:24px;line-height:1.2}
+.g .s{font-size:10px;color:#5A4B38;margin-top:2px}
+#g0{background:#D9F5E4}#g1{background:#DCE9FB}#g2{background:#FFE6D4}
 
-.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
-.note b{color:var(--kome);font-weight:500}
+.note{background:var(--white);border:4px dashed var(--ink);border-radius:18px;padding:13px 15px;
+  font-size:12.5px;line-height:1.85;color:#4A3E2E;font-weight:500}
+.note b{font-weight:900;color:var(--ink)}
 
-.overlay{position:absolute;inset:0;background:rgba(11,23,38,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:26px;opacity:0;pointer-events:none;transition:opacity .35s}
-.overlay.on{opacity:1;pointer-events:auto}
-.overlay h2{font-family:"Shippori Mincho B1",serif;font-size:24px}
-.overlay p{font-size:13px;color:var(--sub);line-height:1.9;max-width:420px}
-.overlay p b{color:var(--kome)}
-button{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13px;background:none;color:var(--kome);border:1px solid var(--kouji);padding:9px 22px;border-radius:2px;cursor:pointer;letter-spacing:.06em}
-button:hover{background:var(--kouji);color:var(--muro)}
-button:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.modal{position:fixed;inset:0;background:rgba(42,33,24,.74);display:grid;place-items:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .25s;z-index:20;overflow-y:auto}
+.modal.on{opacity:1;pointer-events:auto}
+.card{background:var(--white);border:5px solid var(--ink);border-radius:26px;box-shadow:9px 9px 0 var(--ink);
+  padding:24px 20px;max-width:410px;width:100%;text-align:center;
+  transform:scale(.72) rotate(-3deg);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.modal.on .card{transform:scale(1) rotate(0)}
+.card .tag{display:inline-block;font-family:"RocknRoll One",sans-serif;font-size:12px;background:var(--yellow);
+  border:3px solid var(--ink);border-radius:11px;padding:3px 12px;box-shadow:2px 2px 0 var(--ink)}
+.card .ic{font-size:60px;line-height:1;margin:11px 0 3px}
+.card h2{font-family:"RocknRoll One",sans-serif;font-size:24px;margin-bottom:11px;color:var(--red)}
+.card p{font-size:12.5px;line-height:1.9;color:#4A3E2E;text-align:left}
+.card .hi{background:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:900}
+.go{width:100%;font-family:"RocknRoll One",sans-serif;font-size:19px;letter-spacing:.12em;background:var(--red);
+  color:var(--white);border:4px solid var(--ink);border-radius:17px;padding:13px;cursor:pointer;
+  box-shadow:6px 6px 0 var(--ink);transition:transform .07s,box-shadow .07s;margin-top:16px}
+.go:active{transform:translate(6px,6px);box-shadow:none}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+.cf{position:absolute;width:11px;height:15px;border:2px solid var(--ink);border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">specificity / inhibition</div>
-    <h1>鍵と鍵穴</h1>
-    <p class="lede">ニホンコウジカビが出す三つの酵素は、それぞれ決まった形の分子しか受けつけない。分子をタップして選び、正しい酵素をタップして渡す。</p>
+    <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
+    <h1>かぎと<br><em>かぎあな</em></h1>
+    <p class="sub">こうじの 3きょうだいは、それぞれ <b>きまった かたち</b>しか うけつけない。<br>ぶんしを タップして えらび、あう きょうだいを タップして わたす。</p>
   </header>
 
   <div class="hud">
-    <div>残り <b id="time">60</b> 秒</div>
-    <div>取り違え <b id="miss">0</b></div>
-    <div>酵素の数 <b>3</b>（減らない）</div>
+    <div class="h"><div class="l">のこり</div><div class="v" id="time">60</div></div>
+    <div class="h"><div class="l">とりちがえ</div><div class="v" id="miss">0</div></div>
+    <div class="h"><div class="l">こうその かず</div><div class="v">3</div></div>
   </div>
 
   <div class="stage">
     <canvas id="cv"></canvas>
-    <div class="overlay on" id="ov">
-      <h2 id="ovT">鍵と鍵穴</h2>
-      <p id="ovP">紫色の分子は<b>阻害剤</b>。形は似ているが反応しない。渡すとその酵素が3秒ふさがる。<br>60秒。</p>
-      <button id="ovB">はじめる</button>
-    </div>
   </div>
 
   <div class="gauges">
-    <div class="g" id="g0"><div class="n">甘味</div><div class="c">0</div><div class="s">ブドウ糖</div></div>
-    <div class="g" id="g1"><div class="n">旨味</div><div class="c">0</div><div class="s">アミノ酸</div></div>
-    <div class="g" id="g2"><div class="n">香り</div><div class="c">0</div><div class="s">脂肪酸</div></div>
+    <div class="g" id="g0"><div class="n">🍯 あまみ</div><div class="c">0</div><div class="s">ブドウとう</div></div>
+    <div class="g" id="g1"><div class="n">😋 うまみ</div><div class="c">0</div><div class="s">アミノさん</div></div>
+    <div class="g" id="g2"><div class="n">🌸 かおり</div><div class="c">0</div><div class="s">しぼうさん</div></div>
   </div>
 
   <p class="note">
-    <b>酵素は減らない。</b>アミラーゼ1個がデンプンを何十個分解しても、アミラーゼは1個のまま。反応の前後で自分は変わらないから触媒と呼ぶ。<br>
-    この三つが同時に働いているのが麹。甘酒はアミラーゼが主役、味噌と醤油はプロテアーゼが主役になる。
+    <b>こうそは へらない。</b>アミラーゼ1ぴきが デンプンを なんじゅっこ ぶんかいしても、アミラーゼは 1ぴきのまま。
+    はんのうの まえと あとで じぶんは かわらないから「しょくばい」と よぶ。<br>
+    この 3つが どうじに はたらいているのが <b>こうじ</b>。あまざけは アミラーゼが しゅやく、
+    みそと しょうゆは プロテアーゼが しゅやくになる。
   </p>
 </div>
+
+<div class="modal on" id="modal"><div class="card" id="card">
+  <div class="tag">ルール</div><div class="ic">🔑</div>
+  <h2>かぎと かぎあな</h2>
+  <p>ぶんしを タップして えらび、<b>あう きょうだい</b>を タップして わたす。<br><br>
+     むらさきの ぶんしは <b>じゃまもの（そがいざい）</b>。かたちは にてるけど はんのうしない。
+     わたすと その きょうだいが 3びょう ふさがる。<br><br>60びょう しょうぶ！</p>
+  <button class="go" id="startB">はじめる！</button>
+</div></div>
+<div class="conf" id="conf"></div>
 
 <script>
 (function(){
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
 const timeEl=document.getElementById('time'),missEl=document.getElementById('miss');
 const gc=[document.querySelector('#g0 .c'),document.querySelector('#g1 .c'),document.querySelector('#g2 .c')];
-const ov=document.getElementById('ov'),ovT=document.getElementById('ovT'),ovP=document.getElementById('ovP'),ovB=document.getElementById('ovB');
+const modal=document.getElementById('modal'),card=document.getElementById('card');
+
+let ac=null,muted=false;
+function snd(f,d,t,v){if(muted)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  const o=ac.createOscillator(),g=ac.createGain();o.type=t||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
+  o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function blip(){snd(700,.05,'square',.045)}
+function yum(){snd(660,.08,'square',.05);setTimeout(()=>snd(990,.11,'square',.05),70)}
+function nope(){snd(190,.13,'sawtooth',.05)}
+function jam(){snd(240,.2,'triangle',.05);setTimeout(()=>snd(170,.24,'triangle',.05),120)}
+function fanfare(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>snd(f,.23,'square',.06),i*105))}
+document.getElementById('mute').addEventListener('click',e=>{muted=!muted;
+  e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)blip();});
 
 const TYPES=['starch','protein','fat'];
-const COL={starch:'#F4EFE2',protein:'#8FB8E8',fat:'#F0A87A'};
-const PCOL=['#7FD1B9','#8FB8E8','#F0A87A'];
+const COL={starch:'#57C84D',protein:'#2B6BD6',fat:'#FF9E4A'};
 const ENAME=['アミラーゼ','プロテアーゼ','リパーゼ'];
-const SNAME={starch:'デンプン',protein:'タンパク質',fat:'脂質'};
+const ECOL=['#57C84D','#2B6BD6','#FF9E4A'];
+const SNAME={starch:'デンプン',protein:'タンパクしつ',fat:'ししつ'};
 
 let W=0,H=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
@@ -104,152 +145,152 @@ function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clie
 addEventListener('resize',resize);
 
 let enzymes=[],mols=[],prods=[],sel=null,counts=[0,0,0],miss=0,t=60,run=false,last=0,spawnT=0;
+function layout(){enzymes.forEach((e,i)=>{e.x=W*(.19+.31*i);e.y=H-72;});}
+function init(){enzymes=TYPES.map(ty=>({type:ty,x:0,y:0,r:33,jam:0,done:0,flash:0,ph:Math.random()*6}));
+  resize();mols=[];prods=[];sel=null;counts=[0,0,0];miss=0;t=60;spawnT=0;
+  gc.forEach(e=>e.textContent='0');missEl.textContent='0';}
 
-function layout(){
-  const y=H-58;
-  enzymes.forEach((e,i)=>{e.x=W*(0.18+0.32*i);e.y=y;});
-}
-function init(){
-  enzymes=TYPES.map((ty,i)=>({type:ty,x:0,y:0,r:34,jam:0,done:0,flash:0}));
-  resize();
-  mols=[];prods=[];sel=null;counts=[0,0,0];miss=0;t=60;spawnT=0;
-  gc.forEach(e=>e.textContent='0');missEl.textContent='0';
-}
+function spawn(){const inhib=Math.random()<.2,ty=TYPES[(Math.random()*3)|0];
+  mols.push({type:ty,inhib,x:36+Math.random()*(W-72),y:-28,vy:24+Math.random()*16,
+    vx:(Math.random()-.5)*11,r:24,ph:Math.random()*6.3,fly:null,dead:false});}
 
-function spawn(){
-  const inhib=Math.random()<0.2;
-  const ty=TYPES[(Math.random()*3)|0];
-  mols.push({type:ty,inhib,x:34+Math.random()*(W-68),y:-26,
-    vy:22+Math.random()*16,vx:(Math.random()-.5)*10,r:22,ph:Math.random()*6.3,
-    fly:null,dead:false});
-}
-
-function glyph(x,y,type,color,s){
+function face(x,y,s,mode,tt){
   ctx.save();ctx.translate(x,y);ctx.scale(s,s);
-  ctx.fillStyle=color;ctx.strokeStyle=color;ctx.lineWidth=2.4;ctx.lineCap='round';
-  if(type==='starch'){
-    for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(-12+i*8,0,4.2,0,6.283);ctx.fill();}
-  }else if(type==='protein'){
-    ctx.beginPath();
-    for(let i=0;i<5;i++){const px=-13+i*6.5,py=(i%2?-6:6);i?ctx.lineTo(px,py):ctx.moveTo(px,py);}
-    ctx.stroke();
-    for(let i=0;i<5;i++){const px=-13+i*6.5,py=(i%2?-6:6);ctx.fillRect(px-2.4,py-2.4,4.8,4.8);}
+  ctx.strokeStyle='#2A2118';ctx.lineWidth=2.2;ctx.lineCap='round';ctx.fillStyle='#2A2118';
+  if(mode==='jam'){
+    ctx.beginPath();ctx.moveTo(-7,-5);ctx.lineTo(-2,0);ctx.moveTo(-2,-5);ctx.lineTo(-7,0);
+    ctx.moveTo(2,-5);ctx.lineTo(7,0);ctx.moveTo(7,-5);ctx.lineTo(2,0);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-3.6,6);ctx.lineTo(3.6,6);ctx.stroke();
+  }else if(mode==='yum'){
+    ctx.beginPath();ctx.moveTo(-7,-4);ctx.quadraticCurveTo(-4.4,-7.4,-1.8,-4);
+    ctx.moveTo(1.8,-4);ctx.quadraticCurveTo(4.4,-7.4,7,-4);ctx.stroke();
+    ctx.beginPath();ctx.ellipse(0,4.4,4,3.4,0,0,6.283);ctx.fill();
+  }else if(mode==='bad'){
+    ctx.beginPath();ctx.arc(-4.4,-3,2.2,0,6.283);ctx.arc(4.4,-3,2.2,0,6.283);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-4,6.4);ctx.quadraticCurveTo(0,2.4,4,6.4);ctx.stroke();
   }else{
-    ctx.beginPath();ctx.moveTo(-13,-9);ctx.lineTo(-13,9);ctx.stroke();
-    for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-13,-8+i*8);ctx.lineTo(11,-8+i*8);ctx.stroke();}
+    const bl=Math.sin(tt*1.8+x)>.96;
+    if(bl){ctx.beginPath();ctx.moveTo(-6.6,-3);ctx.lineTo(-2.2,-3);ctx.moveTo(2.2,-3);ctx.lineTo(6.6,-3);ctx.stroke();}
+    else{ctx.beginPath();ctx.arc(-4.4,-3,2.3,0,6.283);ctx.arc(4.4,-3,2.3,0,6.283);ctx.fill();}
+    ctx.beginPath();ctx.moveTo(-3.8,3.4);ctx.quadraticCurveTo(0,7.4,3.8,3.4);ctx.stroke();
   }
   ctx.restore();
 }
-
+function glyph(x,y,type,color,s){
+  ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+  ctx.fillStyle=color;ctx.strokeStyle='#2A2118';ctx.lineWidth=2.4;ctx.lineCap='round';ctx.lineJoin='round';
+  if(type==='starch'){for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(-13+i*8.6,0,5,0,6.283);ctx.fill();ctx.stroke();}}
+  else if(type==='protein'){for(let i=0;i<4;i++){const px=-13+i*8.6,py=(i%2?-5.4:5.4);
+    ctx.beginPath();ctx.rect(px-4.4,py-4.4,8.8,8.8);ctx.fill();ctx.stroke();}}
+  else{ctx.beginPath();ctx.moveTo(-13,-10);ctx.lineTo(-13,10);ctx.stroke();
+    for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-13,-9+i*9);ctx.lineTo(12,-9+i*9);ctx.stroke();}}
+  ctx.restore();
+}
 function step(dt){
   t-=dt;spawnT-=dt;
-  if(spawnT<=0&&mols.length<9){spawn();spawnT=0.75+Math.random()*0.5;}
+  if(spawnT<=0&&mols.length<9){spawn();spawnT=.75+Math.random()*.5;}
   for(const m of mols){
-    if(m.fly){
-      const e=m.fly.e;const k=Math.min(1,m.fly.p+=dt*3.6);
+    if(m.fly){const e=m.fly.e,k=Math.min(1,m.fly.p+=dt*3.6);
       m.x=m.fly.sx+(e.x-m.fly.sx)*k;m.y=m.fly.sy+(e.y-m.fly.sy)*k;
-      if(k>=1){resolve(m,e);}
-    }else{
-      m.y+=m.vy*dt;m.x+=m.vx*dt;m.ph+=dt*2;
-      if(m.x<26||m.x>W-26)m.vx*=-1;
-      if(m.y>H-96){m.dead=true;if(sel===m)sel=null;}
-    }
+      if(k>=1)resolve(m,e);
+    }else{m.y+=m.vy*dt;m.x+=m.vx*dt;m.ph+=dt*2;
+      if(m.x<28||m.x>W-28)m.vx*=-1;
+      if(m.y>H-118){m.dead=true;if(sel===m)sel=null;}}
   }
   mols=mols.filter(m=>!m.dead);
-  for(const e of enzymes){if(e.jam>0)e.jam-=dt;if(e.flash>0)e.flash-=dt;}
-  for(const p of prods){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=60*dt;p.l-=dt*1.1;}
+  for(const e of enzymes){if(e.jam>0)e.jam-=dt;if(e.flash>0)e.flash-=dt;e.ph+=dt*2.4;}
+  for(const p of prods){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=90*dt;p.l-=dt*1.1;}
   prods=prods.filter(p=>p.l>0);
 }
-
 function resolve(m,e){
-  m.dead=true;
-  const idx=enzymes.indexOf(e);
-  if(m.inhib){ e.jam=3; e.flash=0; burst(e.x,e.y,'#7A6E93',7); }
-  else if(m.type===e.type){
-    counts[idx]++; e.done++; e.flash=.35;
-    gc[idx].textContent=counts[idx];
-    burst(e.x,e.y,PCOL[idx],9);
-  }else{
-    miss++;missEl.textContent=miss;
-    burst(e.x,e.y,'#4C5F76',5);
-  }
+  m.dead=true;const idx=enzymes.indexOf(e);
+  if(m.inhib){e.jam=3;e.flash=0;burst(e.x,e.y,'#9B6BE8',8);jam();}
+  else if(m.type===e.type){counts[idx]++;e.done++;e.flash=.4;gc[idx].textContent=counts[idx];
+    burst(e.x,e.y,ECOL[idx],10);yum();}
+  else{miss++;missEl.textContent=miss;burst(e.x,e.y,'#C3B79F',5);nope();}
 }
-function burst(x,y,c,n){for(let i=0;i<n;i++){const a=Math.random()*6.283,s=40+Math.random()*90;
-  prods.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-40,l:1,c});}}
+function burst(x,y,c,n){for(let i=0;i<n;i++){const a=Math.random()*6.283,s=60+Math.random()*110;
+  prods.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-70,l:1,c});}}
 
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#0D1B2E';ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle='rgba(43,69,104,.5)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(0,H-96);ctx.lineTo(W,H-96);ctx.stroke();
+function draw(tt){
+  ctx.fillStyle='#FFFDF5';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#FBF2DC';ctx.fillRect(0,H-118,W,118);
+  ctx.strokeStyle='#EDE0C6';ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(0,H-118);ctx.lineTo(W,H-118);ctx.stroke();
 
-  for(const p of prods){ctx.globalAlpha=Math.max(0,p.l);ctx.fillStyle=p.c;
-    ctx.beginPath();ctx.arc(p.x,p.y,2.6,0,6.283);ctx.fill();}
+  for(const p of prods){ctx.globalAlpha=Math.max(0,p.l);ctx.fillStyle=p.c;ctx.strokeStyle='#2A2118';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(p.x,p.y,4,0,6.283);ctx.fill();ctx.stroke();}
   ctx.globalAlpha=1;
 
   enzymes.forEach((e,i)=>{
-    const jam=e.jam>0;
-    ctx.save();
-    if(e.flash>0){ctx.shadowColor=PCOL[i];ctx.shadowBlur=22*e.flash/.35;}
-    ctx.fillStyle=jam?'#3A4358':'#E8B33A';
+    const jm=e.jam>0,bob=Math.sin(e.ph)*2.6,sc=1+(e.flash>0?e.flash*.5:0);
+    ctx.save();ctx.translate(e.x,e.y+bob);ctx.scale(sc,sc);
+    ctx.fillStyle=jm?'#C3B79F':ECOL[i];ctx.strokeStyle='#2A2118';ctx.lineWidth=4;
     ctx.beginPath();
-    for(let k=0;k<=24;k++){const a=k/24*6.283;const rr=e.r+Math.sin(a*3+i)*2.5;
-      const px=e.x+Math.cos(a)*rr,py=e.y+Math.sin(a)*rr*0.86;k?ctx.lineTo(px,py):ctx.moveTo(px,py);}
-    ctx.closePath();ctx.fill();ctx.restore();
-    ctx.fillStyle='#0D1B2E';
-    ctx.beginPath();ctx.arc(e.x,e.y-3,16,0,6.283);ctx.fill();
-    glyph(e.x,e.y-3,e.type,jam?'#7A6E93':'#E8B33A',0.78);
-    ctx.fillStyle=jam?'#7A6E93':'#93A6BE';
-    ctx.font='500 11px "Zen Kaku Gothic New",sans-serif';ctx.textAlign='center';
-    ctx.fillText(jam?'ふさがれている':ENAME[i],e.x,e.y+e.r+16);
-    ctx.font='400 10px "DM Mono",monospace';ctx.fillStyle='#4C5F76';
-    ctx.fillText('処理 '+e.done,e.x,e.y+e.r+29);
+    for(let k=0;k<=26;k++){const a=k/26*6.283,rr=e.r+Math.sin(a*3+i)*3;
+      const px=Math.cos(a)*rr,py=Math.sin(a)*rr*.9;k?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+    ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle='#FFFDF5';ctx.strokeStyle='#2A2118';ctx.lineWidth=3;
+    ctx.beginPath();ctx.arc(e.x,e.y-4+bob,17,0,6.283);ctx.fill();ctx.stroke();
+    glyph(e.x,e.y-4+bob,e.type,jm?'#C3B79F':ECOL[i],.62);
+    face(e.x,e.y+17+bob,.9,jm?'jam':(e.flash>0?'yum':'ok'),tt);
+    ctx.fillStyle='#2A2118';ctx.font='900 11px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
+    ctx.fillText(jm?'ふさがれた！':ENAME[i],e.x,e.y+e.r+22);
+    ctx.fillStyle='#8A7A63';ctx.font='700 10px "Zen Maru Gothic",sans-serif';
+    ctx.fillText('しょり '+e.done,e.x,e.y+e.r+35);
   });
 
   for(const m of mols){
-    const bob=m.fly?0:Math.sin(m.ph)*2;
-    if(sel===m){ctx.strokeStyle='#F4EFE2';ctx.lineWidth=1.4;ctx.setLineDash([3,4]);
-      ctx.beginPath();ctx.arc(m.x,m.y+bob,m.r+7,0,6.283);ctx.stroke();ctx.setLineDash([]);}
-    ctx.fillStyle=m.inhib?'rgba(122,110,147,.22)':'rgba(244,239,226,.07)';
-    ctx.beginPath();ctx.arc(m.x,m.y+bob,m.r,0,6.283);ctx.fill();
-    glyph(m.x,m.y+bob,m.type,m.inhib?'#7A6E93':COL[m.type],0.95);
-    if(m.inhib){ctx.strokeStyle='#7A6E93';ctx.lineWidth=2;
-      ctx.beginPath();ctx.moveTo(m.x-14,m.y+bob-14);ctx.lineTo(m.x+14,m.y+bob+14);ctx.stroke();}
+    const bob=m.fly?0:Math.sin(m.ph)*2.6;
+    if(sel===m){ctx.strokeStyle='#2A2118';ctx.lineWidth=3.4;ctx.setLineDash([5,5]);
+      ctx.beginPath();ctx.arc(m.x,m.y+bob,m.r+8,0,6.283);ctx.stroke();ctx.setLineDash([]);}
+    ctx.fillStyle=m.inhib?'#E3D6F5':'#FFFDF5';ctx.strokeStyle='#2A2118';ctx.lineWidth=3.4;
+    ctx.beginPath();ctx.arc(m.x,m.y+bob,m.r,0,6.283);ctx.fill();ctx.stroke();
+    glyph(m.x,m.y+bob,m.type,m.inhib?'#9B6BE8':COL[m.type],.92);
+    if(m.inhib){ctx.strokeStyle='#9B6BE8';ctx.lineWidth=4.4;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(m.x-15,m.y+bob-15);ctx.lineTo(m.x+15,m.y+bob+15);ctx.stroke();}
   }
   timeEl.textContent=Math.max(0,Math.ceil(t));
 }
-
 function hit(px,py){
   for(let i=mols.length-1;i>=0;i--){const m=mols[i];if(m.fly)continue;
-    if((px-m.x)**2+(py-m.y)**2<(m.r+10)**2)return{k:'m',o:m};}
-  for(const e of enzymes){if((px-e.x)**2+(py-e.y)**2<(e.r+12)**2)return{k:'e',o:e};}
+    if((px-m.x)**2+(py-m.y)**2<(m.r+12)**2)return{k:'m',o:m};}
+  for(const e of enzymes)if((px-e.x)**2+(py-e.y)**2<(e.r+16)**2)return{k:'e',o:e};
   return null;
 }
 cv.addEventListener('pointerdown',ev=>{
-  if(!run)return;
-  const r=cv.getBoundingClientRect();
+  if(!run)return;const r=cv.getBoundingClientRect();
   const h=hit(ev.clientX-r.left,ev.clientY-r.top);
   if(!h){sel=null;return;}
-  if(h.k==='m'){sel=(sel===h.o)?null:h.o;}
+  if(h.k==='m'){sel=(sel===h.o)?null:h.o;blip();}
   else if(sel&&h.o.jam<=0){sel.fly={e:h.o,p:0,sx:sel.x,sy:sel.y};sel=null;}
 });
-
+function confetti(){const box=document.getElementById('conf'),
+  cols=['#FF5C39','#FFC42E','#57C84D','#2B6BD6','#FF7BA6','#37C8D4'];
+  for(let i=0;i<58;i++){const d=document.createElement('div');d.className='cf';
+    d.style.background=cols[(Math.random()*cols.length)|0];d.style.left=(Math.random()*100)+'%';d.style.top='-24px';
+    box.appendChild(d);
+    d.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:'translate('+((Math.random()-.5)*260)+'px,'+(innerHeight+70)+'px) rotate('+(Math.random()*900-450)+'deg)',opacity:.95}],
+      {duration:1300+Math.random()*800,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>d.remove();}}
 function finish(){
-  run=false;
+  run=false;fanfare();confetti();
   const tot=counts[0]+counts[1]+counts[2];
-  ovT.textContent='60秒が終わった';
-  ovP.innerHTML=`分解した分子 <b>${tot}</b>／取り違え <b>${miss}</b><br>`+
-    `甘味 ${counts[0]}・旨味 ${counts[1]}・香り ${counts[2]}<br><br>`+
-    `酵素はいまも <b>3個</b>。${tot}回働いても、一つも減っていない。`;
-  ov.classList.add('on');
+  card.innerHTML='<div class="tag">60びょう しゅうりょう</div><div class="ic">🎉</div>'+
+    '<h2>ぶんかい '+tot+'こ！</h2>'+
+    '<p>とりちがえ <b>'+miss+'かい</b><br>あまみ '+counts[0]+'・うまみ '+counts[1]+'・かおり '+counts[2]+'</p>'+
+    '<p style="margin-top:11px">こうそは いまも <span class="hi">3ひき</span>。'+
+    tot+'かい はたらいても、<b>ひとつも へっていない</b>。</p>'+
+    '<button class="go" id="again">もういちど</button>';
+  modal.classList.add('on');
+  document.getElementById('again').addEventListener('click',start);
 }
-function loop(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;
-  if(run){step(dt);draw();if(t<=0)finish();}
-  requestAnimationFrame(loop);
-}
-ovB.addEventListener('click',()=>{init();run=true;ov.classList.remove('on');last=performance.now();});
-init();draw();last=performance.now();requestAnimationFrame(loop);
+function start(){init();run=true;modal.classList.remove('on');last=performance.now();blip();}
+document.getElementById('startB').addEventListener('click',start);
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(run){step(dt);if(t<=0)finish();}draw(now/1000);requestAnimationFrame(loop);}
+init();last=performance.now();requestAnimationFrame(loop);
 })();
 </script>
 </body>

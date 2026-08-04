@@ -3,157 +3,182 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>発酵のしくみ — 酵素から見る</title>
+<title>はっこうの しくみ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --muro:#12233A; --muro2:#1B3050; --line:#2B4568;
-  --kome:#F4EFE2; --sub:#93A6BE;
-  --kouji:#E8B33A; --ame:#7FD1B9; --shi:#4C5F76;
+  --paper:#FFF4DA; --paper2:#FFE9B0; --ink:#2A2118; --white:#FFFDF5;
+  --red:#FF5C39; --pink:#FF7BA6; --yellow:#FFC42E; --green:#57C84D;
+  --blue:#2B6BD6; --cyan:#37C8D4; --purple:#9B6BE8;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
-  -webkit-font-smoothing:antialiased;min-height:100vh}
-.wrap{max-width:660px;margin:0 auto;padding:44px 18px 56px}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(circle at 10% 5%,rgba(255,196,46,.34) 0 20%,transparent 20.5%),
+                   radial-gradient(circle at 92% 28%,rgba(255,123,166,.24) 0 15%,transparent 15.5%),
+                   radial-gradient(circle at 6% 72%,rgba(55,200,212,.24) 0 17%,transparent 17.5%),
+                   radial-gradient(circle at 88% 92%,rgba(87,200,77,.22) 0 18%,transparent 18.5%);
+  color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:700;
+  min-height:100vh;padding:26px 15px 46px;
+}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 
-.hero{border-bottom:1px solid var(--line);padding-bottom:30px}
-.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--kouji)}
-h1{font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:clamp(34px,9vw,52px);
-  line-height:1.24;letter-spacing:.02em;margin:16px 0 0}
-h1 em{font-style:normal;color:var(--kouji)}
-.hero p{color:var(--sub);font-size:14px;line-height:1.95;margin-top:18px;max-width:46ch}
-.hero p b{color:var(--kome);font-weight:500}
+/* hero */
+.hero{background:var(--white);border:5px solid var(--ink);border-radius:26px;
+  box-shadow:8px 8px 0 var(--ink);padding:24px 20px 22px;text-align:center;position:relative;overflow:hidden}
+.hero .pop{position:absolute;font-size:30px;opacity:.5}
+h1{font-family:"RocknRoll One",sans-serif;font-size:clamp(26px,7.4vw,37px);line-height:1.28;position:relative}
+h1 .a{color:var(--red);text-shadow:3px 3px 0 var(--ink)}
+h1 .b{background:var(--yellow);border:3px solid var(--ink);border-radius:12px;
+  padding:1px 10px;display:inline-block;box-shadow:3px 3px 0 var(--ink);margin-top:6px}
+.hero p{font-size:13px;line-height:1.95;color:#5A4B38;margin-top:15px;text-align:left;font-weight:500}
+.hero p b{font-weight:900;color:var(--ink)}
 
-.trays{margin-top:34px;display:flex;flex-direction:column;gap:12px}
-.tray{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;
-  background:var(--muro2);border:1px solid var(--line);border-left:3px solid var(--kouji);
-  border-radius:2px;padding:18px 18px 17px;cursor:pointer;color:inherit;font-family:inherit;
-  transition:background .18s,transform .18s,border-color .18s}
-.tray:hover{background:#22375A;transform:translateX(3px)}
-.tray:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
-.tray .k{font-family:"DM Mono",monospace;font-size:11px;color:var(--kouji);letter-spacing:.12em;padding-top:4px;flex:0 0 auto}
-.tray .b{flex:1}
-.tray h2{font-family:"Shippori Mincho B1",serif;font-size:20px;font-weight:700;letter-spacing:.04em}
-.tray .sub{font-family:"DM Mono",monospace;font-size:10.5px;color:var(--shi);letter-spacing:.1em;margin-top:3px}
-.tray p{color:var(--sub);font-size:12.5px;line-height:1.8;margin-top:9px}
-.tray .tag{display:inline-block;font-size:10.5px;font-family:"DM Mono",monospace;color:var(--ame);
-  border:1px solid #2F5E56;padding:2px 7px;border-radius:2px;margin-top:10px;letter-spacing:.06em}
+/* cards */
+.card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;
+  background:var(--white);border:5px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);
+  padding:15px 16px;font-family:inherit;color:inherit;
+  transition:transform .09s,box-shadow .09s}
+.card:active{transform:translate(6px,6px);box-shadow:none}
+.card:focus-visible{outline:4px solid var(--blue);outline-offset:4px}
+.card .ic{flex:0 0 auto;width:60px;height:60px;border:4px solid var(--ink);border-radius:17px;
+  display:grid;place-items:center;font-size:31px;box-shadow:3px 3px 0 var(--ink)}
+.card .b{flex:1;min-width:0}
+.card h2{font-family:"RocknRoll One",sans-serif;font-size:19px;line-height:1.25}
+.card .tag{display:inline-block;font-size:10.5px;border:2.5px solid var(--ink);border-radius:9px;
+  padding:1px 8px;margin-top:5px;font-weight:900}
+.card p{font-size:12px;line-height:1.68;color:#5A4B38;margin-top:6px;font-weight:500}
+.card .no{flex:0 0 auto;font-family:"RocknRoll One",sans-serif;font-size:13px;
+  width:28px;height:28px;border:3px solid var(--ink);border-radius:50%;display:grid;place-items:center;
+  align-self:flex-start;background:var(--paper2)}
 
-.foot{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);
-  font-size:12px;line-height:1.9;color:var(--shi)}
-.foot b{color:var(--sub);font-weight:400}
+/* note */
+.note{background:var(--white);border:4px dashed var(--ink);border-radius:20px;padding:15px 17px;
+  font-size:12.5px;line-height:1.9;color:#4A3E2E;font-weight:500}
+.note b{font-weight:900;color:var(--ink)}
+.note .h{font-family:"RocknRoll One",sans-serif;font-size:14px;color:var(--ink);
+  display:block;margin-bottom:7px}
 
-#player{position:fixed;inset:0;background:var(--muro);display:none;flex-direction:column;z-index:50}
+/* player */
+#player{position:fixed;inset:0;background:var(--paper);display:none;flex-direction:column;z-index:50}
 #player.on{display:flex}
-#bar{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--muro2)}
-#back{font-family:"Zen Kaku Gothic New",sans-serif;font-size:12.5px;background:none;color:var(--kome);
-  border:1px solid var(--line);padding:7px 15px;border-radius:2px;cursor:pointer}
-#back:hover{border-color:var(--kouji);color:var(--kouji)}
-#back:focus-visible{outline:2px solid var(--ame);outline-offset:2px}
-#ttl{font-family:"Shippori Mincho B1",serif;font-size:15px;letter-spacing:.05em}
-iframe{flex:1;width:100%;border:0;background:var(--muro)}
+#bar{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--yellow);
+  border-bottom:5px solid var(--ink)}
+#back{font-family:"RocknRoll One",sans-serif;font-size:14px;background:var(--white);color:var(--ink);
+  border:3px solid var(--ink);border-radius:12px;padding:7px 15px;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+#back:active{transform:translate(3px,3px);box-shadow:none}
+#ttl{font-family:"RocknRoll One",sans-serif;font-size:16px}
+iframe{flex:1;width:100%;border:0;background:var(--paper)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <section class="hero">
-    <div class="eyebrow">発酵のしくみ / 六つの窓</div>
-    <h1>発酵とは、<br><em>体外で先に<br>消化しておくこと。</em></h1>
-    <p>味噌も、甘酒も、チーズも、パンも、原理は一つ。<br>
-    微生物が持つ酵素が、あなたの口に入る前に、硬いものをやわらかく、消化の悪いものを消化のよいものに変えておく。<br><br>
-    その働き手が<b>酵素</b>で、酵素は熱に弱く、形の合わない相手は受けつけず、そして<b>働いても減らない</b>。六つの窓から、別々の手で確かめる。</p>
-  </section>
 
-  <div class="trays">
-    <button class="tray" type="button" data-src="digest.html" data-ttl="飲まれた酵素">
-      <span class="k">一</span>
-      <span class="b">
-        <h2>飲まれた酵素</h2>
-        <div class="sub">YOU ARE THE ENZYME</div>
-        <p>あなたが酵素になる。サプリのカプセルから出て、血流を目指す。胃はpH2。そこで何が起きるかを、自分の操作で確かめる。</p>
-        <span class="tag">変性・消化・タンパク質合成</span>
-      </span>
-    </button>
-
-    <button class="tray" type="button" data-src="temp.html" data-ttl="麹の温度">
-      <span class="k">二</span>
-      <span class="b">
-        <h2>麹の温度</h2>
-        <div class="sub">OPTIMUM / DENATURATION</div>
-        <p>ヒーターの出力だけを頼りに、甘酒の温度を保つ。50℃を割れば酸っぱくなり、66℃を超えればアミラーゼがほどける。「酵素を補充する」ボタンも置いてある。</p>
-        <span class="tag">至適温度・不可逆変性</span>
-      </span>
-    </button>
-
-    <button class="tray" type="button" data-src="lactose.html" data-ttl="乳糖の一点">
-      <span class="k">三</span>
-      <span class="b">
-        <h2>乳糖の一点</h2>
-        <div class="sub">ONE ENZYME, ONE SUBSTRATE</div>
-        <p>牛乳の成分は4つの経路で消化される。ラクターゼの担当はそのうち一つだけ。乳児・成人・強い不耐の3人に、損をさせずに出せるか。</p>
-        <span class="tag">基質特異性・乳糖不耐</span>
-      </span>
-    </button>
-
-    <button class="tray" type="button" data-src="lock.html" data-ttl="鍵と鍵穴">
-      <span class="k">四</span>
-      <span class="b">
-        <h2>鍵と鍵穴</h2>
-        <div class="sub">SPECIFICITY / INHIBITION</div>
-        <p>麹の三酵素に、それぞれ合う分子だけを渡す。デンプンには甘味、タンパク質には旨味、脂質には香り。形の似た阻害剤に気をつけて。</p>
-        <span class="tag">基質特異性・競合阻害</span>
-      </span>
-    </button>
-
-    <button class="tray" type="button" data-src="blink.html" data-ttl="まばたきの回路">
-      <span class="k">五</span>
-      <span class="b">
-        <h2>まばたきの回路</h2>
-        <div class="sub">ATP SYNTHASE → MYOSIN → AChE</div>
-        <p>瞼を一往復させるのに、三つの酵素を順番に働かせる。閉じるのにも、開くのにも酵素がいる。信号を切る役が間に合わないと、瞼は戻らない。</p>
-        <span class="tag">代謝の連鎖・触媒の再利用</span>
-      </span>
-    </button>
-
-    <button class="tray" type="button" data-src="branch.html" data-ttl="発酵の分岐">
-      <span class="k">六</span>
-      <span class="b">
-        <h2>発酵の分岐</h2>
-        <div class="sub">ONE MOLD, MANY FOODS</div>
-        <p>麹菌は1種類しかいない。材料・温度・塩・菌・時間の5つを変えるだけで、甘酒にも味噌にも醤油にも酒にもなる。7つ集めて図鑑を埋める。</p>
-        <span class="tag">発酵の条件・図鑑</span>
-      </span>
-    </button>
+  <div class="hero">
+    <span class="pop" style="top:12px;left:14px">🫧</span>
+    <span class="pop" style="top:20px;right:18px">🍶</span>
+    <span class="pop" style="bottom:14px;right:22px">🧫</span>
+    <h1><span class="a">はっこう</span>って<br><span class="b">なんだ？</span></h1>
+    <p>こたえは、<b>びせいぶつが さきに しょうかしてくれること</b>。<br><br>
+    みそも、あまざけも、チーズも、パンも おなじ。びせいぶつの もつ「<b>こうそ</b>」が、
+    きみの くちに はいる まえに、かたいものを やわらかく、しょうかの わるいものを
+    しょうかの いいものに かえておいてくれる。<br><br>
+    そのこうそは、<b>あつさに よわくて、あいてを えらんで、そして はたらいても へらない</b>。
+    6つの ゲームで たしかめよう。</p>
   </div>
 
-  <p class="foot">
-    <b>扱っているのは生化学の酵素です。</b>いわゆる「酵素食品」で語られる、体内の酵素量が生涯で決まっているという説や、食べた酵素がそのまま体内で働くという説は採用していません。酵素はタンパク質なので、口から入れば胃で分解されてアミノ酸に戻ります。<br><br>
-    麹菌（<i>Aspergillus oryzae</i>）が出すアミラーゼ・プロテアーゼ・リパーゼの働きは、甘酒・味噌・醤油としてそのまま台所で再現できます。
+  <button class="card" type="button" data-src="digest.html" data-ttl="のまれた こうそ">
+    <span class="no">1</span>
+    <span class="ic" style="background:var(--cyan)">💊</span>
+    <span class="b">
+      <h2>のまれた こうそ</h2>
+      <span class="tag" style="background:var(--cyan)">へんせい・しょうか</span>
+      <p>きみが こうそになる。カプセルから でて、けつえきを めざせ。いは pH2。</p>
+    </span>
+  </button>
+
+  <button class="card" type="button" data-src="temp.html" data-ttl="こうじの おんど">
+    <span class="no">2</span>
+    <span class="ic" style="background:var(--red)">🌡️</span>
+    <span class="b">
+      <h2>こうじの おんど</h2>
+      <span class="tag" style="background:var(--red);color:var(--white)">してき温度</span>
+      <p>ヒーターだけで あまざけの おんどを まもる。50℃を われば すっぱく、66℃を こえれば…</p>
+    </span>
+  </button>
+
+  <button class="card" type="button" data-src="lactose.html" data-ttl="にゅうとうの いってん">
+    <span class="no">3</span>
+    <span class="ic" style="background:var(--white)">🥛</span>
+    <span class="b">
+      <h2>にゅうとうの いってん</h2>
+      <span class="tag" style="background:var(--paper2)">きしつ特異性</span>
+      <p>ぎゅうにゅうの 4せいぶんの うち、ラクターゼの たんとうは ひとつだけ。</p>
+    </span>
+  </button>
+
+  <button class="card" type="button" data-src="lock.html" data-ttl="かぎと かぎあな">
+    <span class="no">4</span>
+    <span class="ic" style="background:var(--yellow)">🔑</span>
+    <span class="b">
+      <h2>かぎと かぎあな</h2>
+      <span class="tag" style="background:var(--yellow)">とくいせい・そがい</span>
+      <p>こうじの 3きょうだいに、あう ぶんしだけを わたす。にせものに ちゅうい。</p>
+    </span>
+  </button>
+
+  <button class="card" type="button" data-src="blink.html" data-ttl="まばたきの かいろ">
+    <span class="no">5</span>
+    <span class="ic" style="background:var(--purple)">👁️</span>
+    <span class="b">
+      <h2>まばたきの かいろ</h2>
+      <span class="tag" style="background:var(--purple);color:var(--white)">たいしゃのれんさ</span>
+      <p>まぶたを 1おうふく させるのに、3つの こうそを じゅんばんに はたらかせる。</p>
+    </span>
+  </button>
+
+  <button class="card" type="button" data-src="branch.html" data-ttl="はっこうの わかれみち">
+    <span class="no">6</span>
+    <span class="ic" style="background:var(--green)">🏺</span>
+    <span class="b">
+      <h2>はっこうの わかれみち</h2>
+      <span class="tag" style="background:var(--green)">ずかん あつめ</span>
+      <p>こうじきんは 1しゅるい。じょうけんを かえるだけで 7つの たべものに なる。</p>
+    </span>
+  </button>
+
+  <p class="note">
+    <span class="h">🔬 おとなの かたへ</span>
+    ここで あつかっているのは <b>せいかがくの こうそ</b>です。いわゆる「酵素食品」で語られる、
+    体内の酵素量が生涯で決まっているという説や、食べた酵素がそのまま体内で働くという説は
+    採用していません。<b>酵素はタンパク質なので、口から入れば胃で分解されてアミノ酸に戻ります。</b><br><br>
+    麹菌（<i>Aspergillus oryzae</i>）が出すアミラーゼ・プロテアーゼ・リパーゼの働きは、
+    甘酒・味噌・醤油として、そのまま台所で再現できます。
   </p>
 </div>
 
 <div id="player">
-  <div id="bar"><button id="back" type="button">← 一覧へ戻る</button><span id="ttl"></span></div>
+  <div id="bar"><button id="back" type="button">← もどる</button><span id="ttl"></span></div>
   <iframe id="fr" title="ゲーム"></iframe>
 </div>
 
 <script>
 const player=document.getElementById('player'),fr=document.getElementById('fr'),ttl=document.getElementById('ttl');
-document.querySelectorAll('.tray').forEach(b=>{
+document.querySelectorAll('.card').forEach(b=>{
   b.addEventListener('click',()=>{
-    fr.src=b.dataset.src; ttl.textContent=b.dataset.ttl;
-    player.classList.add('on'); document.body.style.overflow='hidden';
+    fr.src=b.dataset.src;ttl.textContent=b.dataset.ttl;
+    player.classList.add('on');document.body.style.overflow='hidden';
     document.getElementById('back').focus();
   });
 });
 document.getElementById('back').addEventListener('click',()=>{
-  player.classList.remove('on'); fr.src='about:blank'; document.body.style.overflow='';
+  player.classList.remove('on');fr.src='about:blank';document.body.style.overflow='';
 });
-addEventListener('keydown',e=>{ if(e.key==='Escape'&&player.classList.contains('on')) document.getElementById('back').click(); });
+addEventListener('keydown',e=>{if(e.key==='Escape'&&player.classList.contains('on'))document.getElementById('back').click();});
 </script>
 </body>
 </html>

@@ -3,260 +3,282 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>乳糖の一点</title>
+<title>にゅうとうの いってん</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--muro:#12233A;--muro2:#1B3050;--line:#2B4568;--kome:#F4EFE2;--sub:#93A6BE;
-  --kouji:#E8B33A;--ame:#7FD1B9;--san:#F07A4B;--shi:#4C5F76;--ao:#8FB8E8}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
-  display:flex;justify-content:center;padding:20px 16px 32px;-webkit-font-smoothing:antialiased}
-.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:14px}
-header{border-bottom:1px solid var(--line);padding-bottom:13px}
-.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji)}
-h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
-.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+:root{--paper:#FFF4DA;--paper2:#FFE9B0;--ink:#2A2118;--white:#FFFDF5;
+  --red:#FF5C39;--pink:#FF7BA6;--yellow:#FFC42E;--green:#57C84D;
+  --blue:#2B6BD6;--cyan:#37C8D4;--purple:#9B6BE8;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--paper);
+  background-image:radial-gradient(circle at 8% 6%,rgba(43,107,214,.2) 0 18%,transparent 18.5%),
+                   radial-gradient(circle at 92% 55%,rgba(255,123,166,.24) 0 17%,transparent 17.5%);
+  color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:700;
+  display:flex;justify-content:center;padding:18px 14px 40px;min-height:100vh}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:13px}
+header{text-align:center;position:relative}
+h1{font-family:"RocknRoll One",sans-serif;font-size:clamp(26px,7.2vw,36px);line-height:1.16;
+  text-shadow:3px 3px 0 var(--blue)}
+h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
+.sub{font-size:12.5px;margin-top:7px;color:#6B5B45;line-height:1.75}
+.mute{position:absolute;right:0;top:0;background:var(--white);border:3px solid var(--ink);border-radius:50%;
+  width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);display:grid;
+  place-items:center;font-family:inherit;padding:0}
+.mute:active{transform:translate(3px,3px);box-shadow:none}
 
-.who{border:1px solid var(--line);background:var(--muro2);border-left:3px solid var(--kouji);
-  padding:13px 15px;border-radius:2px}
-.who .r{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--kouji)}
-.who .n{font-family:"Shippori Mincho B1",serif;font-size:18px;margin-top:4px}
-.who .d{font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:6px}
-.who .t{font-family:"DM Mono",monospace;font-size:11.5px;color:var(--ame);margin-top:7px}
+.who{background:var(--white);border:5px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);
+  padding:14px 16px;display:flex;gap:13px;align-items:flex-start}
+.who .av{flex:0 0 auto;width:56px;height:56px;border:4px solid var(--ink);border-radius:16px;
+  display:grid;place-items:center;font-size:29px;box-shadow:3px 3px 0 var(--ink)}
+.who .b{flex:1;min-width:0}
+.who .r{display:inline-block;font-family:"RocknRoll One",sans-serif;font-size:11px;background:var(--yellow);
+  border:2.5px solid var(--ink);border-radius:9px;padding:1px 8px}
+.who .n{font-family:"RocknRoll One",sans-serif;font-size:18px;margin-top:5px}
+.who .d{font-size:12px;color:#5A4B38;line-height:1.7;margin-top:5px;font-weight:500}
+.who .t{display:inline-block;margin-top:7px;font-size:11.5px;font-weight:900;background:var(--cyan);
+  border:2.5px solid var(--ink);border-radius:9px;padding:2px 9px}
 
-.stage{position:relative;border:1px solid var(--line);border-radius:3px;background:#0A1524;overflow:hidden}
-canvas{display:block;width:100%;height:270px}
+.stage{position:relative;background:var(--white);border:5px solid var(--ink);border-radius:24px;
+  box-shadow:7px 7px 0 var(--ink);overflow:hidden}
+canvas{display:block;width:100%;height:290px}
 
-.ctl{display:flex;flex-direction:column;gap:11px}
-.row .l{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.13em;color:var(--sub);margin-bottom:7px}
-.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.opt{background:var(--muro2);border:1px solid var(--line);border-radius:2px;padding:10px 6px;
-  cursor:pointer;color:var(--sub);font-family:inherit;text-align:center;transition:all .15s}
-.opt .t{font-size:12.5px;font-weight:500}
-.opt .s{font-family:"DM Mono",monospace;font-size:9.5px;color:var(--shi);margin-top:3px}
-.opt.sel{border-color:var(--kouji);color:var(--kome);background:#22375A}
-.opt:focus-visible{outline:2px solid var(--ame);outline-offset:2px}
-.amt{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
-.amt .opt .t{font-family:"DM Mono",monospace;font-size:15px}
+.row{background:var(--white);border:4px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);
+  padding:11px 12px 13px}
+.row .l{font-family:"RocknRoll One",sans-serif;font-size:14px;margin-bottom:9px}
+.opts{display:grid;gap:8px}.c3{grid-template-columns:repeat(3,1fr)}.c5{grid-template-columns:repeat(5,1fr)}
+.opt{background:var(--paper2);border:3px solid var(--ink);border-radius:13px;padding:9px 3px;cursor:pointer;
+  font-family:inherit;font-weight:700;color:var(--ink);text-align:center;box-shadow:3px 3px 0 var(--ink);
+  transition:transform .07s,box-shadow .07s,background .12s;line-height:1.3}
+.opt .t{font-size:12.5px}.opt .s{font-size:9px;opacity:.62;margin-top:2px}
+.opt:active{transform:translate(3px,3px);box-shadow:none}
+.opt.sel{background:var(--yellow);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.opt:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.c5 .opt .t{font-family:"RocknRoll One",sans-serif;font-size:16px}
 
-button.go{width:100%;font-family:"Zen Kaku Gothic New",sans-serif;font-size:13.5px;background:none;
-  color:var(--kome);border:1px solid var(--kouji);padding:12px;border-radius:2px;cursor:pointer;letter-spacing:.08em}
-button.go:hover{background:var(--kouji);color:var(--muro)}
-button.go:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
+.go{width:100%;font-family:"RocknRoll One",sans-serif;font-size:20px;letter-spacing:.14em;background:var(--red);
+  color:var(--white);border:4px solid var(--ink);border-radius:18px;padding:14px;cursor:pointer;
+  box-shadow:6px 6px 0 var(--ink);transition:transform .07s,box-shadow .07s}
+.go:active{transform:translate(6px,6px);box-shadow:none}
+.go:disabled{background:#C9BFAE;transform:translate(6px,6px);box-shadow:none;cursor:default}
 
-.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
-.note b{color:var(--kome);font-weight:500}
+.note{background:var(--white);border:4px dashed var(--ink);border-radius:18px;padding:13px 15px;
+  font-size:12.5px;line-height:1.85;color:#4A3E2E;font-weight:500}
+.note b{font-weight:900;color:var(--ink)}
 
-.overlay{position:absolute;inset:0;background:rgba(8,17,30,.96);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:13px;text-align:center;padding:24px;opacity:0;
-  pointer-events:none;transition:opacity .35s;overflow-y:auto}
-.overlay.on{opacity:1;pointer-events:auto}
-.overlay h2{font-family:"Shippori Mincho B1",serif;font-size:21px;line-height:1.5}
-.overlay p{font-size:12.5px;color:var(--sub);line-height:1.9;max-width:430px}
-.overlay p b{color:var(--kome)} .overlay p .hi{color:var(--ame)} .overlay p .bad{color:var(--san)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.modal{position:fixed;inset:0;background:rgba(42,33,24,.74);display:grid;place-items:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .25s;z-index:20;overflow-y:auto}
+.modal.on{opacity:1;pointer-events:auto}
+.card{background:var(--white);border:5px solid var(--ink);border-radius:26px;box-shadow:9px 9px 0 var(--ink);
+  padding:24px 20px;max-width:420px;width:100%;text-align:center;
+  transform:scale(.72) rotate(-3deg);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.modal.on .card{transform:scale(1) rotate(0)}
+.card .tag{display:inline-block;font-family:"RocknRoll One",sans-serif;font-size:12px;background:var(--green);
+  border:3px solid var(--ink);border-radius:11px;padding:3px 12px;box-shadow:2px 2px 0 var(--ink)}
+.card .ic{font-size:60px;line-height:1;margin:11px 0 3px}
+.card h2{font-family:"RocknRoll One",sans-serif;font-size:24px;line-height:1.35;margin-bottom:11px;color:var(--red)}
+.card p{font-size:12.5px;line-height:1.85;color:#4A3E2E;text-align:left}
+.card .log{background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:11px 13px;
+  margin:11px 0;text-align:left;font-size:12px;line-height:2}
+.card .log b{font-weight:900}
+.card .bad{color:var(--red);font-weight:900}.card .good{color:var(--green);font-weight:900}
+.card .hi{background:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:900}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+.cf{position:absolute;width:11px;height:15px;border:2px solid var(--ink);border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">one enzyme, one substrate</div>
-    <h1>乳糖の一点</h1>
-    <p class="lede">牛乳の成分は4つの別々の経路で消化されます。うち一つだけが、ラクターゼの担当です。この人が損をしないように出してください。</p>
+    <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
+    <h1>にゅうとうの<br><em>いってん</em></h1>
+    <p class="sub">ぎゅうにゅうの せいぶんは <b>4つの べつべつの みち</b>で しょうかされる。<br>ラクターゼの たんとうは そのうち ひとつだけ。</p>
   </header>
 
   <div class="who">
-    <div class="r" id="rnd">1 / 3</div>
-    <div class="n" id="who">—</div>
-    <div class="d" id="whoD">—</div>
-    <div class="t" id="whoT">—</div>
-  </div>
-
-  <div class="stage">
-    <canvas id="cv"></canvas>
-    <div class="overlay on" id="ov">
-      <h2 id="ovT">乳糖の一点</h2>
-      <p id="ovP">形と量を選んで出します。<br><b>栄養は多いほどよく、症状はゼロにしたい。</b></p>
-      <button class="go" id="ovB" style="max-width:220px">はじめる</button>
+    <div class="av" id="av" style="background:var(--pink)">👶</div>
+    <div class="b">
+      <span class="r" id="rnd">1 / 3</span>
+      <div class="n" id="whoN">—</div>
+      <div class="d" id="whoD">—</div>
+      <span class="t" id="whoT">—</span>
     </div>
   </div>
 
-  <div class="ctl">
-    <div class="row">
-      <div class="l">形</div>
-      <div class="opts" id="forms"></div>
-    </div>
-    <div class="row">
-      <div class="l">量</div>
-      <div class="amt" id="amts"></div>
-    </div>
-    <button class="go" id="serve">出す</button>
-  </div>
+  <div class="stage"><canvas id="cv"></canvas></div>
+
+  <div class="row"><div class="l">🥛 かたち</div><div class="opts c3" id="forms"></div></div>
+  <div class="row"><div class="l">🔢 なんばい？</div><div class="opts c5" id="amts"></div></div>
+  <button class="go" id="serve" type="button">だす！</button>
 
   <p class="note">
-    ラクターゼが分解するのは<b>乳糖だけ</b>です。タンパク質はペプシンとトリプシン、脂質はリパーゼ、
-    カルシウムは酵素を使わずに吸収されます。<br>
-    分解されなかった乳糖は大腸へ行き、腸内細菌に発酵されてガスになります。<b>不快ではありますが、毒ではありません。</b>
+    ラクターゼが ぶんかいするのは <b>にゅうとうだけ</b>。
+    タンパクしつは ペプシンと トリプシン、しししつは リパーゼ、カルシウムは こうそを つかわずに きゅうしゅうされる。<br>
+    ぶんかいされなかった にゅうとうは だいちょうへ いって、ちょうないさいきんに はっこうされて ガスになる。
+    <b>ふかいだけど、どくでは ない。</b>
   </p>
 </div>
+
+<div class="modal" id="modal"><div class="card" id="card"></div></div>
+<div class="conf" id="conf"></div>
 
 <script>
 (function(){
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
-const formsEl=document.getElementById('forms'),amtsEl=document.getElementById('amts');
-const serve=document.getElementById('serve');
-const rndEl=document.getElementById('rnd'),whoEl=document.getElementById('who'),
+const formsEl=document.getElementById('forms'),amtsEl=document.getElementById('amts'),serve=document.getElementById('serve');
+const rndEl=document.getElementById('rnd'),avEl=document.getElementById('av'),whoN=document.getElementById('whoN'),
       whoD=document.getElementById('whoD'),whoT=document.getElementById('whoT');
-const ov=document.getElementById('ov'),ovT=document.getElementById('ovT'),ovP=document.getElementById('ovP'),ovB=document.getElementById('ovB');
+const modal=document.getElementById('modal'),card=document.getElementById('card');
 
-const FORMS=[
-  {k:'milk', n:'牛乳',      s:'乳糖 10g/杯', lac:10.0, col:'#F4EFE2'},
-  {k:'yog',  n:'ヨーグルト', s:'乳糖 3g/杯',  lac:3.0,  col:'#C9DCEA'},
-  {k:'chz',  n:'熟成チーズ', s:'乳糖 0.2g/杯',lac:0.2,  col:'#E8B33A'},
-];
+let ac=null,muted=false;
+function snd(f,d,t,v){if(muted)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  const o=ac.createOscillator(),g=ac.createGain();o.type=t||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
+  o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function blip(){snd(660,.06,'square',.05)}
+function drip(){snd(500+Math.random()*400,.07,'sine',.04)}
+function fanfare(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>snd(f,.23,'square',.06),i*105))}
+function thud(){snd(140,.22,'sawtooth',.055);setTimeout(()=>snd(90,.3,'sawtooth',.05),110)}
+document.getElementById('mute').addEventListener('click',e=>{muted=!muted;
+  e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)blip();});
+
+const FORMS=[{k:'milk',n:'ぎゅうにゅう',s:'にゅうとう 10g',lac:10,ic:'🥛'},
+  {k:'yog',n:'ヨーグルト',s:'にゅうとう 3g',lac:3,ic:'🥣'},
+  {k:'chz',n:'じゅくせいチーズ',s:'にゅうとう 0.2g',lac:.2,ic:'🧀'}];
 const PEOPLE=[
-  {n:'生後6ヶ月の赤ちゃん', d:'ヒトはみな乳児期にラクターゼ活性が最も高い。母乳を消化するための標準装備です。',
-   tol:60, hint:'ラクターゼ活性 きわめて高い'},
-  {n:'40歳・日本人の成人', d:'離乳後に活性が落ちるのが哺乳類の標準。日本人成人の多くがこの状態です。',
-   tol:12, hint:'ラクターゼ活性 低い（一度に12gまで）'},
-  {n:'30歳・強い乳糖不耐', d:'活性がさらに低い人。少量でも症状が出ます。',
-   tol:4,  hint:'ラクターゼ活性 とても低い（一度に4gまで）'},
-];
-const LANES=[
-  {n:'タンパク質',e:'ペプシン・トリプシン',c:'#8FB8E8'},
-  {n:'脂質',      e:'リパーゼ',            c:'#F0A87A'},
-  {n:'カルシウム',e:'（酵素不要）',        c:'#7FD1B9'},
-  {n:'乳糖',      e:'ラクターゼ',          c:'#E8B33A'},
-];
+ {av:'👶',n:'せいご6かげつの あかちゃん',
+  d:'ヒトは みんな あかちゃんの ときが ラクターゼが いちばん つよい。ぼにゅうを しょうかする ための ひょうじゅんそうび。',
+  tol:60,hint:'ラクターゼ とっても つよい（60gまで）'},
+ {av:'🧑',n:'40さい・にほんじんの おとな',
+  d:'ちちばなれの あとに よわくなるのが ほにゅうるいの ひょうじゅん。にほんじんの おとなは たいてい これ。',
+  tol:12,hint:'ラクターゼ よわい（12gまで）'},
+ {av:'🧑‍🦰',n:'30さい・つよい にゅうとうふたい',
+  d:'ラクターゼが さらに よわい ひと。すこしでも おなかに くる。',
+  tol:4,hint:'ラクターゼ とても よわい（4gまで）'}];
+const LANES=[{n:'タンパクしつ',e:'ペプシン',c:'#2B6BD6',ic:'💪'},
+  {n:'ししつ',e:'リパーゼ',c:'#FFC42E',ic:'🧈'},
+  {n:'カルシウム',e:'こうそ ふよう',c:'#57C84D',ic:'🦴'},
+  {n:'にゅうとう',e:'ラクターゼ',c:'#FF7BA6',ic:'🍬'}];
 
 let W=0,H=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
   cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
 addEventListener('resize',resize);
 
-let form=0,amt=1,round=0,log=[],parts=[],anim=0,running=false,pass=[1,1,1,1],last=0;
+let form=0,amt=1,round=0,log=[],parts=[],running=false,pass=[1,1,1,1],last=0,anim=0;
 
-FORMS.forEach((f,i)=>{
-  const b=document.createElement('button');b.className='opt';b.type='button';
-  b.innerHTML=`<div class="t">${f.n}</div><div class="s">${f.s}</div>`;
-  b.addEventListener('click',()=>{form=i;paint();});
-  formsEl.appendChild(b);
-});
-[0,1,2,3,4].forEach(v=>{
-  const b=document.createElement('button');b.className='opt';b.type='button';
-  b.innerHTML=`<div class="t">${v}</div><div class="s">${v===0?'出さない':'杯'}</div>`;
-  b.addEventListener('click',()=>{amt=v;paint();});
-  amtsEl.appendChild(b);
-});
+FORMS.forEach((f,i)=>{const b=document.createElement('button');b.type='button';b.className='opt';
+  b.innerHTML='<div class="t">'+f.ic+' '+f.n+'</div><div class="s">'+f.s+'</div>';
+  b.addEventListener('click',()=>{if(running)return;form=i;blip();paint();});formsEl.appendChild(b);});
+[0,1,2,3,4].forEach(v=>{const b=document.createElement('button');b.type='button';b.className='opt';
+  b.innerHTML='<div class="t">'+v+'</div><div class="s">'+(v===0?'ださない':'はい')+'</div>';
+  b.addEventListener('click',()=>{if(running)return;amt=v;blip();paint();});amtsEl.appendChild(b);});
 function paint(){
   [...formsEl.children].forEach((b,i)=>b.classList.toggle('sel',i===form));
   [...amtsEl.children].forEach((b,i)=>b.classList.toggle('sel',i===amt));
 }
-
 function loadRound(){
-  const p=PEOPLE[round];
-  rndEl.textContent=(round+1)+' / 3';
-  whoEl.textContent=p.n; whoD.textContent=p.d; whoT.textContent=p.hint;
-  form=0;amt=1;paint();parts=[];pass=[1,1,1,1];anim=0;
+  const p=PEOPLE[round];rndEl.textContent=(round+1)+' / 3';avEl.textContent=p.av;
+  whoN.textContent=p.n;whoD.textContent=p.d;whoT.textContent=p.hint;
+  form=0;amt=1;paint();parts=[];pass=[1,1,1,1];
 }
 
 serve.addEventListener('click',()=>{
   if(running)return;
   const p=PEOPLE[round],f=FORMS[form];
-  const lacTotal=f.lac*amt;
-  const digested=Math.min(lacTotal,p.tol);
-  const leftover=Math.max(0,lacTotal-p.tol);
-  const nutri=amt*10;
-  pass=[1,1,1, lacTotal>0?digested/lacTotal:1];
-  log.push({person:p.n,form:f.n,amt,nutri,leftover,lacTotal});
-  running=true;anim=0;parts=[];
-  spawn(amt);
-  setTimeout(()=>{
-    running=false;
-    round++;
-    if(round>=PEOPLE.length)finish(); else loadRound();
-  },3400);
+  const lacTotal=f.lac*amt,digested=Math.min(lacTotal,p.tol),leftover=Math.max(0,lacTotal-p.tol);
+  pass=[1,1,1,lacTotal>0?digested/lacTotal:1];
+  log.push({person:p.n,av:p.av,form:f.n,amt,nutri:amt*10,leftover,lacTotal});
+  running=true;serve.disabled=true;parts=[];anim=0;
+  const per=Math.max(4,amt*7);
+  for(let L=0;L<4;L++)for(let i=0;i<per;i++)
+    parts.push({L,y:-24-Math.random()*180-i*11,v:74+Math.random()*44,stuck:false,ok:Math.random()<pass[L],j:Math.random()*17-8});
+  setTimeout(()=>{running=false;serve.disabled=false;round++;
+    if(round>=PEOPLE.length)finish();else loadRound();},3400);
 });
 
-function spawn(a){
-  const per=Math.max(4,a*7);
-  for(let L=0;L<4;L++)for(let i=0;i<per;i++)
-    parts.push({L,x:0,y:-20-Math.random()*160-i*9,v:70+Math.random()*40,stuck:false,ok:Math.random()<pass[L]});
-}
-
-function step(dt){
-  anim+=dt;
-  const gateY=H*0.56;
-  for(const p of parts){
-    if(p.stuck)continue;
-    p.y+=p.v*dt;
-    if(p.L===3&&!p.ok&&p.y>gateY){p.y=gateY+2+Math.random()*4;p.stuck=true;}
-    if(p.y>H+20)p.y=H+20;
+function face(x,y,s,mode){
+  ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+  ctx.strokeStyle='#2A2118';ctx.lineWidth=2;ctx.lineCap='round';ctx.fillStyle='#2A2118';
+  if(mode==='no'){
+    ctx.beginPath();ctx.moveTo(-6.4,-4.4);ctx.lineTo(-2,-2.4);ctx.moveTo(2,-2.4);ctx.lineTo(6.4,-4.4);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-4,6);ctx.quadraticCurveTo(0,2.4,4,6);ctx.stroke();
+  }else{
+    ctx.beginPath();ctx.arc(-4.2,-3,2.1,0,6.283);ctx.arc(4.2,-3,2.1,0,6.283);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-3.6,3.2);ctx.quadraticCurveTo(0,7,3.6,3.2);ctx.stroke();
   }
+  ctx.restore();
 }
-
-function draw(){
-  ctx.clearRect(0,0,W,H);ctx.fillStyle='#0A1524';ctx.fillRect(0,0,W,H);
-  const cw=W/4, gateY=H*0.56;
+function draw(dt,tt){
+  ctx.fillStyle='#FFFDF5';ctx.fillRect(0,0,W,H);
+  const cw=W/4,gateY=H*.6;
   LANES.forEach((L,i)=>{
     const cx=cw*i+cw/2;
-    ctx.strokeStyle='rgba(43,69,104,.55)';ctx.lineWidth=1;
-    if(i>0){ctx.beginPath();ctx.moveTo(cw*i,26);ctx.lineTo(cw*i,H);ctx.stroke();}
-    ctx.fillStyle='#93A6BE';ctx.font='500 11px "Zen Kaku Gothic New",sans-serif';ctx.textAlign='center';
+    if(i>0){ctx.strokeStyle='#EDE0C6';ctx.lineWidth=3;
+      ctx.beginPath();ctx.moveTo(cw*i,50);ctx.lineTo(cw*i,H);ctx.stroke();}
+    ctx.fillStyle='#2A2118';ctx.font='900 11px "Zen Maru Gothic",sans-serif';ctx.textAlign='center';
     ctx.fillText(L.n,cx,17);
-    ctx.fillStyle='#4C5F76';ctx.font='400 9px "DM Mono",monospace';
-    ctx.fillText(L.e,cx,29);
-    ctx.strokeStyle=i===3?'#E8B33A':'rgba(127,209,196,.45)';
-    ctx.lineWidth=i===3?2:1.4; ctx.setLineDash(i===3?[]:[3,4]);
-    ctx.beginPath();ctx.moveTo(cw*i+9,gateY);ctx.lineTo(cw*(i+1)-9,gateY);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#8A7A63';ctx.font='700 9px "Zen Maru Gothic",sans-serif';ctx.fillText(L.e,cx,30);
+    /* gate keeper character */
+    const bob=Math.sin(tt*2+i)*2.4, jammed=(i===3&&pass[3]<1);
+    ctx.fillStyle=jammed?'#C3B79F':L.c;ctx.strokeStyle='#2A2118';ctx.lineWidth=3.4;
+    ctx.beginPath();ctx.arc(cx,gateY+bob,17,0,6.283);ctx.fill();ctx.stroke();
+    face(cx,gateY+1+bob,1,jammed?'no':'ok');
     if(i===3){
-      const w=(cw-18)*pass[3];
-      ctx.strokeStyle='#0A1524';ctx.lineWidth=3;
-      ctx.beginPath();ctx.moveTo(cw*i+9,gateY);ctx.lineTo(cw*i+9+w,gateY);ctx.stroke();
+      ctx.strokeStyle='#2A2118';ctx.lineWidth=4;ctx.lineCap='round';
+      const half=(cw-26)/2,open=half*pass[3];
+      ctx.beginPath();ctx.moveTo(cx-half,gateY+24);ctx.lineTo(cx-open,gateY+24);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(cx+open,gateY+24);ctx.lineTo(cx+half,gateY+24);ctx.stroke();
     }
   });
-  ctx.fillStyle='rgba(43,69,104,.35)';ctx.fillRect(0,H-26,W,26);
-  ctx.fillStyle='#4C5F76';ctx.font='400 9.5px "DM Mono",monospace';ctx.textAlign='left';
-  ctx.fillText('吸収',10,H-10);
-  ctx.textAlign='right';ctx.fillText('大腸へ',W-10,gateY-8);
+  ctx.fillStyle='#EFE6D2';ctx.fillRect(0,H-24,W,24);
+  ctx.fillStyle='#8A7A63';ctx.font='700 10px "Zen Maru Gothic",sans-serif';ctx.textAlign='left';
+  ctx.fillText('きゅうしゅう ✓',9,H-8);
+  ctx.textAlign='right';ctx.fillText('だいちょうへ →',W-9,gateY+6);
 
   for(const p of parts){
-    const cx=cw*p.L+cw/2+((p.L*37+p.y*3)%17-8);
-    ctx.fillStyle=p.stuck?'#F07A4B':LANES[p.L].c;
-    ctx.globalAlpha=p.stuck?0.9:0.85;
-    ctx.beginPath();ctx.arc(cx,p.y,3.6,0,6.283);ctx.fill();
+    if(!p.stuck){p.y+=p.v*dt;
+      if(p.L===3&&!p.ok&&p.y>gateY+16){p.y=gateY+18+Math.random()*8;p.stuck=true;}
+      if(p.y>H+22)p.y=H+22;}
+    const cx=cw*p.L+cw/2+p.j;
+    ctx.fillStyle=p.stuck?'#FF5C39':LANES[p.L].c;ctx.strokeStyle='#2A2118';ctx.lineWidth=2.4;
+    ctx.beginPath();ctx.arc(cx,p.y,6,0,6.283);ctx.fill();ctx.stroke();
   }
-  ctx.globalAlpha=1;
 }
+function confetti(){const box=document.getElementById('conf'),
+  cols=['#FF5C39','#FFC42E','#57C84D','#2B6BD6','#FF7BA6','#37C8D4'];
+  for(let i=0;i<58;i++){const d=document.createElement('div');d.className='cf';
+    d.style.background=cols[(Math.random()*cols.length)|0];d.style.left=(Math.random()*100)+'%';d.style.top='-24px';
+    box.appendChild(d);
+    d.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:'translate('+((Math.random()-.5)*260)+'px,'+(innerHeight+70)+'px) rotate('+(Math.random()*900-450)+'deg)',opacity:.95}],
+      {duration:1300+Math.random()*800,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>d.remove();}}
 
 function finish(){
-  const totN=log.reduce((a,b)=>a+b.nutri,0);
-  const totL=log.reduce((a,b)=>a+b.leftover,0);
+  const totN=log.reduce((a,b)=>a+b.nutri,0),totL=log.reduce((a,b)=>a+b.leftover,0);
   const zero=log.filter(l=>l.nutri===0).length;
-  let head,body;
-  if(totL<=0&&totN>=100){head='すべて通した';}
-  else if(totL<=0&&zero>0){head='症状は防いだ。<br>ただし、通っていた3本も止めた';}
-  else if(totL<=0){head='症状ゼロ。もっと出せた';}
-  else {head='お腹を壊した';}
-  body=log.map((l,i)=>
-    `<b>${l.person}</b> — ${l.form} ${l.amt}杯　栄養 <span class="hi">${l.nutri}</span>／`+
-    `残った乳糖 <span class="${l.leftover>0?'bad':'hi'}">${l.leftover.toFixed(1)}g</span>`).join('<br>');
-  ovT.innerHTML=head;
-  ovP.innerHTML=body+
-    `<br><br>合計 栄養 <b>${totN}</b>／大腸に届いた乳糖 <b>${totL.toFixed(1)}g</b><br><br>`+
-    `ラクターゼが担当するのは乳糖だけです。<b>一つの酵素が足りないことは、その食べ物全部が消化できないことを意味しません。</b><br><br>`+
-    `そして解決策の一つが<span class="hi">発酵</span>でした。乳酸菌が先に乳糖を食べておいてくれたのがヨーグルトとチーズです。`+
-    `消化の悪い大豆に対する味噌と、まったく同じ解き方です。`;
-  ov.classList.add('on');
+  let ic,head;
+  if(totL<=0&&totN>=100){ic='🎉';head='ぜんぶ とおした！';fanfare();confetti();}
+  else if(totL<=0&&zero>0){ic='😐';head='しょうじょうは ふせいだ。<br>でも とおってた 3ぽんも とめた';thud();}
+  else if(totL<=0){ic='🙂';head='しょうじょう ゼロ。<br>でも もっと だせた';}
+  else {ic='😖';head='おなかを こわした';thud();}
+  const rows=log.map(l=>'<b>'+l.av+' '+l.form+' '+l.amt+'はい</b>　えいよう <span class="good">'+l.nutri+
+    '</span>／のこった にゅうとう <span class="'+(l.leftover>0?'bad':'good')+'">'+l.leftover.toFixed(1)+'g</span>').join('<br>');
+  card.innerHTML='<div class="tag">けっか</div><div class="ic">'+ic+'</div><h2>'+head+'</h2>'+
+    '<div class="log">'+rows+'<br><br>ごうけい えいよう <b>'+totN+'</b>／だいちょうに とどいた にゅうとう <b>'+totL.toFixed(1)+'g</b></div>'+
+    '<p>ラクターゼが たんとうするのは <b>にゅうとうだけ</b>。'+
+    '<b>ひとつの こうそが たりないことは、その たべもの ぜんぶが しょうかできない ことを いみしない。</b></p>'+
+    '<p style="margin-top:9px">そして こたえの ひとつが <span class="hi">はっこう</span>だった。'+
+    'にゅうさんきんが さきに にゅうとうを たべておいてくれたのが ヨーグルトと チーズ。'+
+    'しょうかの わるい だいずに たいする みそと、まったく おなじ ときかた。</p>'+
+    '<button class="go" id="again" style="margin-top:16px">もういちど</button>';
+  modal.classList.add('on');
+  document.getElementById('again').addEventListener('click',()=>{
+    round=0;log=[];loadRound();modal.classList.remove('on');blip();});
 }
-
-function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
-  if(running)step(dt);draw();requestAnimationFrame(loop);}
-ovB.addEventListener('click',()=>{
-  round=0;log=[];loadRound();ov.classList.remove('on');
-});
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;draw(dt,now/1000);requestAnimationFrame(loop);}
 resize();loadRound();last=performance.now();requestAnimationFrame(loop);
 })();
 </script>

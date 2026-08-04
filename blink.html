@@ -3,141 +3,160 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>まばたきの回路 — 三つの酵素のリレー</title>
+<title>まばたきの かいろ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --muro:#12233A; --muro2:#1B3050; --line:#2B4568;
-  --kome:#F4EFE2; --sub:#93A6BE;
-  --kouji:#E8B33A; --ame:#7FD1B9; --netsu:#F07A4B; --shi:#4C5F76;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
-  display:flex;justify-content:center;padding:20px 16px 32px;-webkit-font-smoothing:antialiased;}
-.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:16px}
-header{border-bottom:1px solid var(--line);padding-bottom:14px}
-.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji);text-transform:uppercase}
-h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
-.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+:root{--paper:#FFF4DA;--paper2:#FFE9B0;--ink:#2A2118;--white:#FFFDF5;
+  --red:#FF5C39;--pink:#FF7BA6;--yellow:#FFC42E;--green:#57C84D;
+  --blue:#2B6BD6;--cyan:#37C8D4;--purple:#9B6BE8;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--paper);
+  background-image:radial-gradient(circle at 90% 10%,rgba(155,107,232,.24) 0 18%,transparent 18.5%),
+                   radial-gradient(circle at 6% 66%,rgba(55,200,212,.24) 0 18%,transparent 18.5%);
+  color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:700;
+  display:flex;justify-content:center;padding:18px 14px 40px;min-height:100vh}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:13px}
+header{text-align:center;position:relative}
+h1{font-family:"RocknRoll One",sans-serif;font-size:clamp(27px,7.6vw,38px);line-height:1.16;
+  text-shadow:3px 3px 0 var(--purple)}
+h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
+.sub{font-size:12.5px;margin-top:7px;color:#6B5B45;line-height:1.75}
+.mute{position:absolute;right:0;top:0;background:var(--white);border:3px solid var(--ink);border-radius:50%;
+  width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);display:grid;
+  place-items:center;font-family:inherit;padding:0}
+.mute:active{transform:translate(3px,3px);box-shadow:none}
 
-.hud{display:flex;justify-content:space-between;align-items:baseline;font-family:"DM Mono",monospace;font-size:12px;color:var(--sub)}
-.hud b{color:var(--kome);font-weight:500;font-size:20px}
+.hud{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.h{background:var(--white);border:4px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink);
+  padding:8px 12px;text-align:center}
+.h .l{font-size:11px;color:#6B5B45}
+.h .v{font-family:"RocknRoll One",sans-serif;font-size:26px;line-height:1.15}
 
-.stage{position:relative;border:1px solid var(--line);border-radius:3px;background:#0D1B2E;padding:22px 18px 18px;overflow:hidden}
-svg.eye{display:block;width:100%;max-width:300px;margin:0 auto;height:auto}
+.stage{position:relative;background:var(--white);border:5px solid var(--ink);border-radius:24px;
+  box-shadow:7px 7px 0 var(--ink);padding:18px 16px 15px;overflow:hidden}
+svg.eye{display:block;width:100%;max-width:290px;margin:0 auto;height:auto}
 .lid{transition:transform .13s cubic-bezier(.4,0,.3,1)}
-.prompt{text-align:center;font-family:"Shippori Mincho B1",serif;font-size:16px;margin-top:14px;min-height:24px;letter-spacing:.05em}
-.prompt.warn{color:var(--netsu)}
+.prompt{text-align:center;font-family:"RocknRoll One",sans-serif;font-size:17px;margin-top:13px;min-height:26px}
+.prompt.warn{color:var(--red)}
+.prompt.good{color:var(--green)}
 
-.rack{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}
-.st{background:var(--muro2);border:1px solid var(--line);border-radius:2px;padding:12px 8px 11px;
-  text-align:center;cursor:pointer;color:var(--sub);transition:border-color .15s,color .15s,background .15s;
-  font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:7px}
-.st:disabled{cursor:default}
-.st .num{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.14em;color:var(--shi)}
-.st .nm{font-size:12px;font-weight:500;line-height:1.4}
-.st .sm{font-size:10px;color:var(--shi);font-family:"DM Mono",monospace}
-.st.live{border-color:var(--kouji);color:var(--kome);background:#22375A}
-.st.live .num{color:var(--kouji)}
-.st.hit{background:var(--kouji);color:var(--muro)}
-.st:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
+.rack{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+.st{background:var(--paper2);border:4px solid var(--ink);border-radius:16px;padding:11px 5px 10px;
+  cursor:pointer;font-family:inherit;color:var(--ink);text-align:center;box-shadow:4px 4px 0 var(--ink);
+  transition:transform .08s,box-shadow .08s,background .13s;display:flex;flex-direction:column;
+  align-items:center;gap:6px;line-height:1.3}
+.st:active{transform:translate(4px,4px);box-shadow:none}
+.st .num{font-family:"RocknRoll One",sans-serif;font-size:11px;background:var(--white);
+  border:2.5px solid var(--ink);border-radius:8px;padding:0 7px}
+.st .nm{font-size:11.5px;font-weight:900}
+.st .sm{font-size:9.5px;color:#6B5B45}
+.st.live{background:var(--yellow);animation:bounce .55s infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+.st.hit{background:var(--green)}
+.st:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.atp{display:flex;gap:5px;justify-content:center}
+.atp span{width:9px;height:9px;border:2.5px solid var(--ink);border-radius:50%;background:var(--white)}
+.atp span.on{background:var(--red)}
 
-.win{height:5px;background:#0D1B2E;border:1px solid var(--line);margin-top:12px;position:relative;overflow:hidden}
-.win i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--ame);display:block}
-.win.hot i{background:var(--netsu)}
-.winlab{display:flex;justify-content:space-between;font-family:"DM Mono",monospace;font-size:10px;color:var(--shi);margin-top:5px}
+.win{height:14px;border:3px solid var(--ink);border-radius:9px;background:#EDE5D3;margin-top:14px;
+  position:relative;overflow:hidden}
+.win i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--cyan);display:block}
+.win.hot i{background:var(--red)}
+.winlab{display:flex;justify-content:space-between;font-size:10.5px;color:#8A7A63;margin-top:4px}
 
-.atp{display:flex;gap:5px;justify-content:center;margin-top:2px}
-.atp span{width:7px;height:7px;border:1px solid var(--shi);border-radius:50%}
-.atp span.on{background:var(--kouji);border-color:var(--kouji)}
+.note{background:var(--white);border:4px dashed var(--ink);border-radius:18px;padding:13px 15px;
+  font-size:12.5px;line-height:1.85;color:#4A3E2E;font-weight:500}
+.note b{font-weight:900;color:var(--ink)}
 
-.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
-.note b{color:var(--kome);font-weight:500}
-
-.overlay{position:absolute;inset:0;background:rgba(11,23,38,.96);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:14px;text-align:center;padding:26px;opacity:0;pointer-events:none;transition:opacity .35s}
-.overlay.on{opacity:1;pointer-events:auto}
-.overlay h2{font-family:"Shippori Mincho B1",serif;font-size:23px}
-.overlay p{font-size:13px;color:var(--sub);line-height:1.9;max-width:420px}
-.overlay p b{color:var(--kome)}
-button.go{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13px;background:none;color:var(--kome);
-  border:1px solid var(--kouji);padding:9px 22px;border-radius:2px;cursor:pointer;letter-spacing:.06em}
-button.go:hover{background:var(--kouji);color:var(--muro)}
-button.go:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.modal{position:fixed;inset:0;background:rgba(42,33,24,.74);display:grid;place-items:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .25s;z-index:20;overflow-y:auto}
+.modal.on{opacity:1;pointer-events:auto}
+.card{background:var(--white);border:5px solid var(--ink);border-radius:26px;box-shadow:9px 9px 0 var(--ink);
+  padding:24px 20px;max-width:410px;width:100%;text-align:center;
+  transform:scale(.72) rotate(-3deg);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+.modal.on .card{transform:scale(1) rotate(0)}
+.card .tag{display:inline-block;font-family:"RocknRoll One",sans-serif;font-size:12px;background:var(--purple);
+  color:var(--white);border:3px solid var(--ink);border-radius:11px;padding:3px 12px;box-shadow:2px 2px 0 var(--ink)}
+.card .ic{font-size:60px;line-height:1;margin:11px 0 3px}
+.card h2{font-family:"RocknRoll One",sans-serif;font-size:25px;margin-bottom:11px;color:var(--red)}
+.card p{font-size:12.5px;line-height:1.9;color:#4A3E2E;text-align:left}
+.card .hi{background:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:900}
+.go{width:100%;font-family:"RocknRoll One",sans-serif;font-size:19px;letter-spacing:.12em;background:var(--red);
+  color:var(--white);border:4px solid var(--ink);border-radius:17px;padding:13px;cursor:pointer;
+  box-shadow:6px 6px 0 var(--ink);transition:transform .07s,box-shadow .07s;margin-top:16px}
+.go:active{transform:translate(6px,6px);box-shadow:none}
+.conf{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+.cf{position:absolute;width:11px;height:15px;border:2px solid var(--ink);border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">ATP synthase → myosin → AChE</div>
-    <h1>まばたきの回路</h1>
-    <p class="lede">瞬きひとつに三つの酵素がいる。ひとつはエネルギーを作り、ひとつはそれを使って筋肉を縮め、ひとつは信号を切って瞼を戻す。順番にタップして、瞼を一往復させる。</p>
+    <button class="mute" id="mute" type="button" aria-label="音">🔊</button>
+    <h1>まばたきの<br><em>かいろ</em></h1>
+    <p class="sub">まばたき ひとつに <b>3つの こうそ</b>が いる。<br>じゅんばんに タップして、まぶたを 1おうふく させよう。</p>
   </header>
 
   <div class="hud">
-    <div>残り <b id="time">60</b> 秒</div>
-    <div>まばたき <b id="blinks">0</b> 回</div>
+    <div class="h"><div class="l">のこり</div><div class="v" id="time">60</div></div>
+    <div class="h"><div class="l">まばたき</div><div class="v" id="blinks">0</div></div>
   </div>
 
   <div class="stage">
-    <svg class="eye" viewBox="0 0 240 120" aria-label="目">
-      <defs>
-        <clipPath id="eyeclip">
-          <path d="M12 60 C 60 8, 180 8, 228 60 C 180 112, 60 112, 12 60 Z"/>
-        </clipPath>
-      </defs>
-      <g clip-path="url(#eyeclip)">
-        <rect x="0" y="0" width="240" height="120" fill="#0A1524"/>
-        <circle id="iris" cx="120" cy="60" r="30" fill="#1B3050" stroke="#2B4568" stroke-width="1.5"/>
-        <circle cx="120" cy="60" r="12" fill="#0A1524"/>
-        <circle cx="131" cy="49" r="4.5" fill="#F4EFE2" opacity=".5"/>
-        <g class="lid" id="lid" transform="translate(0,-124)">
-          <rect x="0" y="0" width="240" height="124" fill="#12233A"/>
-          <rect x="0" y="118" width="240" height="6" fill="#E8B33A" opacity=".65"/>
+    <svg class="eye" viewBox="0 0 240 130" aria-label="め">
+      <defs><clipPath id="ec"><path d="M14 65 C 62 12, 178 12, 226 65 C 178 118, 62 118, 14 65 Z"/></clipPath></defs>
+      <g clip-path="url(#ec)">
+        <rect x="0" y="0" width="240" height="130" fill="#FFFDF5"/>
+        <circle cx="120" cy="65" r="33" fill="#37C8D4" stroke="#2A2118" stroke-width="4"/>
+        <circle cx="120" cy="65" r="14" fill="#2A2118"/>
+        <circle cx="132" cy="52" r="6" fill="#FFFDF5"/>
+        <g class="lid" id="lid" transform="translate(0,-134)">
+          <rect x="0" y="0" width="240" height="134" fill="#FFC42E"/>
+          <rect x="0" y="126" width="240" height="8" fill="#2A2118"/>
         </g>
       </g>
-      <path d="M12 60 C 60 8, 180 8, 228 60 C 180 112, 60 112, 12 60 Z" fill="none" stroke="#2B4568" stroke-width="2"/>
+      <path d="M14 65 C 62 12, 178 12, 226 65 C 178 118, 62 118, 14 65 Z" fill="none" stroke="#2A2118" stroke-width="5"/>
     </svg>
 
-    <div class="prompt" id="prompt">はじめてください</div>
+    <div class="prompt" id="prompt">スタートを おして！</div>
 
     <div class="rack">
       <button class="st" id="s0" type="button">
-        <span class="num">01</span>
-        <span class="nm">ATP合成酵素</span>
+        <span class="num">1</span><span class="nm">ATP<br>ごうせいこうそ</span>
         <span class="atp" id="atpDots"><span></span><span></span><span></span></span>
-        <span class="sm">エネルギーを作る</span>
-      </button>
+        <span class="sm">エネルギーを つくる</span></button>
       <button class="st" id="s1" type="button">
-        <span class="num">02</span>
-        <span class="nm">ミオシンATPase</span>
-        <span class="sm">ATPを分解して縮む</span>
-      </button>
+        <span class="num">2</span><span class="nm">ミオシン<br>ATPアーゼ</span>
+        <span class="sm">ATPを つかって ちぢむ</span></button>
       <button class="st" id="s2" type="button">
-        <span class="num">03</span>
-        <span class="nm">アセチルコリン<br>エステラーゼ</span>
-        <span class="sm">信号を切る</span>
-      </button>
+        <span class="num">3</span><span class="nm">アセチルコリン<br>エステラーゼ</span>
+        <span class="sm">しんごうを きる</span></button>
     </div>
 
     <div class="win" id="win"><i id="winFill"></i></div>
-    <div class="winlab"><span>アセチルコリン濃度</span><span id="winMsg">—</span></div>
-
-    <div class="overlay on" id="ov">
-      <h2 id="ovT">まばたきの回路</h2>
-      <p id="ovP">01を3回叩いてATPを3つ作る → 02で瞼を閉じる → 03を<b>光っているうちに</b>叩いて瞼を開く。<br>60秒。</p>
-      <button class="go" id="ovB">はじめる</button>
-    </div>
+    <div class="winlab"><span>アセチルコリンの のうど</span><span id="winMsg">—</span></div>
   </div>
 
   <p class="note">
-    <b>閉じるのにも開くのにも酵素がいる。</b>アセチルコリンエステラーゼが神経伝達物質を分解して初めて信号が切れ、筋肉は緩む。分解が止まれば瞼は縮んだまま戻らない。<br>
-    そして三つとも、働いても減らない。あなたが今日ここまでに何回まばたきしたとしても、同じ酵素が使い回されている。
+    <b>とじるのにも あけるのにも こうそが いる。</b>
+    アセチルコリンエステラーゼが しんごうを ぶんかいして はじめて、きんにくは ゆるむ。
+    ぶんかいが とまれば、まぶたは ちぢんだまま もどらない。<br>
+    そして 3つとも、<b>はたらいても へらない</b>。おなじ こうそが つかいまわされている。
   </p>
 </div>
+
+<div class="modal on" id="modal"><div class="card" id="card">
+  <div class="tag">ルール</div><div class="ic">👁️</div>
+  <h2>まばたきの かいろ</h2>
+  <p><b>1</b>を 3かい たたいて ATPを 3つ つくる<br>→ <b>2</b>で まぶたを とじる<br>
+     → <b>3</b>を <b>ひかっている あいだに</b> たたいて まぶたを あける。<br><br>
+     まにあわないと、まぶたが もどらない！<br>60びょう しょうぶ。</p>
+  <button class="go" id="startB">はじめる！</button>
+</div></div>
+<div class="conf" id="conf"></div>
 
 <script>
 (function(){
@@ -146,88 +165,88 @@ const s=[document.getElementById('s0'),document.getElementById('s1'),document.ge
 const dots=document.querySelectorAll('#atpDots span');
 const winFill=document.getElementById('winFill'),win=document.getElementById('win'),winMsg=document.getElementById('winMsg');
 const timeEl=document.getElementById('time'),blinkEl=document.getElementById('blinks');
-const ov=document.getElementById('ov'),ovT=document.getElementById('ovT'),ovP=document.getElementById('ovP'),ovB=document.getElementById('ovB');
+const modal=document.getElementById('modal'),card=document.getElementById('card');
 
-const NEED=3, OPEN=0.30, WINDOW=0.95, STUCK=1.3;
+let ac=null,muted=false;
+function snd(f,d,t,v){if(muted)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+  const o=ac.createOscillator(),g=ac.createGain();o.type=t||'square';o.frequency.value=f;
+  g.gain.setValueAtTime(v||.05,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);
+  o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function tick(){snd(760,.05,'square',.045)}
+function shut(){snd(300,.09,'triangle',.05)}
+function open_(){snd(880,.09,'square',.05);setTimeout(()=>snd(1200,.1,'square',.045),70)}
+function stuck(){snd(180,.3,'sawtooth',.055)}
+function fanfare(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>snd(f,.24,'square',.06),i*100))}
+document.getElementById('mute').addEventListener('click',e=>{muted=!muted;
+  e.currentTarget.textContent=muted?'🔇':'🔊';if(!muted)tick();});
+
+const NEED=3,OPEN=.30,WINDOW=.95,STUCK=1.3;
 let phase='atp',atp=0,blinks=0,missed=0,t=60,run=false,last=0,ph=0;
-
-function lidPos(p){ lid.setAttribute('transform','translate(0,'+(-124+124*p)+')'); }
-function setLive(i){ s.forEach((b,k)=>b.classList.toggle('live',k===i)); }
-function flash(b){ b.classList.add('hit'); setTimeout(()=>b.classList.remove('hit'),110); }
-function dotsUp(){ dots.forEach((d,i)=>d.classList.toggle('on',i<atp)); }
-
-function toAtp(){ phase='atp';atp=0;dotsUp();setLive(0);
-  prompt.classList.remove('warn');prompt.textContent='ATPを3つ作る';
-  winFill.style.width='0%';win.classList.remove('hot');winMsg.textContent='—'; }
+function lidPos(p){lid.setAttribute('transform','translate(0,'+(-134+134*p)+')');}
+function setLive(i){s.forEach((b,k)=>b.classList.toggle('live',k===i));}
+function flash(b){b.classList.add('hit');setTimeout(()=>b.classList.remove('hit'),110);}
+function dotsUp(){dots.forEach((d,i)=>d.classList.toggle('on',i<atp));}
+function P(txt,cls){prompt.textContent=txt;prompt.className='prompt'+(cls?' '+cls:'');}
+function toAtp(){phase='atp';atp=0;dotsUp();setLive(0);P('ATPを 3つ つくろう！');
+  winFill.style.width='0%';win.classList.remove('hot');winMsg.textContent='—';}
 
 function tap(i){
   if(!run)return;
   if(phase==='atp'){
-    if(i!==0){prompt.textContent='まだ01の番';return;}
-    flash(s[0]);atp++;dotsUp();
-    if(atp>=NEED){phase='ready';setLive(1);prompt.textContent='ATPが揃った。02で閉じる';}
+    if(i!==0){P('まだ 1の ばん');return;}
+    flash(s[0]);tick();atp++;dotsUp();
+    if(atp>=NEED){phase='ready';setLive(1);P('ATPが そろった！ 2で とじる','good');}
   }else if(phase==='ready'){
-    if(i!==1){prompt.textContent='ATPは揃っている。02へ';return;}
-    flash(s[1]);atp=0;dotsUp();
-    phase='closing';ph=0;setLive(-1);
-    prompt.textContent='瞼が下りる';
+    if(i!==1){P('ATPは そろってる。2へ');return;}
+    flash(s[1]);shut();atp=0;dotsUp();phase='closing';ph=0;setLive(-1);P('まぶたが おりる…');
   }else if(phase==='window'){
-    if(i!==2){prompt.textContent='03で信号を切る';return;}
-    flash(s[2]);
-    blinks++;blinkEl.textContent=blinks;
-    phase='opening';ph=0;setLive(-1);
-    prompt.classList.remove('warn');prompt.textContent='信号が切れた';
-    winMsg.textContent='分解';win.classList.remove('hot');
-  }else if(phase==='closing'&&i===2){
-    prompt.textContent='まだ信号が出ていない';
-  }
+    if(i!==2){P('3で しんごうを きる！');return;}
+    flash(s[2]);open_();blinks++;blinkEl.textContent=blinks;
+    phase='opening';ph=0;setLive(-1);P('しんごうが きれた！','good');
+    winMsg.textContent='ぶんかい ✓';win.classList.remove('hot');
+  }else if(phase==='closing'&&i===2){P('まだ しんごうが でてない');}
 }
 s.forEach((b,i)=>b.addEventListener('click',()=>tap(i)));
-addEventListener('keydown',e=>{ if(e.key>='1'&&e.key<='3'){tap(+e.key-1);} });
+addEventListener('keydown',e=>{if(e.key>='1'&&e.key<='3')tap(+e.key-1);});
 
 function step(dt){
-  t-=dt; timeEl.textContent=Math.max(0,Math.ceil(t));
-  if(phase==='closing'){
-    ph+=dt/0.13; lidPos(Math.min(1,ph));
-    if(ph>=1){phase='signal';ph=0;lidPos(1);}
-  }else if(phase==='signal'){
-    ph+=dt; winFill.style.width=Math.min(100,ph/OPEN*100)+'%';
-    if(ph>=OPEN){phase='window';ph=0;setLive(2);
-      prompt.textContent='いま、03';winMsg.textContent='蓄積';win.classList.add('hot');}
-  }else if(phase==='window'){
-    ph+=dt; winFill.style.width=(100-ph/WINDOW*100)+'%';
-    if(ph>=WINDOW){phase='stuck';ph=0;missed++;setLive(-1);
-      winFill.style.width='100%';
-      prompt.classList.add('warn');prompt.textContent='瞼が戻らない';
-      winMsg.textContent='分解されず滞留';}
-  }else if(phase==='stuck'){
-    ph+=dt;
-    lidPos(1-Math.sin(ph*26)*0.045);
-    if(ph>=STUCK){phase='opening';ph=0;}
-  }else if(phase==='opening'){
-    ph+=dt/0.16; lidPos(Math.max(0,1-ph));
-    if(ph>=1){lidPos(0);toAtp();}
-  }
+  t-=dt;timeEl.textContent=Math.max(0,Math.ceil(t));
+  if(phase==='closing'){ph+=dt/.13;lidPos(Math.min(1,ph));if(ph>=1){phase='signal';ph=0;lidPos(1);}}
+  else if(phase==='signal'){ph+=dt;winFill.style.width=Math.min(100,ph/OPEN*100)+'%';
+    if(ph>=OPEN){phase='window';ph=0;setLive(2);P('いま！ 3を たたけ！','warn');
+      winMsg.textContent='たまってる';win.classList.add('hot');}}
+  else if(phase==='window'){ph+=dt;winFill.style.width=(100-ph/WINDOW*100)+'%';
+    if(ph>=WINDOW){phase='stuck';ph=0;missed++;setLive(-1);stuck();
+      winFill.style.width='100%';P('まぶたが もどらない！','warn');winMsg.textContent='ぶんかいされず たまってる';}}
+  else if(phase==='stuck'){ph+=dt;lidPos(1-Math.sin(ph*26)*.05);if(ph>=STUCK){phase='opening';ph=0;}}
+  else if(phase==='opening'){ph+=dt/.16;lidPos(Math.max(0,1-ph));if(ph>=1){lidPos(0);toAtp();}}
 }
+function confetti(){const box=document.getElementById('conf'),
+  cols=['#FF5C39','#FFC42E','#57C84D','#2B6BD6','#FF7BA6','#37C8D4','#9B6BE8'];
+  for(let i=0;i<62;i++){const d=document.createElement('div');d.className='cf';
+    d.style.background=cols[(Math.random()*cols.length)|0];d.style.left=(Math.random()*100)+'%';d.style.top='-24px';
+    box.appendChild(d);
+    d.animate([{transform:'translate(0,0) rotate(0)',opacity:1},
+      {transform:'translate('+((Math.random()-.5)*270)+'px,'+(innerHeight+75)+'px) rotate('+(Math.random()*1000-500)+'deg)',opacity:.95}],
+      {duration:1300+Math.random()*850,easing:'cubic-bezier(.25,.6,.5,1)'}).onfinish=()=>d.remove();}}
 function finish(){
-  run=false;setLive(-1);lidPos(0);
-  const perDay=Math.round(blinks/60*60*60*16/1000)*1000;
-  ovT.textContent='60秒が終わった';
-  ovP.innerHTML=`まばたき <b>${blinks}</b> 回／間に合わなかった回数 <b>${missed}</b><br>`+
-    `使ったATP <b>${blinks*3}</b> 個<br><br>`+
-    `人は起きているあいだ、1日およそ <b>15,000〜20,000回</b> まばたきする。<br>`+
-    `そのすべてで、この三つの酵素が同じ順番で働いている。今日もう何万回か、あなたは気づかずにこれをやっている。`;
-  ov.classList.add('on');
+  run=false;setLive(-1);lidPos(0);fanfare();confetti();
+  card.innerHTML='<div class="tag">60びょう しゅうりょう</div><div class="ic">👁️</div>'+
+    '<h2>まばたき '+blinks+'かい！</h2>'+
+    '<p>まにあわなかった かいすう <b>'+missed+'</b><br>つかった ATP <b>'+(blinks*3)+'こ</b></p>'+
+    '<p style="margin-top:11px">ひとは おきてる あいだ、1にちに およそ '+
+    '<span class="hi">15,000〜20,000かい</span> まばたきする。<br><br>'+
+    'その ぜんぶで、この <b>3つの こうそが おなじ じゅんばん</b>で はたらいている。'+
+    'きょう もう なんまんかい、きみは きづかずに これを やっている。</p>'+
+    '<button class="go" id="again">もういちど</button>';
+  modal.classList.add('on');
+  document.getElementById('again').addEventListener('click',start);
 }
-function loop(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;
-  if(run){step(dt);if(t<=0)finish();}
-  requestAnimationFrame(loop);
-}
-ovB.addEventListener('click',()=>{
-  blinks=0;missed=0;t=60;blinkEl.textContent='0';lidPos(0);
-  run=true;toAtp();ov.classList.remove('on');last=performance.now();
-});
+function start(){blinks=0;missed=0;t=60;blinkEl.textContent='0';lidPos(0);run=true;toAtp();
+  modal.classList.remove('on');last=performance.now();tick();}
+document.getElementById('startB').addEventListener('click',start);
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(run){step(dt);if(t<=0)finish();}requestAnimationFrame(loop);}
 lidPos(0);last=performance.now();requestAnimationFrame(loop);
 })();
 </script>
