@@ -144,7 +144,7 @@ h1 em{font-style:normal;color:var(--red);text-shadow:3px 3px 0 var(--ink)}
     <div class="opts c2" id="slt"></div>
   </div>
   <div class="row">
-    <div class="lab"><i style="background:var(--cyan)"></i>なかまの きん（いくつでも）</div>
+    <div class="lab"><i style="background:var(--cyan)"></i>なかまの 菌（いくつでも）</div>
     <div class="opts c3" id="mic"></div>
   </div>
   <div class="row">
@@ -360,12 +360,12 @@ function judge(){
   if(tmp==='hot')return{ng:1,ic:'🥵',n:'なにも おきない',
     d:'70℃を こえると 麹の 酵素は ほどけてしまう。いちど ほどけたら <b>もう 二度と もとに 戻らない</b>。冷やしても だめ。'};
   if(mic.has('yeast')&&slt==='yes')return{ng:1,ic:'😵',n:'酵母が しんだ',
-    d:'塩分 12%では 酵母は 生きられない。みそや しょうゆが 塩を 使うのは、<b>ほかの きんを しめ出すため</b>なんだ。'};
+    d:'塩分 12%では 酵母は 生きられない。みそや しょうゆが 塩を 使うのは、<b>ほかの 菌を しめ出すため</b>なんだ。'};
   if(mic.has('acetic')&&!mic.has('yeast'))return{ng:1,ic:'🥱',n:'酢酸菌が ひまだ',
     d:'酢酸菌は <b>アルコールを おすに 変える きん</b>。アルコールが なければ なにも できない。だれかに 先に 作ってもらう 必要がある。'};
   for(const r of RECIPES) if(r.mat===mat&&r.tmp===tmp&&r.slt===slt&&r.tim===tim&&same(r.mic,mic))return{ok:1,r};
   if(slt==='no'&&tim==='long'&&mic.size===0)return{ng:1,ic:'🤢',n:'腐ってしまった',
-    d:'塩も なく、なかまの きんも いないまま 1年。麹が 働きおわった あと、<b>雑菌が 先に きた</b>。'};
+    d:'塩も なく、なかまの 菌も いないまま 1年。麹が 働きおわった あと、<b>雑菌が 先に きた</b>。'};
   if(mat!=='rice'&&tmp==='warm')return{ng:1,ic:'🫘',n:'ただの 蒸し大豆',
     d:'保温で いそいでも、タンパク質の 分解には 時間が かかる。<b>プロテアーゼは アミラーゼより しごとが おそい</b>。'};
   if(mic.has('lactic')&&slt==='no')return{ng:1,ic:'😖',n:'酸っぱくなっただけ',
