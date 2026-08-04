@@ -88,6 +88,23 @@ canvas:active{cursor:grabbing}
 .card p{font-size:13px;line-height:1.9;color:#4A3E2E;text-align:left}
 .card p+p{margin-top:9px}
 .card .hi{background:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:900;color:var(--ink)}
+.rules{text-align:left;margin:4px 0 12px}
+.rules .r{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.6;
+  padding:8px 0;border-bottom:2px dotted #E0D5BE}
+.rules .r:last-child{border-bottom:0}
+.rules .n{flex:0 0 auto;width:23px;height:23px;border:3px solid var(--ink);border-radius:50%;
+  background:var(--yellow);font-family:"RocknRoll One",sans-serif;font-size:12px;
+  display:grid;place-items:center}
+.cau{background:#FFF0E6;border:3px solid var(--red);border-radius:14px;padding:10px 12px;
+  font-size:12.5px!important;line-height:1.8!important;text-align:left}
+.rec{background:var(--paper);border:3px solid var(--ink);border-radius:15px;padding:12px 14px;
+  margin:12px 0;text-align:center}
+.rec .t{font-family:"RocknRoll One",sans-serif;font-size:12px;color:#6B5B45}
+.rec .s{font-family:"RocknRoll One",sans-serif;font-size:38px;line-height:1.1;color:var(--red)}
+.rec .s small{font-size:16px;color:var(--ink)}
+.rec .ti{display:inline-block;background:var(--yellow);border:3px solid var(--ink);border-radius:11px;
+  padding:2px 12px;font-size:12.5px;font-weight:900;margin-top:7px;box-shadow:2px 2px 0 var(--ink)}
+.rec .best{font-size:11px;color:#8A7A63;margin-top:6px}
 .go{width:100%;font-family:"RocknRoll One",sans-serif;font-size:19px;letter-spacing:.12em;
   background:var(--red);color:var(--white);border:4px solid var(--ink);border-radius:17px;padding:13px;
   cursor:pointer;box-shadow:6px 6px 0 var(--ink);transition:transform .07s,box-shadow .07s;margin-top:16px}
@@ -127,15 +144,24 @@ canvas:active{cursor:grabbing}
     酵素は <b>タンパク質</b>でできている。そして その力は、
     <b>おりたたまれた 形 そのもの</b>に ある。<br>
     形が ほどけたら、なかみが 同じでも <b>もう 酵素じゃない</b>。<br>
-    胃液は pH2。この 強い さんで、たいていの タンパク質は ほどけてしまう。
-  </p>
+    胃液は pH2。この 強い 酸で、たいていの タンパク質は ほどけてしまう。<br><br>
+    <b>胃酸は 酵素を ころすために あるんじゃない。</b>
+    食べた タンパク質を ほどいて、切って、吸収できる アミノ酸に するために ある。
+    だから <b>サプリの 酵素だけが とくべつ あつかいされる 理由は ない</b>。同じように ほどかれる。
 </div>
 
 <div class="modal on" id="modal"><div class="card" id="card">
-  <div class="tag">スタート</div>
+  <div class="tag">ルール</div>
   <div class="big">💊</div>
-  <h2>飲みこまれる じゅんび</h2>
-  <p>まずは カプセルを <b>れんだ</b>して やぶろう。<br>そのあとは <b>ゆびで ドラッグ</b>して 動く。</p>
+  <h2>血液まで たどりつけ</h2>
+  <div class="rules">
+    <div class="r"><span class="n">1</span><span>カプセルを <b>6回タップ</b>して やぶる</span></div>
+    <div class="r"><span class="n">2</span><span><b>ゆびで ドラッグ</b>して、胃の <b style="color:#FF5C39">赤い酸</b>を よける</span></div>
+    <div class="r"><span class="n">3</span><span style="color:#8A7A63">？？？</span></div>
+  </div>
+  <p class="cau">⚠️ 酸に あたると「<b>形</b>」が へる。<br>
+     形が ゼロに なると、もう 酵素では なくなる。<br>
+     <b>どれだけ 長く 形を 保てるか</b>が 記録に なる。</p>
   <button class="go" id="startB">飲みこまれる！</button>
 </div></div>
 <div class="conf" id="conf"></div>
@@ -173,12 +199,20 @@ addEventListener('resize',resize);
 const NEED=12;
 let phase='idle',pt=0,taps=0,fold=1,act=1,hits=0,run=false,last=0;
 let px=0,py=0,tx=0,ty=0,acids=[],frags=[],aas=[],caught=0,gates=[],spT=0,shake=0;
+let held=0,best=0;
+function title(sec){
+  if(sec>=15)return['🏆','胃の底で もっとも 長く 形を 保った 酵素'];
+  if(sec>=10)return['🥇','ねばった 酵素'];
+  if(sec>=7) return['🥈','なかなか もった 酵素'];
+  if(sec>=4) return['🥉','ふつうの 酵素'];
+  return['💨','あっという間'];
+}
 
 function say(s){speech.textContent=s;speech.classList.add('on');spT=2.4;}
 function zone(txt,col){zoneEl.textContent=txt;zoneEl.style.background=col;}
 
 function init(){
-  resize();phase='capsule';pt=0;taps=0;fold=1;act=1;hits=0;caught=0;shake=0;
+  resize();phase='capsule';pt=0;taps=0;fold=1;act=1;hits=0;caught=0;shake=0;held=0;
   px=W/2;py=H*0.44;tx=px;ty=py;acids=[];frags=[];aas=[];
   gates=[0.24,0.5,0.76].map(f=>({x:W*f,y:H-42,r:27,used:false}));
   goalEl.textContent='血液に たどりついて 働く';
@@ -206,6 +240,7 @@ function step(dt){
   px=Math.max(24,Math.min(W-24,px));py=Math.max(24,Math.min(H-24,py));
 
   if(phase==='stomach'){
+    held+=dt;
     if(Math.random()<dt*3.6&&acids.length<28)
       acids.push({x:Math.random()*W,y:H+16,r:10+Math.random()*14,v:36+Math.random()*48,w:Math.random()*6.3});
     for(const a of acids){a.y-=a.v*dt;a.w+=dt*2;a.x+=Math.sin(a.w)*11*dt;
@@ -314,6 +349,8 @@ function draw(t){
     ctx.fillText('タップ  '+taps+' / 6',W/2,H*.44+92);
   }
   if(phase==='stomach'||phase==='unfolded'){
+    ctx.fillStyle='#2A2118';ctx.font='900 15px "Zen Maru Gothic",sans-serif';ctx.textAlign='left';
+    ctx.fillText('形を 保てた 時間  '+held.toFixed(1)+'秒',14,H-14);
     for(const a of acids){
       ctx.fillStyle=a.hit?'rgba(255,92,57,.2)':'#FF9E7A';
       ctx.strokeStyle='#2A2118';ctx.lineWidth=a.hit?1.4:3;
@@ -385,21 +422,30 @@ function confetti(){
 
 function finish(){
   run=false;fanfare();confetti();
-  const names=[['カタラーゼ','かつどく（かさんかすいそ）を みずに 変える'],
+  const names=[['カタラーゼ','かつどく（過酸化水素）を 水に 変える'],
                ['ラクターゼ','乳糖を 分解する'],
                ['アミラーゼ','デンプンを 甘くする'],
-               ['ヘキソキナーゼ','とうを エネルギーに 変える 最初の いっぽ']];
+               ['ヘキソキナーゼ','糖を エネルギーに 変える 最初の 一歩']];
   const [nm,job]=names[(Math.random()*names.length)|0];
+  const isBest=held>best; if(isBest)best=held;
+  const tt=title(held);
   card.className='card';
-  card.innerHTML=`<div class="tag">クリア！</div><div class="big">🎉</div>
+  card.innerHTML=`<div class="tag">クリア！</div>
+    <div class="rec">
+      <div class="t">胃のなかで 形を 保てた 時間</div>
+      <div class="s">${held.toFixed(1)}<small>秒</small></div>
+      <div class="ti">${tt[0]} ${tt[1]}</div>
+      <div class="best">${isBest?'自己ベスト 更新！':'自己ベスト '+best.toFixed(1)+'秒'}　／　酸に あたった回数 ${hits}回</div>
+    </div>
     <h2>とうちゃく！<br>でも <span style="color:#2A2118">材料</span>として。</h2>
-    <p>胃で <b>${hits}かい</b> さんに あたって、形は 完全に ほどけた。
-       働く力は ゼロに なり、トリプシンに 切られて アミノ酸に なった。</p>
-    <p>吸収され、細胞に はこばれ、リボソームで <b>${NEED}この</b> アミノ酸が つながって——</p>
+    <p>どれだけ よけても、形は 完全に ほどけた。働く力は ゼロに なり、
+       トリプシンに 切られて アミノ酸に なった。</p>
+    <p>吸収され、細胞に はこばれ、リボソームで <b>${NEED}個</b>の アミノ酸が つながって——</p>
     <p style="text-align:center;font-size:17px;font-weight:900;margin:12px 0">
        <span class="hi">${nm}</span><br><span style="font-size:12px;font-weight:700">${job}</span></p>
-    <p>が できあがった。<b>きみが もともと なんの 酵素だったかは、もう 関係ない。</b>
-       体は そのとき 必要な 酵素を、設計図から 作る。</p>
+    <p><b>何秒 ねばっても、できる 酵素は 変わらない。</b>
+       体は そのとき 必要な 酵素を、設計図から 作るから。<br>
+       きみが なんだったかは <b>記録には 残るが、結果には 残らない</b>。</p>
     <p>だから「生きた 酵素を 飲む」ことに 意味は ない。
        届くのは いつも <b>材料の ほう</b>なんだ。</p>
     <button class="go" id="again">もういちど</button>`;
