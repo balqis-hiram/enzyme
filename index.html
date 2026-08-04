@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>発酵のしくみ — 酵素から見る</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --muro:#12233A; --muro2:#1B3050; --line:#2B4568;
+  --kome:#F4EFE2; --sub:#93A6BE;
+  --kouji:#E8B33A; --ame:#7FD1B9; --shi:#4C5F76;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:660px;margin:0 auto;padding:44px 18px 56px}
+
+.hero{border-bottom:1px solid var(--line);padding-bottom:30px}
+.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--kouji)}
+h1{font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:clamp(34px,9vw,52px);
+  line-height:1.24;letter-spacing:.02em;margin:16px 0 0}
+h1 em{font-style:normal;color:var(--kouji)}
+.hero p{color:var(--sub);font-size:14px;line-height:1.95;margin-top:18px;max-width:46ch}
+.hero p b{color:var(--kome);font-weight:500}
+
+.trays{margin-top:34px;display:flex;flex-direction:column;gap:12px}
+.tray{display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;
+  background:var(--muro2);border:1px solid var(--line);border-left:3px solid var(--kouji);
+  border-radius:2px;padding:18px 18px 17px;cursor:pointer;color:inherit;font-family:inherit;
+  transition:background .18s,transform .18s,border-color .18s}
+.tray:hover{background:#22375A;transform:translateX(3px)}
+.tray:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
+.tray .k{font-family:"DM Mono",monospace;font-size:11px;color:var(--kouji);letter-spacing:.12em;padding-top:4px;flex:0 0 auto}
+.tray .b{flex:1}
+.tray h2{font-family:"Shippori Mincho B1",serif;font-size:20px;font-weight:700;letter-spacing:.04em}
+.tray .sub{font-family:"DM Mono",monospace;font-size:10.5px;color:var(--shi);letter-spacing:.1em;margin-top:3px}
+.tray p{color:var(--sub);font-size:12.5px;line-height:1.8;margin-top:9px}
+.tray .tag{display:inline-block;font-size:10.5px;font-family:"DM Mono",monospace;color:var(--ame);
+  border:1px solid #2F5E56;padding:2px 7px;border-radius:2px;margin-top:10px;letter-spacing:.06em}
+
+.foot{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:12px;line-height:1.9;color:var(--shi)}
+.foot b{color:var(--sub);font-weight:400}
+
+#player{position:fixed;inset:0;background:var(--muro);display:none;flex-direction:column;z-index:50}
+#player.on{display:flex}
+#bar{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--muro2)}
+#back{font-family:"Zen Kaku Gothic New",sans-serif;font-size:12.5px;background:none;color:var(--kome);
+  border:1px solid var(--line);padding:7px 15px;border-radius:2px;cursor:pointer}
+#back:hover{border-color:var(--kouji);color:var(--kouji)}
+#back:focus-visible{outline:2px solid var(--ame);outline-offset:2px}
+#ttl{font-family:"Shippori Mincho B1",serif;font-size:15px;letter-spacing:.05em}
+iframe{flex:1;width:100%;border:0;background:var(--muro)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">発酵のしくみ / 六つの窓</div>
+    <h1>発酵とは、<br><em>体外で先に<br>消化しておくこと。</em></h1>
+    <p>味噌も、甘酒も、チーズも、パンも、原理は一つ。<br>
+    微生物が持つ酵素が、あなたの口に入る前に、硬いものをやわらかく、消化の悪いものを消化のよいものに変えておく。<br><br>
+    その働き手が<b>酵素</b>で、酵素は熱に弱く、形の合わない相手は受けつけず、そして<b>働いても減らない</b>。六つの窓から、別々の手で確かめる。</p>
+  </section>
+
+  <div class="trays">
+    <button class="tray" type="button" data-src="digest.html" data-ttl="飲まれた酵素">
+      <span class="k">一</span>
+      <span class="b">
+        <h2>飲まれた酵素</h2>
+        <div class="sub">YOU ARE THE ENZYME</div>
+        <p>あなたが酵素になる。サプリのカプセルから出て、血流を目指す。胃はpH2。そこで何が起きるかを、自分の操作で確かめる。</p>
+        <span class="tag">変性・消化・タンパク質合成</span>
+      </span>
+    </button>
+
+    <button class="tray" type="button" data-src="temp.html" data-ttl="麹の温度">
+      <span class="k">二</span>
+      <span class="b">
+        <h2>麹の温度</h2>
+        <div class="sub">OPTIMUM / DENATURATION</div>
+        <p>ヒーターの出力だけを頼りに、甘酒の温度を保つ。50℃を割れば酸っぱくなり、66℃を超えればアミラーゼがほどける。「酵素を補充する」ボタンも置いてある。</p>
+        <span class="tag">至適温度・不可逆変性</span>
+      </span>
+    </button>
+
+    <button class="tray" type="button" data-src="lactose.html" data-ttl="乳糖の一点">
+      <span class="k">三</span>
+      <span class="b">
+        <h2>乳糖の一点</h2>
+        <div class="sub">ONE ENZYME, ONE SUBSTRATE</div>
+        <p>牛乳の成分は4つの経路で消化される。ラクターゼの担当はそのうち一つだけ。乳児・成人・強い不耐の3人に、損をさせずに出せるか。</p>
+        <span class="tag">基質特異性・乳糖不耐</span>
+      </span>
+    </button>
+
+    <button class="tray" type="button" data-src="lock.html" data-ttl="鍵と鍵穴">
+      <span class="k">四</span>
+      <span class="b">
+        <h2>鍵と鍵穴</h2>
+        <div class="sub">SPECIFICITY / INHIBITION</div>
+        <p>麹の三酵素に、それぞれ合う分子だけを渡す。デンプンには甘味、タンパク質には旨味、脂質には香り。形の似た阻害剤に気をつけて。</p>
+        <span class="tag">基質特異性・競合阻害</span>
+      </span>
+    </button>
+
+    <button class="tray" type="button" data-src="blink.html" data-ttl="まばたきの回路">
+      <span class="k">五</span>
+      <span class="b">
+        <h2>まばたきの回路</h2>
+        <div class="sub">ATP SYNTHASE → MYOSIN → AChE</div>
+        <p>瞼を一往復させるのに、三つの酵素を順番に働かせる。閉じるのにも、開くのにも酵素がいる。信号を切る役が間に合わないと、瞼は戻らない。</p>
+        <span class="tag">代謝の連鎖・触媒の再利用</span>
+      </span>
+    </button>
+
+    <button class="tray" type="button" data-src="branch.html" data-ttl="発酵の分岐">
+      <span class="k">六</span>
+      <span class="b">
+        <h2>発酵の分岐</h2>
+        <div class="sub">ONE MOLD, MANY FOODS</div>
+        <p>麹菌は1種類しかいない。材料・温度・塩・菌・時間の5つを変えるだけで、甘酒にも味噌にも醤油にも酒にもなる。7つ集めて図鑑を埋める。</p>
+        <span class="tag">発酵の条件・図鑑</span>
+      </span>
+    </button>
+  </div>
+
+  <p class="foot">
+    <b>扱っているのは生化学の酵素です。</b>いわゆる「酵素食品」で語られる、体内の酵素量が生涯で決まっているという説や、食べた酵素がそのまま体内で働くという説は採用していません。酵素はタンパク質なので、口から入れば胃で分解されてアミノ酸に戻ります。<br><br>
+    麹菌（<i>Aspergillus oryzae</i>）が出すアミラーゼ・プロテアーゼ・リパーゼの働きは、甘酒・味噌・醤油としてそのまま台所で再現できます。
+  </p>
+</div>
+
+<div id="player">
+  <div id="bar"><button id="back" type="button">← 一覧へ戻る</button><span id="ttl"></span></div>
+  <iframe id="fr" title="ゲーム"></iframe>
+</div>
+
+<script>
+const player=document.getElementById('player'),fr=document.getElementById('fr'),ttl=document.getElementById('ttl');
+document.querySelectorAll('.tray').forEach(b=>{
+  b.addEventListener('click',()=>{
+    fr.src=b.dataset.src; ttl.textContent=b.dataset.ttl;
+    player.classList.add('on'); document.body.style.overflow='hidden';
+    document.getElementById('back').focus();
+  });
+});
+document.getElementById('back').addEventListener('click',()=>{
+  player.classList.remove('on'); fr.src='about:blank'; document.body.style.overflow='';
+});
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&player.classList.contains('on')) document.getElementById('back').click(); });
+</script>
+</body>
+</html>

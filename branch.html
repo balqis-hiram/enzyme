@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>発酵の分岐</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--muro:#12233A;--muro2:#1B3050;--line:#2B4568;--kome:#F4EFE2;--sub:#93A6BE;
+  --kouji:#E8B33A;--ame:#7FD1B9;--san:#F07A4B;--shi:#4C5F76}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
+  display:flex;justify-content:center;padding:20px 16px 36px;-webkit-font-smoothing:antialiased}
+.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:16px}
+header{border-bottom:1px solid var(--line);padding-bottom:13px}
+.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji)}
+h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
+.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+
+.row .l{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.13em;color:var(--sub);margin-bottom:7px}
+.row+.row{margin-top:13px}
+.opts{display:grid;gap:7px}
+.opts.c2{grid-template-columns:repeat(2,1fr)}
+.opts.c3{grid-template-columns:repeat(3,1fr)}
+.opts.c4{grid-template-columns:repeat(4,1fr)}
+.opt{background:var(--muro2);border:1px solid var(--line);border-radius:2px;padding:10px 5px;
+  cursor:pointer;color:var(--sub);font-family:inherit;text-align:center;transition:all .15s;line-height:1.35}
+.opt .t{font-size:12.5px;font-weight:500}
+.opt .s{font-family:"DM Mono",monospace;font-size:9px;color:var(--shi);margin-top:3px}
+.opt.sel{border-color:var(--kouji);color:var(--kome);background:#22375A}
+.opt.sel .s{color:var(--kouji)}
+.opt:focus-visible{outline:2px solid var(--ame);outline-offset:2px}
+
+button.go{width:100%;font-family:"Zen Kaku Gothic New",sans-serif;font-size:13.5px;background:none;
+  color:var(--kome);border:1px solid var(--kouji);padding:13px;border-radius:2px;cursor:pointer;letter-spacing:.1em}
+button.go:hover{background:var(--kouji);color:var(--muro)}
+button.go:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
+
+.result{border:1px solid var(--line);background:#0A1524;border-radius:3px;padding:20px 18px;
+  min-height:132px;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:8px}
+.result .st{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.16em}
+.result .nm{font-family:"Shippori Mincho B1",serif;font-size:27px;letter-spacing:.06em}
+.result .ez{font-family:"DM Mono",monospace;font-size:11px;color:var(--ame)}
+.result .ds{font-size:12.5px;color:var(--sub);line-height:1.8;max-width:420px;margin:0 auto}
+.result.ok .st{color:var(--kouji)} .result.ng .st{color:var(--san)}
+.result.ng .nm{color:var(--san);font-size:20px}
+
+.zukan h3{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.16em;color:var(--sub);
+  font-weight:400;margin-bottom:9px;display:flex;justify-content:space-between}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.cell{aspect-ratio:1;border:1px solid var(--line);background:var(--muro2);border-radius:2px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px}
+.cell .n{font-family:"Shippori Mincho B1",serif;font-size:13px;color:var(--shi)}
+.cell .e{font-family:"DM Mono",monospace;font-size:8px;color:var(--shi)}
+.cell.got{border-color:var(--kouji);background:#22375A}
+.cell.got .n{color:var(--kome)} .cell.got .e{color:var(--kouji)}
+
+.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
+.note b{color:var(--kome);font-weight:500}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">one mold, many foods</div>
+    <h1>発酵の分岐</h1>
+    <p class="lede">麹菌は1種類しかいません。変えられるのは材料と条件だけ。それだけで、甘酒にも味噌にも酒にもなります。</p>
+  </header>
+
+  <div class="ctl">
+    <div class="row"><div class="l">材料</div><div class="opts c4" id="mat"></div></div>
+    <div class="row"><div class="l">温度</div><div class="opts c3" id="tmp"></div></div>
+    <div class="row"><div class="l">塩</div><div class="opts c2" id="slt"></div></div>
+    <div class="row"><div class="l">いっしょに入れる菌（複数可）</div><div class="opts c3" id="mic"></div></div>
+    <div class="row"><div class="l">時間</div><div class="opts c3" id="tim"></div></div>
+  </div>
+
+  <button class="go" id="run">仕込む</button>
+
+  <div class="result" id="res">
+    <div class="st">READY</div>
+    <div class="ds">条件を選んで仕込んでください。</div>
+  </div>
+
+  <div class="zukan">
+    <h3><span>発酵図鑑</span><span id="cnt">0 / 7</span></h3>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <p class="note">
+    麹菌が特別なのは、<b>糖化と分解を一手に引き受ける</b>ところです。だから日本酒は、糖化と発酵が同じ樽で同時に進む
+    「並行複発酵」という珍しい方式になります。ビールが麦芽で糖化してから酵母を入れるのとは違います。<br>
+    <b>酵母は糖がないと動けず、酢酸菌はアルコールがないと動けません。</b>順番があります。
+  </p>
+</div>
+
+<script>
+(function(){
+const MAT=[{k:'rice',n:'米',s:'デンプン'},{k:'soy',n:'大豆',s:'タンパク質'},
+           {k:'soywheat',n:'大豆＋小麦',s:'両方'},{k:'wheat',n:'小麦',s:'デンプン'}];
+const TMP=[{k:'cool',n:'常温',s:'20℃前後'},{k:'warm',n:'保温',s:'55-60℃'},{k:'hot',n:'高温',s:'75℃'}];
+const SLT=[{k:'no',n:'入れない',s:''},{k:'yes',n:'入れる',s:'塩分12%'}];
+const MIC=[{k:'yeast',n:'酵母',s:'糖→アルコール'},{k:'acetic',n:'酢酸菌',s:'アルコール→酢'},
+           {k:'lactic',n:'乳酸菌',s:'糖→乳酸'}];
+const TIM=[{k:'short',n:'短い',s:'6時間'},{k:'mid',n:'中',s:'1ヶ月'},{k:'long',n:'長い',s:'1年'}];
+
+const RECIPES=[
+  {id:'amazake', n:'甘酒',   e:'アミラーゼ', mat:'rice', tmp:'warm', slt:'no',  mic:[],                 tim:'short',
+   d:'アミラーゼが米のデンプンをブドウ糖に変えた。砂糖を一切入れていないのに甘い。'},
+  {id:'shiokoji',n:'塩麹',   e:'プロテアーゼ',mat:'rice', tmp:'cool', slt:'yes', mic:[],                 tim:'mid',
+   d:'塩が雑菌を抑えている間に、プロテアーゼがゆっくり働いた。肉が柔らかくなるのはこの酵素。'},
+  {id:'sake',    n:'日本酒', e:'アミラーゼ→酵母',mat:'rice',tmp:'cool',slt:'no',mic:['yeast'],          tim:'mid',
+   d:'麹が糖にした端から酵母がアルコールに変える。糖化と発酵が同じ樽で同時に進む「並行複発酵」。'},
+  {id:'vinegar', n:'米酢',   e:'三段リレー', mat:'rice', tmp:'cool', slt:'no',  mic:['yeast','acetic'], tim:'long',
+   d:'麹→酵母→酢酸菌。三種類の生き物が順番にバトンを渡した。'},
+  {id:'miso',    n:'味噌',   e:'プロテアーゼ',mat:'soy', tmp:'cool', slt:'yes', mic:[],                 tim:'long',
+   d:'大豆のタンパク質がアミノ酸に分解された。旨味の正体はグルタミン酸。消化の悪い大豆を、先に消化してある。'},
+  {id:'shoyu',   n:'醤油',   e:'プロテアーゼ＋アミラーゼ',mat:'soywheat',tmp:'cool',slt:'yes',mic:[],   tim:'long',
+   d:'大豆のタンパク質と小麦のデンプンを同時に分解。旨味と甘味と香りが一度に出る。'},
+  {id:'bread',   n:'パン',   e:'酵母',       mat:'wheat',tmp:'cool', slt:'no',  mic:['yeast'],          tim:'short',
+   d:'小麦のアミラーゼが作った糖を酵母が食べ、出したCO₂で生地が膨らんだ。アルコールは焼くと飛ぶ。'},
+];
+
+let mat='rice',tmp='warm',slt='no',mic=new Set(),tim='short';
+const found=new Set();
+
+function mk(el,list,get,set,multi){
+  el.innerHTML='';
+  list.forEach(o=>{
+    const b=document.createElement('button');b.className='opt';b.type='button';
+    b.innerHTML=`<div class="t">${o.n}</div>${o.s?`<div class="s">${o.s}</div>`:''}`;
+    b.addEventListener('click',()=>{set(o.k);paint();});
+    el.appendChild(b);
+  });
+}
+mk(document.getElementById('mat'),MAT,()=>mat,v=>mat=v);
+mk(document.getElementById('tmp'),TMP,()=>tmp,v=>tmp=v);
+mk(document.getElementById('slt'),SLT,()=>slt,v=>slt=v);
+mk(document.getElementById('mic'),MIC,()=>mic,v=>{mic.has(v)?mic.delete(v):mic.add(v);});
+mk(document.getElementById('tim'),TIM,()=>tim,v=>tim=v);
+
+function paint(){
+  const sets=[[document.getElementById('mat'),MAT,k=>k===mat],
+              [document.getElementById('tmp'),TMP,k=>k===tmp],
+              [document.getElementById('slt'),SLT,k=>k===slt],
+              [document.getElementById('mic'),MIC,k=>mic.has(k)],
+              [document.getElementById('tim'),TIM,k=>k===tim]];
+  for(const [el,list,test] of sets)
+    [...el.children].forEach((b,i)=>b.classList.toggle('sel',test(list[i].k)));
+}
+
+const grid=document.getElementById('grid'),cnt=document.getElementById('cnt');
+function drawZukan(){
+  grid.innerHTML='';
+  RECIPES.forEach(r=>{
+    const c=document.createElement('div');
+    const got=found.has(r.id);
+    c.className='cell'+(got?' got':'');
+    c.innerHTML=`<div class="n">${got?r.n:'？'}</div><div class="e">${got?r.e.slice(0,9):'—'}</div>`;
+    grid.appendChild(c);
+  });
+  cnt.textContent=found.size+' / '+RECIPES.length;
+}
+
+function same(a,b){return a.length===b.size&&a.every(x=>b.has(x));}
+
+function judge(){
+  if(tmp==='hot')
+    return {ng:1,n:'何も起きない',d:'70℃を超えた。麹の酵素はほどけて、二度と畳み直されない。変性は不可逆。'};
+  if(mic.has('yeast')&&slt==='yes')
+    return {ng:1,n:'酵母が死んだ',d:'塩分12%で酵母は生きられない。味噌や醤油が塩を使うのは、まさに他の菌を締め出すため。'};
+  if(mic.has('acetic')&&!mic.has('yeast'))
+    return {ng:1,n:'酢酸菌が働けない',d:'酢酸菌はアルコールを酢に変える菌。アルコールがなければ何もできない。誰かに先に作ってもらう必要がある。'};
+  for(const r of RECIPES)
+    if(r.mat===mat&&r.tmp===tmp&&r.slt===slt&&r.tim===tim&&same(r.mic,mic))
+      return {ok:1,r};
+  if(slt==='no'&&tim==='long'&&mic.size===0)
+    return {ng:1,n:'腐敗した',d:'塩もなく、味方の菌もいないまま1年。麹が働き終えた後、雑菌が先に来た。'};
+  if(mat!=='rice'&&tmp==='warm')
+    return {ng:1,n:'ただの蒸し大豆',d:'保温で急いでも、タンパク質の分解には時間がかかる。プロテアーゼはアミラーゼより仕事が遅い。'};
+  if(mic.has('lactic')&&slt==='no')
+    return {ng:1,n:'酸っぱくなっただけ',d:'乳酸菌は糖を乳酸に変える。悪くはないが、まだ何かの食品にはなっていない。'};
+  return {ng:1,n:'何にもならなかった',d:'条件のどれかが噛み合っていない。温度・塩・菌・時間、どれか一つを変えてみる。'};
+}
+
+const res=document.getElementById('res');
+document.getElementById('run').addEventListener('click',()=>{
+  const v=judge();
+  if(v.ok){
+    const isNew=!found.has(v.r.id);
+    found.add(v.r.id);drawZukan();
+    res.className='result ok';
+    res.innerHTML=`<div class="st">${isNew?'NEW — 図鑑に追加':'できた'}</div>`+
+      `<div class="nm">${v.r.n}</div><div class="ez">${v.r.e}</div><div class="ds">${v.r.d}</div>`;
+    if(found.size===RECIPES.length)
+      res.innerHTML+=`<div class="ds" style="color:var(--kouji);margin-top:6px">`+
+        `7つすべて、同じ麹菌から出てきた。変えたのは条件だけ。</div>`;
+  }else{
+    res.className='result ng';
+    res.innerHTML=`<div class="st">FAILED</div><div class="nm">${v.n}</div><div class="ds">${v.d}</div>`;
+  }
+});
+
+paint();drawZukan();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>飲まれた酵素</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--muro:#12233A;--muro2:#1B3050;--line:#2B4568;--kome:#F4EFE2;--sub:#93A6BE;
+  --kouji:#E8B33A;--ame:#7FD1B9;--san:#F07A4B;--shi:#4C5F76;--kin:#C6A5E8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--muro);color:var(--kome);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
+  display:flex;justify-content:center;padding:20px 16px 32px;-webkit-font-smoothing:antialiased}
+.wrap{width:100%;max-width:620px;display:flex;flex-direction:column;gap:14px}
+header{border-bottom:1px solid var(--line);padding-bottom:13px}
+.eyebrow{font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--kouji)}
+h1{font-family:"Shippori Mincho B1",serif;font-size:30px;font-weight:700;letter-spacing:.04em;margin-top:6px}
+.lede{color:var(--sub);font-size:13.5px;line-height:1.7;margin-top:8px}
+
+.goalbar{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--muro2);
+  padding:10px 13px;border-radius:2px;font-family:"DM Mono",monospace;font-size:11px;letter-spacing:.1em}
+.goalbar .k{color:var(--kouji);flex:0 0 auto}
+.goalbar .v{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13px;letter-spacing:.03em}
+.goalbar .v.dead{text-decoration:line-through;color:var(--shi)}
+.goalbar .v.new{color:var(--ame)}
+
+.stage{position:relative;border:1px solid var(--line);border-radius:3px;background:#0A1524;overflow:hidden}
+canvas{display:block;width:100%;height:440px;touch-action:none;cursor:crosshair}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st{border:1px solid var(--line);background:var(--muro2);padding:9px 12px;border-radius:2px}
+.st .l{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.13em;color:var(--sub)}
+.st .v{font-family:"DM Mono",monospace;font-size:19px;margin-top:2px}
+.bar{height:4px;background:#0A1524;margin-top:7px;overflow:hidden}
+.bar span{display:block;height:100%;width:100%;background:var(--kouji);transition:width .15s linear}
+
+.msg{text-align:center;font-family:"Shippori Mincho B1",serif;font-size:15px;min-height:22px;letter-spacing:.05em}
+.msg.warn{color:var(--san)}
+.msg.good{color:var(--ame)}
+
+.note{font-size:12.5px;line-height:1.8;color:var(--sub);border-left:2px solid var(--line);padding-left:12px}
+.note b{color:var(--kome);font-weight:500}
+
+.overlay{position:absolute;inset:0;background:rgba(8,17,30,.96);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:15px;text-align:center;padding:26px;opacity:0;
+  pointer-events:none;transition:opacity .4s;overflow-y:auto}
+.overlay.on{opacity:1;pointer-events:auto}
+.overlay h2{font-family:"Shippori Mincho B1",serif;font-size:23px;line-height:1.5}
+.overlay p{font-size:13px;color:var(--sub);line-height:1.95;max-width:430px}
+.overlay p b{color:var(--kome)}
+.overlay p .hi{color:var(--ame)}
+button.go{font-family:"Zen Kaku Gothic New",sans-serif;font-size:13px;background:none;color:var(--kome);
+  border:1px solid var(--kouji);padding:9px 24px;border-radius:2px;cursor:pointer;letter-spacing:.06em}
+button.go:hover{background:var(--kouji);color:var(--muro)}
+button.go:focus-visible{outline:2px solid var(--ame);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">you are the enzyme</div>
+    <h1>飲まれた酵素</h1>
+    <p class="lede">あなたはサプリのカプセルに入った酵素です。ここから体内に入り、働きます。指で動かしてください。</p>
+  </header>
+
+  <div class="goalbar"><span class="k">目標</span><span class="v" id="goal">血中に到達し、体内で働く</span></div>
+
+  <div class="stage">
+    <canvas id="cv"></canvas>
+    <div class="overlay on" id="ov">
+      <h2 id="ovT">飲まれた酵素</h2>
+      <p id="ovP">カプセルを連打で破って外に出る。<br>そのあとは、指でドラッグして進みます。</p>
+      <button class="go" id="ovB">飲み込まれる</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="st"><div class="l">立体構造 / FOLDING</div><div class="v" id="foldV">100%</div>
+      <div class="bar" id="foldBar"><span></span></div></div>
+    <div class="st"><div class="l">触媒活性 / ACTIVITY</div><div class="v" id="actV">100%</div>
+      <div class="bar" id="actBar"><span></span></div></div>
+  </div>
+
+  <div class="msg" id="msg">　</div>
+
+  <p class="note">
+    酵素はタンパク質です。<b>タンパク質の働きは、折りたたまれた立体構造そのもの</b>にあります。
+    形がほどければ、成分が同じでも触媒ではなくなります。<br>
+    胃液はpH2前後。この酸性で、ほとんどのタンパク質は変性します。
+  </p>
+</div>
+
+<script>
+(function(){
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const goal=document.getElementById('goal'),msg=document.getElementById('msg');
+const foldV=document.getElementById('foldV'),actV=document.getElementById('actV');
+const foldBar=document.querySelector('#foldBar span'),actBar=document.querySelector('#actBar span');
+const ov=document.getElementById('ov'),ovT=document.getElementById('ovT'),ovP=document.getElementById('ovP'),ovB=document.getElementById('ovB');
+
+let W=0,H=0,dpr=1;
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+addEventListener('resize',resize);
+
+let phase='idle',pt=0,taps=0,fold=1,act=1,hits=0,run=false,last=0;
+let px=0,py=0,tx=0,ty=0,acids=[],frags=[],aas=[],caught=0,gates=[],msgT=0;
+const NEED=12;
+
+function setMsg(s,cls){msg.textContent=s||'　';msg.className='msg'+(cls?' '+cls:'');msgT=2.6;}
+function setGoal(s,cls){goal.textContent=s;goal.className='v'+(cls?' '+cls:'');}
+
+function init(){
+  resize();
+  phase='capsule';pt=0;taps=0;fold=1;act=1;hits=0;caught=0;
+  px=W/2;py=H*0.42;tx=px;ty=py;acids=[];frags=[];aas=[];
+  gates=[0.25,0.5,0.75].map(f=>({x:W*f,y:H-30,r:26,used:false}));
+  setGoal('血中に到達し、体内で働く');
+  setMsg('カプセルを連打で破る');
+}
+
+cv.addEventListener('pointerdown',e=>{
+  if(!run)return;
+  const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;
+  if(phase==='capsule'){taps++;if(taps>=6){phase='stomach';pt=0;
+    setMsg('胃に落ちた。pH 2。','warn');}}
+  cv.setPointerCapture(e.pointerId);
+});
+cv.addEventListener('pointermove',e=>{
+  if(!run||e.buttons===0&&e.pointerType==='mouse')return;
+  const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;
+});
+
+function step(dt){
+  pt+=dt; if(msgT>0){msgT-=dt;if(msgT<=0)msg.textContent='　';}
+  const spd = phase==='stomach' ? (2.4+fold*4.6) : 6.5;
+  px+=(tx-px)*Math.min(1,spd*dt); py+=(ty-py)*Math.min(1,spd*dt);
+  px=Math.max(16,Math.min(W-16,px)); py=Math.max(16,Math.min(H-16,py));
+
+  if(phase==='stomach'){
+    if(Math.random()<dt*3.4&&acids.length<26)
+      acids.push({x:Math.random()*W,y:H+14,r:9+Math.random()*13,v:34+Math.random()*46,w:Math.random()*6.3});
+    for(const a of acids){a.y-=a.v*dt;a.w+=dt*2;a.x+=Math.sin(a.w)*10*dt;
+      if(!a.hit&&(a.x-px)**2+(a.y-py)**2<(a.r+13)**2){a.hit=true;hits++;fold-=0.055;}}
+    acids=acids.filter(a=>a.y>-30);
+    fold-=dt*0.062;
+    act=Math.max(0,Math.min(1,(fold-0.28)/0.72));
+    if(fold<=0){fold=0;act=0;phase='unfolded';pt=0;
+      setGoal('血中に到達し、体内で働く','dead');
+      setMsg('構造がほどけた。触媒活性ゼロ。','warn');}
+  }
+  else if(phase==='unfolded'){
+    if(pt>2.6){phase='trypsin';pt=0;acids=[];
+      setMsg('十二指腸。トリプシンが切りにくる。','warn');}
+  }
+  else if(phase==='trypsin'){
+    if(pt>1.0&&frags.length===0){
+      for(let i=0;i<7;i++)frags.push({x:px+(i-3)*13,y:py,vx:(i-3)*22,vy:(Math.random()-.5)*40});
+    }
+    for(const f of frags){f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=40*dt;}
+    if(pt>3.2){phase='absorb';pt=0;frags=[];
+      px=W/2;py=60;tx=px;ty=py;
+      setGoal('アミノ酸として吸収される','new');
+      setMsg('もう酵素ではない。ただのアミノ酸。');}
+  }
+  else if(phase==='absorb'){
+    for(const g of gates){
+      if(!g.used&&(g.x-px)**2+(g.y-py)**2<(g.r+10)**2){
+        g.used=true;phase='ribosome';pt=0;aas=[];
+        px=W/2;py=H-46;tx=px;ty=py;
+        setGoal('新しい酵素として組み立て直される','new');
+        setMsg('細胞に届いた。リボソームがある。','good');
+      }
+    }
+  }
+  else if(phase==='ribosome'){
+    if(Math.random()<dt*2.6&&aas.length<14)
+      aas.push({x:24+Math.random()*(W-48),y:-14,v:70+Math.random()*70,
+        c:['#7FD1B9','#8FB8E8','#E8B33A','#C6A5E8'][(Math.random()*4)|0]});
+    for(const a of aas){a.y+=a.v*dt;
+      if(!a.got&&(a.x-px)**2+(a.y-py)**2<400){a.got=true;caught++;}}
+    aas=aas.filter(a=>!a.got&&a.y<H+20);
+    if(caught>=NEED){phase='done';finish();}
+  }
+}
+
+function drawChain(x,y,f,t){
+  const n=14, amp=(1-f)*17, col=f>0.05?`rgb(${232-(232-76)*(1-f)},${179-(179-95)*(1-f)},${58+(118)*(1-f)})`:'#4C5F76';
+  ctx.strokeStyle=col;ctx.lineWidth=4.4;ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const u=i/(n-1);
+    const cx = x + Math.cos(u*6.283*1.6+t*0.7)*(10*f) + (u-0.5)*amp*3.4;
+    const cy = y + Math.sin(u*6.283*1.6+t*0.7)*(10*f) + Math.sin(u*7+t*2.2)*amp*0.55;
+    i?ctx.lineTo(cx,cy):ctx.moveTo(cx,cy);
+  }
+  ctx.stroke();
+  if(f>0.28){ctx.fillStyle='rgba(10,21,36,.85)';ctx.beginPath();ctx.arc(x+3,y-2,5.5*f,0,6.283);ctx.fill();}
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  let bg='#0A1524';
+  if(phase==='stomach'||phase==='unfolded')bg=`rgb(${26+(1-fold)*44},${16+(1-fold)*6},${22})`;
+  if(phase==='trypsin')bg='#1A1B2E';
+  if(phase==='absorb')bg='#0E1E30';
+  if(phase==='ribosome')bg='#0C1E2C';
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+  if(phase==='capsule'){
+    const k=taps/6;
+    ctx.strokeStyle='#93A6BE';ctx.lineWidth=3;
+    ctx.save();ctx.translate(W/2,H*0.42);
+    ctx.beginPath();ctx.ellipse(-k*22,0,54,32,0,Math.PI*0.5,Math.PI*1.5);ctx.stroke();
+    ctx.beginPath();ctx.ellipse(k*22,0,54,32,0,-Math.PI*0.5,Math.PI*0.5);ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle='#4C5F76';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='center';
+    ctx.fillText('TAP  '+taps+' / 6',W/2,H*0.42+72);
+  }
+
+  if(phase==='stomach'||phase==='unfolded'){
+    for(const a of acids){ctx.fillStyle=a.hit?'rgba(240,122,75,.18)':'rgba(240,122,75,.5)';
+      ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,6.283);ctx.fill();}
+    ctx.fillStyle='rgba(240,122,75,.75)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
+    ctx.fillText('pH 2.0  —  胃',14,22);
+  }
+
+  if(phase==='trypsin'){
+    ctx.fillStyle='rgba(198,165,232,.8)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
+    ctx.fillText('トリプシン / キモトリプシン  —  十二指腸',14,22);
+    if(pt<1.0){const y=py; const k=pt/1.0;
+      ctx.strokeStyle='#C6A5E8';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(-40+k*(W+80),y-26);ctx.lineTo(-40+k*(W+80),y+26);ctx.stroke();}
+    for(const f of frags){ctx.strokeStyle='#4C5F76';ctx.lineWidth=4;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(f.x-5,f.y);ctx.lineTo(f.x+5,f.y);ctx.stroke();}
+  }
+
+  if(phase==='absorb'){
+    ctx.fillStyle='rgba(127,209,196,.8)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
+    ctx.fillText('小腸 微絨毛  —  どこかの入口へ',14,22);
+    for(const g of gates){
+      ctx.strokeStyle='#7FD1B9';ctx.lineWidth=2;ctx.setLineDash([4,5]);
+      ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,6.283);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='rgba(127,209,196,.1)';ctx.beginPath();ctx.arc(g.x,g.y,g.r,0,6.283);ctx.fill();
+    }
+    for(let i=0;i<9;i++){const x=(i+0.5)*W/9;
+      ctx.strokeStyle='rgba(127,209,196,.2)';ctx.lineWidth=8;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(x,H);ctx.lineTo(x+Math.sin(pt*1.4+i)*7,H-58);ctx.stroke();}
+  }
+
+  if(phase==='ribosome'||phase==='done'){
+    ctx.fillStyle='rgba(232,179,58,.8)';ctx.font='400 11px "DM Mono",monospace';ctx.textAlign='left';
+    ctx.fillText('リボソーム  —  アミノ酸 '+caught+' / '+NEED,14,22);
+    for(const a of aas){ctx.fillStyle=a.c;ctx.beginPath();ctx.arc(a.x,a.y,6,0,6.283);ctx.fill();}
+    ctx.strokeStyle='#E8B33A';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(px,py,20,0,6.283);ctx.stroke();
+    ctx.beginPath();ctx.arc(px,py,7,0,6.283);ctx.stroke();
+    const k=caught/NEED;
+    ctx.strokeStyle='rgba(232,179,58,.55)';ctx.lineWidth=3;ctx.lineCap='round';
+    ctx.beginPath();
+    for(let i=0;i<Math.max(1,Math.round(k*13));i++){
+      const u=i/12,cx=W/2+Math.cos(u*6.283*1.6)*34,cy=76+Math.sin(u*6.283*1.6)*26;
+      i?ctx.lineTo(cx,cy):ctx.moveTo(cx,cy);}
+    ctx.stroke();
+  }
+
+  if(phase==='capsule'||phase==='stomach'||phase==='unfolded')drawChain(px,py,fold,pt);
+
+  foldV.textContent=Math.round(fold*100)+'%';actV.textContent=Math.round(act*100)+'%';
+  foldBar.style.width=(fold*100)+'%';actBar.style.width=(act*100)+'%';
+  actBar.style.background=act>0.4?'#E8B33A':'#F07A4B';
+}
+
+function finish(){
+  run=false;
+  const names=['カタラーゼ','ラクターゼ','ヘキソキナーゼ','アミラーゼ','スーパーオキシドディスムターゼ'];
+  const nm=names[(Math.random()*names.length)|0];
+  ovT.innerHTML='到達した。<br>ただし、材料として。';
+  ovP.innerHTML=
+    `胃で<b>${hits}回</b>酸に触れ、立体構造は完全にほどけた。触媒活性はゼロになり、`+
+    `トリプシンに切られてアミノ酸になった。<br><br>`+
+    `吸収され、細胞に運ばれ、リボソームで<b>${NEED}個</b>のアミノ酸がつながって、`+
+    `<span class="hi">${nm}</span> が組み上がった。<br><br>`+
+    `あなたが元は何の酵素だったかは、もう関係ない。<b>体は、そのとき必要な酵素を、設計図から作る。</b><br><br>`+
+    `だから「生きた酵素を飲む」ことに意味はない。届くのは、いつも材料のほうだ。`;
+  ov.classList.add('on');
+}
+
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(run){step(dt);draw();}
+  requestAnimationFrame(loop);
+}
+ovB.addEventListener('click',()=>{init();run=true;ov.classList.remove('on');last=performance.now();});
+init();draw();last=performance.now();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
